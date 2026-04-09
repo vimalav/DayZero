@@ -1,188 +1,155 @@
-# watsonx Orchestrate - Onboarding Prototypes
+# watsonx Orchestrate - Day 0 Onboarding Concepts
 
-A collection of interactive HTML prototypes exploring persona-based onboarding experiences for watsonx Orchestrate.
+Interactive prototypes exploring persona-based onboarding experiences for watsonx Orchestrate.
 
-## 🎯 Project Overview
+## 🎯 Overview
 
-This project contains iterative prototypes for the watsonx Orchestrate Day 0 onboarding experience, focusing on persona-based customization and user guidance.
+This repository contains HTML prototypes demonstrating different approaches to onboarding new users to watsonx Orchestrate, with a focus on persona-based experiences and Day 0 user journeys.
+
+## 🚀 Quick Start
+
+**View the Latest Prototype:**
+
+- Open [`v3.1-enhanced-dashboard.html`](v3.1-enhanced-dashboard.html) in your browser
+- Or view live: [https://vimalav.github.io/DayZero/v3.1-enhanced-dashboard.html](https://vimalav.github.io/DayZero/v3.1-enhanced-dashboard.html)
+
+## 📋 Prototype Versions
+
+### v3.1 - Enhanced Dashboard (LATEST)
+
+**File:** `v3.1-enhanced-dashboard.html`
+
+Complete persona-based onboarding with:
+
+- AI chat panel with contextual assistance
+- Role switching capability
+- Assessment flow with personalized recommendations
+- Dashboard-style landing pages that evolve by persona
+- Zero-state handling for Day 0 users
+
+**Three Personas:**
+
+- **Admin** - Platform configuration and user management
+- **Builder** - Skill and workflow creation
+- **SME (Subject Matter Expert)** - Content contribution and review
+
+### v3.0 - Day 0 Enhanced with Assessment
+
+**File:** `v3.0-day0-enhanced-with-assessment.html`
+
+Introduced assessment flow and Day 0 enhancements:
+
+- 3-question progressive assessment
+- Personalized role recommendations
+- Client Zero patterns (Ask HR, Ask IT, Ask Procurement)
+- Enhanced zero-state handling
+
+### v2.1 - Complete Persona Selection
+
+**File:** `v2.1-persona-selection-complete.html`
+
+Dashboard-focused approach:
+
+- Full dashboard UI with action cards
+- AI chat integration
+- Role switching in header
+- Persona-specific landing pages
+
+### v2.0 - Persona-Based Onboarding
+
+**File:** `v2.0-persona-based-onboarding.html`
+
+Initial persona-based approach with three distinct user roles.
+
+### v1.1 - Onboarding Concept
+
+**File:** `v1.1-onboarding-concept.html`
+
+Basic onboarding flow exploration.
+
+### v1.0 - Research Concept
+
+**File:** `v1.0-research-concept.html`
+
+Initial concept based on user research insights.
 
 ## 📁 Project Structure
 
 ```
 .
-├── README.md                                    # This file
-├── VERSION_HISTORY.md                           # Detailed version history and features
-├── Interview_Analysis_Report.md                 # User research insights
-├── MVP_Day0_Analysis.md                         # MVP analysis and recommendations
-├── Mockup_Feedback_Analysis.md                  # Mockup feedback analysis
-├── Persona_Based_Onboarding_Specification.md    # Persona specifications
-├── Slack_Message_Draft.md                       # Communication draft
-│
-├── v1.0-research-concept.html                   # Initial research concept
-├── v1.1-onboarding-concept.html                 # Onboarding refinement
-├── v2.0-persona-based-onboarding.html           # Persona-based approach
-├── v2.1-persona-selection-complete.html         # Complete persona selection
-├── v3.0-day0-enhanced-with-assessment.html      # Day 0 with assessment
-└── v3.1-enhanced-dashboard.html                 # ⭐ LATEST: Enhanced dashboard
+├── v3.1-enhanced-dashboard.html          # Latest prototype
+├── v3.0-day0-enhanced-with-assessment.html
+├── v2.1-persona-selection-complete.html
+├── v2.0-persona-based-onboarding.html
+├── v1.1-onboarding-concept.html
+├── v1.0-research-concept.html
+├── VERSION_HISTORY.md                    # Detailed version changelog
+├── research/                             # Research data and insights
+│   ├── Interview_Analysis_Report.md
+│   ├── MVP_Day0_Analysis.md
+│   ├── Mockup_Feedback_Analysis.md
+│   └── ...
+└── README.md
 ```
 
-## ⭐ Latest Version: v3.1
+## 🔍 Key Features
 
-**File:** `v3.1-enhanced-dashboard.html`
+### Persona-Based Experience
 
-### Key Features:
+Each role gets a customized experience:
 
-- ✅ **AI Chat Panel** - Control Plane Agent with contextual assistance
-- ✅ **Role Switching** - Easy switching between Admin, Builder, and SME roles
-- ✅ **Enhanced Persona Selection** - "YOU'LL FOCUS ON" sections with clear responsibilities
-- ✅ **Dashboard Experience** - Persona-specific landing pages with action cards
-- ✅ **Assessment Flow** - 3-question assessment to recommend the right role
-- ✅ **Day 0 Zero-State Handling** - Proper empty states for all personas
-- ✅ **Time & Complexity Indicators** - Clear expectations for each action
-- ✅ **Client Zero Patterns** - Featured templates for common use cases
+- **Admin**: Focus on platform setup, user management, and governance
+- **Builder**: Emphasis on skill creation, workflow design, and automation
+- **SME**: Streamlined content contribution and review workflows
 
-### How to View:
+### Assessment Flow
 
-1. Open `v3.1-enhanced-dashboard.html` in any modern web browser
-2. Select a persona or take the assessment
-3. Explore the dashboard and AI chat panel
-4. Try the "Change Role" button to switch personas
+3-question progressive disclosure to recommend the most appropriate role based on:
 
-## 🚀 How to Move This Project and Set Up GitHub
+- User's primary goals
+- Technical comfort level
+- Team collaboration needs
 
-### Step 1: Move the Project Folder
+### AI Assistance
 
-1. **Choose your target location** (e.g., `~/Documents/Projects/` or `~/Developer/`)
+Control Plane Agent provides:
 
-2. **Open Terminal** and run:
+- Contextual help and guidance
+- Persona-specific suggestions
+- Interactive chat support
 
-   ```bash
-   # Example: Moving to ~/Documents/Projects/
-   mv ~/Desktop/Transcripts ~/Documents/Projects/watsonx-orchestrate-onboarding
+### Zero-State Handling
 
-   # Or to your preferred location:
-   # mv ~/Desktop/Transcripts /path/to/your/desired/location/watsonx-orchestrate-onboarding
-   ```
+Thoughtful empty states for Day 0 users:
 
-3. **Navigate to the new location:**
-   ```bash
-   cd ~/Documents/Projects/watsonx-orchestrate-onboarding
-   # Or: cd /path/to/your/new/location/watsonx-orchestrate-onboarding
-   ```
+- Featured templates (Ask HR, Ask IT, Ask Procurement)
+- Clear next steps
+- Guided onboarding paths
 
-### Step 2: Initialize Git Repository
+## 📚 Documentation
 
-```bash
-# Initialize git repository
-git init
+- **[VERSION_HISTORY.md](VERSION_HISTORY.md)** - Complete changelog with design decisions
+- **[research/](research/)** - User research, analysis reports, and specifications
 
-# Add all files
-git add .
+## 🛠️ Development
 
-# Create initial commit
-git commit -m "Initial commit: watsonx Orchestrate onboarding prototypes v3.1"
-```
+All prototypes are self-contained HTML files with embedded CSS and JavaScript. No build process required.
 
-### Step 3: Create GitHub Repository
+**To view locally:**
 
-1. **Go to GitHub:** https://github.com/new
-
-2. **Create a new repository:**
-   - Repository name: `watsonx-orchestrate-onboarding`
-   - Description: "Interactive prototypes for watsonx Orchestrate persona-based onboarding"
-   - Choose Public or Private
-   - **DO NOT** initialize with README (we already have one)
-
-3. **Connect your local repository to GitHub:**
-
-   ```bash
-   # Replace YOUR_USERNAME with your GitHub username
-   git remote add origin https://github.com/YOUR_USERNAME/watsonx-orchestrate-onboarding.git
-
-   # Push to GitHub
-   git branch -M main
-   git push -u origin main
-   ```
-
-### Step 4: Enable GitHub Pages (Optional - for live demo)
-
-1. Go to your repository on GitHub
-2. Click **Settings** → **Pages**
-3. Under "Source", select **main** branch
-4. Click **Save**
-5. Your prototype will be live at: `https://YOUR_USERNAME.github.io/watsonx-orchestrate-onboarding/v3.1-enhanced-dashboard.html`
-
-## 📤 Sharing with Your Team
-
-### Option 1: Share GitHub Repository URL
-
-```
-https://github.com/YOUR_USERNAME/watsonx-orchestrate-onboarding
-```
-
-### Option 2: Share Live Demo (if GitHub Pages enabled)
-
-```
-https://YOUR_USERNAME.github.io/watsonx-orchestrate-onboarding/v3.1-enhanced-dashboard.html
-```
-
-### Option 3: Share Specific Files
-
-Team members can:
-
-1. Clone the repository: `git clone https://github.com/YOUR_USERNAME/watsonx-orchestrate-onboarding.git`
-2. Open any HTML file in their browser
-3. Review the VERSION_HISTORY.md for detailed documentation
+1. Clone this repository
+2. Open any `.html` file in a web browser
+3. No server or dependencies needed
 
 ## 📝 Version History
 
-See [`VERSION_HISTORY.md`](VERSION_HISTORY.md) for detailed information about each version, features, and improvements.
+See [VERSION_HISTORY.md](VERSION_HISTORY.md) for detailed information about each version, including features, design decisions, and iteration notes.
 
-### Quick Version Summary:
+## 🤝 Contributing
 
-- **v1.0-v1.1**: Initial concepts
-- **v2.0-v2.1**: Persona-based approach with dashboard UI
-- **v3.0**: Day 0 enhancements with assessment and zero-state handling
-- **v3.1**: ⭐ Enhanced dashboard with AI chat panel and role switching
-
-## 🔄 Making Updates
-
-After making changes to any files:
-
-```bash
-# Check what changed
-git status
-
-# Add changed files
-git add .
-
-# Commit with a descriptive message
-git commit -m "Description of your changes"
-
-# Push to GitHub
-git push
-```
-
-## 📊 Research Documents
-
-- **Interview_Analysis_Report.md** - User research insights from 3 interviews
-- **MVP_Day0_Analysis.md** - Analysis of MVP mockup and recommendations
-- **Mockup_Feedback_Analysis.md** - Detailed feedback on design mockups
-- **Persona_Based_Onboarding_Specification.md** - Persona specifications and requirements
-
-## 🛠️ Technical Details
-
-- **Framework:** Pure HTML/CSS/JavaScript (no dependencies)
-- **Fonts:** IBM Plex Sans (loaded from Google Fonts)
-- **Browser Support:** Modern browsers (Chrome, Firefox, Safari, Edge)
-- **Responsive:** Adapts to different screen sizes
-
-## 📧 Contact
-
-For questions or feedback about these prototypes, contact the UX Research Team.
+This is a design exploration project. For feedback or suggestions, please open an issue or reach out to the team.
 
 ---
 
-**Last Updated:** April 9, 2026  
-**Current Version:** v3.1  
-**Status:** Ready for team review and feedback
+**Last Updated:** April 2026  
+**Current Version:** v3.1
