@@ -2,15 +2,16 @@
 
 ## Version Overview
 
-| Version | File Name                               | Description                           | Key Features                                                                 |
-| ------- | --------------------------------------- | ------------------------------------- | ---------------------------------------------------------------------------- |
-| v1.0    | v1.0-research-concept.html              | Initial research concept              | Basic onboarding exploration                                                 |
-| v1.1    | v1.1-onboarding-concept.html            | Onboarding concept refinement         | Improved onboarding flow                                                     |
-| v2.0    | v2.0-persona-based-onboarding.html      | Persona-based approach                | Introduction of Admin, Builder, SME personas                                 |
-| v2.1    | v2.1-persona-selection-complete.html    | Complete persona selection            | Polished persona selection screen                                            |
-| v3.0    | v3.0-day0-enhanced-with-assessment.html | Day 0 enhanced with assessment        | Full Day 0 experience with zero-state handling                               |
-| v3.1    | v3.1-enhanced-dashboard.html            | Enhanced dashboard experience         | AI chat panel, role switching, dashboard UI                                  |
-| v4.0    | v4.0-checklist-driven-onboarding.html   | Checklist-driven onboarding ⭐ LATEST | Intercom-inspired checklist, multi-purpose chat, "Time to First Agent" focus |
+| Version | File Name                               | Description                     | Key Features                                                                 |
+| ------- | --------------------------------------- | ------------------------------- | ---------------------------------------------------------------------------- |
+| v1.0    | v1.0-research-concept.html              | Initial research concept        | Basic onboarding exploration                                                 |
+| v1.1    | v1.1-onboarding-concept.html            | Onboarding concept refinement   | Improved onboarding flow                                                     |
+| v2.0    | v2.0-persona-based-onboarding.html      | Persona-based approach          | Introduction of Admin, Builder, SME personas                                 |
+| v2.1    | v2.1-persona-selection-complete.html    | Complete persona selection      | Polished persona selection screen                                            |
+| v3.0    | v3.0-day0-enhanced-with-assessment.html | Day 0 enhanced with assessment  | Full Day 0 experience with zero-state handling                               |
+| v3.1    | v3.1-enhanced-dashboard.html            | Enhanced dashboard experience   | AI chat panel, role switching, dashboard UI                                  |
+| v4.0    | v4.0-checklist-driven-onboarding.html   | Checklist-driven onboarding     | Intercom-inspired checklist, multi-purpose chat, "Time to First Agent" focus |
+| v4.2    | v4.2-domain-specific-onboarding.html    | Domain-specific paths ⭐ LATEST | Domain selection, smart recommendations, tailored templates                  |
 
 ---
 
@@ -357,7 +358,7 @@ Each role gets:
 
 ---
 
-### v4.0 - Checklist-Driven Onboarding ⭐ LATEST
+### v4.0 - Checklist-Driven Onboarding
 
 **File:** `v4.0-checklist-driven-onboarding.html`
 **Date:** April 9, 2026
@@ -775,4 +776,299 @@ This version represents a fundamental rethinking of Day 0 onboarding based on co
 
 **Document Maintained By:** UX Research Team
 **Last Updated:** April 9, 2026
+
+---
+
+### v4.2 - Domain-Specific Onboarding ⭐ LATEST
+
+**File:** `v4.2-domain-specific-onboarding.html`
+**Date:** April 9, 2026
+
+**Design Philosophy:**
+
+> "Personalization at Scale - Tailor the experience to the user's specific domain and use case"
+
+**Approach:** Domain-driven customization + smart recommendations + context-aware guidance
+
+**User Assumption:** Has a specific business problem to solve in a known domain (Customer Care, Procurement, HR, IT Support)
+
+**Key Insight:** Generic onboarding creates friction. Users want to see how the product solves THEIR specific problem in THEIR domain.
+
+**The Next Evolution:**
+
+```
+v4.0:  "Let me help you DO something with the product"
+v4.2:  "Let me help you solve YOUR SPECIFIC problem in YOUR domain"
+```
+
+**📖 Detailed Specification:** See [`research/v4.2_Features_Specification.md`](research/v4.2_Features_Specification.md) for comprehensive feature documentation, implementation approach, and success metrics.
+
+#### 1. Domain Selection (First-Time Experience)
+
+**Modal on First Load:**
+
+- 4 domain options presented as cards:
+  - 🎧 **Customer Care** - Support ticket automation and customer service
+  - 📦 **Procurement** - Purchase order automation and vendor management
+  - 👥 **HR** - Employee onboarding and HR request automation
+  - 💻 **IT Support** - IT ticket automation and service desk workflows
+- Each card shows icon, title, and brief description
+- "Skip for now" option for users who want generic experience
+- Selection persists and customizes entire experience
+
+**Visual Indicator:**
+
+- Domain badge appears in header next to persona badge
+- Shows domain icon and name (e.g., "🎧 Customer Care")
+- Always visible to remind user of their context
+
+#### 2. Domain-Specific Checklists
+
+**Tailored 5-Step Journeys:**
+
+Each domain has a customized checklist that reflects real workflows:
+
+**Customer Care Example:**
+
+1. Choose your use case (ticket routing, sentiment analysis, knowledge base)
+2. Connect your ticketing system (Zendesk, ServiceNow, Salesforce)
+3. Configure routing rules (categorization, team assignment)
+4. Test with sample tickets (validation scenarios)
+5. Deploy to production (go live)
+
+**Procurement Example:**
+
+1. Select procurement workflow (PO approvals, vendor management)
+2. Connect ERP system (SAP, Oracle, Workday)
+3. Define approval rules (thresholds, routing, escalation)
+4. Test approval flow (sample purchase orders)
+5. Activate automation (enable for real POs)
+
+**HR Example:**
+
+1. Choose HR workflow (onboarding, leave management, requests)
+2. Connect HRIS (Workday, BambooHR, ADP)
+3. Configure workflow steps (tasks, approvals, notifications)
+4. Test with sample employee (validation)
+5. Launch HR automation (go live)
+
+**IT Support Example:**
+
+1. Select IT workflow (incident management, password resets, access requests)
+2. Connect ITSM platform (ServiceNow, Jira Service Desk, Freshservice)
+3. Set up routing logic (categorization, prioritization, assignment)
+4. Test incident flow (sample incidents)
+5. Enable IT automation (activate)
+
+**Benefits:**
+
+- Steps use domain-specific terminology
+- CTAs are action-oriented and contextual
+- Descriptions reference actual systems and workflows
+- Time estimates are realistic for each domain
+
+#### 3. Smart Recommendations
+
+**Context-Aware Suggestions:**
+
+Recommendations appear in the first checklist step, tailored to the selected domain:
+
+**Customer Care Recommendations:**
+
+- 🔗 "Zendesk detected - Connect it to automate ticket workflows"
+- ⭐ "95% of Customer Care teams start with Smart Ticket Routing"
+
+**Procurement Recommendations:**
+
+- 🔗 "SAP integration available - Automate PO approvals and vendor management"
+
+**HR Recommendations:**
+
+- 🔗 "Workday detected - Automate employee onboarding and leave requests"
+
+**IT Support Recommendations:**
+
+- 🔗 "ServiceNow integration ready - Automate incident management and service requests"
+
+**Visual Design:**
+
+- Purple accent color (#8a3ffc) for recommendations
+- Icon + title + description format
+- Appears in collapsible section within first checklist step
+- Clickable to take action
+
+#### 4. Domain-Specific Templates
+
+**Curated Template Library:**
+
+Templates are filtered based on selected domain:
+
+**Customer Care Templates:**
+
+- 🎯 Smart Ticket Routing (⭐ Recommended, 5 min)
+- 😊 Customer Sentiment Analysis (⭐ Recommended, 10 min)
+- 📚 Knowledge Base Assistant (15 min)
+
+**Procurement Templates:**
+
+- ✅ Purchase Order Approval (⭐ Recommended, 10 min)
+- 🤝 Vendor Onboarding (15 min)
+
+**HR Templates:**
+
+- 🎉 Employee Onboarding (⭐ Recommended, 15 min)
+- 🏖️ Leave Request Management (10 min)
+
+**IT Support Templates:**
+
+- 🚨 Incident Management (⭐ Recommended, 10 min)
+- 🔑 Self-Service Password Reset (5 min)
+
+**Template Card Features:**
+
+- Recommended badge for popular templates
+- Time to value estimate
+- Domain-specific tags
+- Icon + title + description
+- Category label
+
+#### 5. Enhanced Visual Design
+
+**New UI Elements:**
+
+1. **Domain Badge** (Header)
+   - Purple background (#8a3ffc)
+   - Domain icon + name
+   - Positioned next to persona badge
+
+2. **Domain Tag** (Checklist Items)
+   - Light purple background (#f0e6ff)
+   - Shows domain icon + name
+   - Appears on checklist item titles
+
+3. **Smart Recommendations Panel**
+   - Purple left border (#8a3ffc)
+   - Light purple background (#f0e6ff)
+   - 💡 icon in title
+   - Collapsible recommendation items
+
+4. **Domain Selection Modal**
+   - 2x2 grid of domain cards
+   - Large icons (3rem)
+   - Hover effects (lift + shadow)
+   - Selected state (purple border + background)
+
+**Color Palette:**
+
+- Domain/Recommendations: Purple (#8a3ffc, #f0e6ff)
+- Persona: Blue (#0f62fe, #e8f4ff)
+- Blockers: Red (#da1e28, #fff1f1)
+- Success: Green (#24a148, #e8f5e9)
+
+#### Key Metrics to Track
+
+**Domain Adoption:**
+
+- % of users who select a domain vs. skip
+- Most popular domain selections
+- Domain selection → first agent completion rate
+
+**Time to First Agent by Domain:**
+
+- Customer Care: Target ≤5 min
+- Procurement: Target ≤10 min
+- HR: Target ≤15 min
+- IT Support: Target ≤10 min
+
+**Template Usage:**
+
+- Most used templates per domain
+- Recommended vs. non-recommended template selection
+- Template → deployed agent conversion rate
+
+**Recommendation Effectiveness:**
+
+- Click-through rate on smart recommendations
+- Integration connection rate from recommendations
+- Impact on completion time
+
+#### Technical Implementation
+
+**Domain Configuration Object:**
+
+```javascript
+const domains = {
+  "customer-care": {
+    name: "Customer Care",
+    icon: "🎧",
+    description: "Support ticket automation and customer service",
+    templates: [...],
+    checklist: [...],
+    recommendations: [...]
+  },
+  // ... other domains
+};
+```
+
+**State Management:**
+
+- `currentDomain` variable tracks selected domain
+- Domain selection updates persona checklist dynamically
+- Templates filtered based on `currentDomain`
+- Recommendations shown from domain config
+
+**Rendering Logic:**
+
+- `showDomainSelection()` - Modal on first load
+- `selectDomain(domainKey)` - Updates state and UI
+- `renderTemplates()` - Filters by domain
+- `renderChecklist()` - Shows domain-specific steps and recommendations
+
+#### Future Enhancements (Not Yet Implemented)
+
+1. **Real-Time Collaboration** (v4.3)
+   - See who else is online
+   - Activity feed of team actions
+   - Collaborative checklist completion
+
+2. **Platform Data Integration** (v4.3)
+   - Detect installed systems automatically
+   - Pre-fill integration credentials
+   - Show actual data in examples
+
+3. **Advanced Recommendations** (v4.3)
+   - ML-based template suggestions
+   - Similar company patterns
+   - Industry best practices
+
+4. **Multi-Domain Support** (v4.4)
+   - Allow users to work across multiple domains
+   - Domain switcher in header
+   - Separate progress tracking per domain
+
+#### Success Criteria
+
+**Adoption:**
+
+- 80%+ of users select a domain (vs. skip)
+- 90%+ complete at least one domain-specific step
+
+**Efficiency:**
+
+- 30% reduction in "Time to First Agent" vs. v4.0
+- 50%+ of users use recommended templates
+
+**Satisfaction:**
+
+- Users report feeling the experience is "tailored to my needs"
+- Reduced support tickets about "where to start"
+
+**Business Impact:**
+
+- Increased activation rate (users who deploy an agent)
+- Higher retention (users who return after Day 0)
+- More agents created per user
+
+---
+
 **Current Version:** v3.1
