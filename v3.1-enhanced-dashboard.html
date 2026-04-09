@@ -1,0 +1,1351 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>watsonx Orchestrate - Enhanced Day 0 Experience</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          "IBM Plex Sans",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        color: #161616;
+        background: #f4f4f4;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* Persona Selector Overlay */
+      .persona-selector-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, #0f62fe 0%, #001d6c 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        animation: fadeIn 0.5s ease-in;
+      }
+
+      .persona-selector-overlay.hidden {
+        display: none;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .persona-modal {
+        background: white;
+        max-width: 1000px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 48px;
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      }
+
+      .persona-modal h2 {
+        font-size: 32px;
+        margin-bottom: 12px;
+        font-weight: 400;
+      }
+
+      .persona-modal .description {
+        font-size: 16px;
+        color: #525252;
+        margin-bottom: 16px;
+        line-height: 24px;
+      }
+
+      .persona-modal .reassurance {
+        font-size: 14px;
+        color: #161616;
+        margin-bottom: 32px;
+        font-weight: 600;
+      }
+
+      .persona-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin-bottom: 32px;
+      }
+
+      .persona-card {
+        border: 2px solid #e0e0e0;
+        padding: 32px 24px;
+        cursor: pointer;
+        transition: all 0.2s;
+        background: white;
+        text-align: center;
+        border-radius: 4px;
+      }
+
+      .persona-card:hover {
+        border-color: #0f62fe;
+        box-shadow: 0 4px 12px rgba(15, 98, 254, 0.2);
+        transform: translateY(-2px);
+      }
+
+      .persona-card.selected {
+        border-color: #0f62fe;
+        background: #e8f4ff;
+        box-shadow: 0 4px 12px rgba(15, 98, 254, 0.3);
+      }
+
+      .persona-icon {
+        font-size: 56px;
+        margin-bottom: 20px;
+      }
+
+      .persona-card h3 {
+        font-size: 20px;
+        margin-bottom: 12px;
+        font-weight: 600;
+      }
+
+      .persona-card p {
+        font-size: 14px;
+        color: #525252;
+        line-height: 20px;
+        margin-bottom: 16px;
+      }
+
+      .focus-areas {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid #e0e0e0;
+        font-size: 12px;
+        color: #161616;
+        text-align: left;
+      }
+
+      .focus-areas strong {
+        display: block;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        font-size: 11px;
+        color: #525252;
+      }
+
+      .focus-areas ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .focus-areas li {
+        padding: 4px 0;
+        padding-left: 16px;
+        position: relative;
+      }
+
+      .focus-areas li:before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        color: #0f62fe;
+      }
+
+      .persona-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .persona-actions-left {
+        display: flex;
+        gap: 12px;
+      }
+
+      .persona-actions-right {
+        display: flex;
+        gap: 12px;
+      }
+
+      .persona-btn {
+        padding: 12px 24px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s;
+        font-family: inherit;
+        border-radius: 4px;
+      }
+
+      .persona-btn.tertiary {
+        background: transparent;
+        color: #0f62fe;
+        text-decoration: underline;
+        padding: 12px 0;
+      }
+
+      .persona-btn.tertiary:hover {
+        color: #0043ce;
+      }
+
+      .persona-btn.secondary {
+        background: transparent;
+        border: 1px solid #0f62fe;
+        color: #0f62fe;
+      }
+
+      .persona-btn.secondary:hover {
+        background: #f4f4f4;
+      }
+
+      .persona-btn.primary {
+        background: #0f62fe;
+        color: white;
+      }
+
+      .persona-btn.primary:hover {
+        background: #0043ce;
+      }
+
+      .persona-btn.primary:disabled {
+        background: #c6c6c6;
+        cursor: not-allowed;
+      }
+
+      /* Assessment Styles */
+      .assessment-question {
+        margin-bottom: 32px;
+      }
+
+      .assessment-question h3 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 24px;
+      }
+
+      .assessment-options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .assessment-option {
+        border: 2px solid #e0e0e0;
+        padding: 20px;
+        cursor: pointer;
+        transition: all 0.2s;
+        border-radius: 4px;
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+      }
+
+      .assessment-option:hover {
+        border-color: #0f62fe;
+        background: #f4f4f4;
+      }
+
+      .assessment-option.selected {
+        border-color: #0f62fe;
+        background: #e8f4ff;
+      }
+
+      .assessment-option input[type="radio"] {
+        margin-top: 4px;
+      }
+
+      .assessment-option-content {
+        flex: 1;
+      }
+
+      .assessment-option-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .assessment-option-desc {
+        font-size: 14px;
+        color: #525252;
+      }
+
+      .progress-indicator {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 32px;
+      }
+
+      .progress-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #e0e0e0;
+        transition: all 0.3s;
+      }
+
+      .progress-dot.active {
+        background: #0f62fe;
+        width: 24px;
+        border-radius: 4px;
+      }
+
+      .info-banner {
+        background: #e5f6ff;
+        border-left: 4px solid #0f62fe;
+        padding: 16px;
+        margin-bottom: 32px;
+        border-radius: 4px;
+      }
+
+      .info-banner-title {
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .info-banner-text {
+        font-size: 14px;
+        color: #161616;
+        line-height: 20px;
+      }
+
+      /* Main App Styles */
+      .app-header {
+        background: #161616;
+        color: white;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        z-index: 1000;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        flex-shrink: 0;
+      }
+
+      .header-content {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 0 16px;
+      }
+
+      .brand {
+        font-size: 14px;
+        padding: 0 16px;
+      }
+
+      .brand-ibm {
+        font-weight: 400;
+      }
+
+      .brand-product {
+        font-weight: 600;
+        margin-left: 4px;
+      }
+
+      .persona-badge {
+        margin-left: auto;
+        background: #0f62fe;
+        padding: 6px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .change-role-btn {
+        background: transparent;
+        border: 1px solid #525252;
+        color: white;
+        padding: 6px 12px;
+        font-size: 12px;
+        cursor: pointer;
+        margin-left: 12px;
+        transition: all 0.2s;
+        border-radius: 4px;
+        font-family: inherit;
+      }
+
+      .change-role-btn:hover {
+        background: #353535;
+        border-color: white;
+      }
+
+      .main-layout {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+      }
+
+      /* AI Chat Panel */
+      .ai-chat-panel {
+        width: 320px;
+        background: white;
+        border-right: 1px solid #e0e0e0;
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+      }
+
+      .chat-header {
+        padding: 12px 16px;
+        border-bottom: 1px solid #e0e0e0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .chat-header h3 {
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .chat-message {
+        display: flex;
+        gap: 12px;
+      }
+
+      .chat-avatar {
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, #0f62fe 0%, #0043ce 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 12px;
+        font-weight: 600;
+        flex-shrink: 0;
+      }
+
+      .chat-content {
+        flex: 1;
+      }
+
+      .chat-source {
+        font-size: 12px;
+        color: #525252;
+        margin-bottom: 4px;
+      }
+
+      .chat-text {
+        font-size: 14px;
+        line-height: 20px;
+        color: #161616;
+      }
+
+      .chat-suggestions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .suggestion-card {
+        background: #f4f4f4;
+        border: 1px solid #e0e0e0;
+        padding: 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 13px;
+      }
+
+      .suggestion-card:hover {
+        background: #e8e8e8;
+        border-color: #0f62fe;
+      }
+
+      .chat-input-wrapper {
+        padding: 16px;
+        border-top: 1px solid #e0e0e0;
+      }
+
+      .chat-input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        font-family: inherit;
+        font-size: 14px;
+        resize: none;
+      }
+
+      .chat-input:focus {
+        outline: none;
+        border-color: #0f62fe;
+      }
+
+      /* Content Area */
+      .content-area {
+        flex: 1;
+        overflow-y: auto;
+        background: #f4f4f4;
+      }
+
+      .hero-section {
+        background: linear-gradient(to bottom, white 0%, #f4f4f4 100%);
+        padding: 48px 32px;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      .hero-content {
+        max-width: 1248px;
+        margin: 0 auto;
+      }
+
+      .hero-section h1 {
+        font-size: 32px;
+        font-weight: 400;
+        margin-bottom: 8px;
+      }
+
+      .hero-section .subtitle {
+        font-size: 16px;
+        color: #525252;
+        margin-bottom: 24px;
+      }
+
+      .main-content {
+        max-width: 1248px;
+        margin: 0 auto;
+        padding: 32px;
+      }
+
+      .action-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+
+      .action-card {
+        background: white;
+        border: 1px solid #e0e0e0;
+        padding: 24px;
+        cursor: pointer;
+        transition: all 0.2s;
+        min-height: 180px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        border-radius: 4px;
+      }
+
+      .action-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+        border-color: #0f62fe;
+      }
+
+      .action-card.featured {
+        border: 2px solid #0f62fe;
+        box-shadow: 0 2px 8px rgba(15, 98, 254, 0.2);
+      }
+
+      .action-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .action-card-title {
+        font-size: 18px;
+        font-weight: 600;
+        flex: 1;
+      }
+
+      .action-card-badge {
+        background: #0f62fe;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .action-card-description {
+        font-size: 14px;
+        color: #525252;
+        line-height: 20px;
+        flex: 1;
+      }
+
+      .action-card-meta {
+        display: flex;
+        gap: 16px;
+        font-size: 12px;
+        color: #525252;
+        padding-top: 12px;
+        border-top: 1px solid #e0e0e0;
+        flex-wrap: wrap;
+      }
+
+      .action-card-cta {
+        color: #0f62fe;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .action-card-cta:hover {
+        text-decoration: underline;
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .main-layout {
+          flex-direction: column;
+        }
+        .ai-chat-panel {
+          width: 100%;
+          max-height: 300px;
+          border-right: none;
+          border-bottom: 1px solid #e0e0e0;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .persona-cards {
+          grid-template-columns: 1fr;
+        }
+        .persona-modal {
+          padding: 32px 24px;
+        }
+        .hero-section {
+          padding: 32px 16px;
+        }
+        .hero-section h1 {
+          font-size: 24px;
+        }
+        .action-cards {
+          grid-template-columns: 1fr;
+        }
+        .main-content {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Persona Selection Overlay -->
+    <div class="persona-selector-overlay" id="personaOverlay">
+      <div class="persona-modal">
+        <div id="personaScreen">
+          <h2>Welcome to watsonx Orchestrate</h2>
+          <p class="description">
+            To give you the best experience, please select your primary role.
+            We'll tailor the interface, guidance, and features to match your
+            needs.
+          </p>
+          <p class="reassurance">
+            <strong>Don't worry</strong> - you can switch roles anytime or work
+            in multiple roles.
+          </p>
+
+          <div class="persona-cards">
+            <div class="persona-card" data-persona="admin">
+              <div class="persona-icon">⚙️</div>
+              <h3>Admin</h3>
+              <p>I manage the platform and enable teams</p>
+              <div class="focus-areas">
+                <strong>You'll focus on:</strong>
+                <ul>
+                  <li>Managing connections</li>
+                  <li>Configuring models</li>
+                  <li>Platform analytics</li>
+                  <li>User access control</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="persona-card" data-persona="builder">
+              <div class="persona-icon">🔨</div>
+              <h3>Builder</h3>
+              <p>I design and build AI agents</p>
+              <div class="focus-areas">
+                <strong>You'll focus on:</strong>
+                <ul>
+                  <li>Creating agents</li>
+                  <li>Using templates</li>
+                  <li>Testing agents</li>
+                  <li>Deploying to production</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="persona-card" data-persona="sme">
+              <div class="persona-icon">💡</div>
+              <h3>Subject Matter Expert</h3>
+              <p>I provide expertise and validate agents</p>
+              <div class="focus-areas">
+                <strong>You'll focus on:</strong>
+                <ul>
+                  <li>Testing accuracy</li>
+                  <li>Providing knowledge</li>
+                  <li>Reviewing responses</li>
+                  <li>Suggesting improvements</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="persona-actions">
+            <div class="persona-actions-left">
+              <button class="persona-btn tertiary" onclick="showAssessment()">
+                I'm not sure - Help me choose
+              </button>
+              <button class="persona-btn tertiary" onclick="showRoleGuide()">
+                Learn about each role
+              </button>
+            </div>
+            <div class="persona-actions-right">
+              <button class="persona-btn secondary" onclick="skipOnboarding()">
+                Skip for now
+              </button>
+              <button
+                class="persona-btn primary"
+                id="continueBtn"
+                disabled
+                onclick="continueToLanding()"
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Assessment Screen -->
+        <div id="assessmentScreen" style="display: none">
+          <h2>Let's find your best role</h2>
+          <p class="description">
+            Answer 3 quick questions to help us recommend the right role for
+            you.
+          </p>
+
+          <div class="progress-indicator">
+            <div class="progress-dot active" id="progress-1"></div>
+            <div class="progress-dot" id="progress-2"></div>
+            <div class="progress-dot" id="progress-3"></div>
+          </div>
+
+          <div id="question-1" class="assessment-question">
+            <h3>1. What will you primarily do in watsonx Orchestrate?</h3>
+            <div class="assessment-options">
+              <label class="assessment-option">
+                <input type="radio" name="q1" value="admin" />
+                <div class="assessment-option-content">
+                  <div class="assessment-option-title">
+                    Set up and manage the platform
+                  </div>
+                  <div class="assessment-option-desc">
+                    Configure connections, manage users, monitor usage
+                  </div>
+                </div>
+              </label>
+              <label class="assessment-option">
+                <input type="radio" name="q1" value="builder" />
+                <div class="assessment-option-content">
+                  <div class="assessment-option-title">
+                    Create and deploy AI agents
+                  </div>
+                  <div class="assessment-option-desc">
+                    Build agents, configure tools, test and deploy
+                  </div>
+                </div>
+              </label>
+              <label class="assessment-option">
+                <input type="radio" name="q1" value="sme" />
+                <div class="assessment-option-content">
+                  <div class="assessment-option-title">
+                    Review and validate agents
+                  </div>
+                  <div class="assessment-option-desc">
+                    Test accuracy, provide feedback, improve responses
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div
+            id="question-2"
+            class="assessment-question"
+            style="display: none"
+          >
+            <h3>2. What's your technical comfort level?</h3>
+            <div class="assessment-options">
+              <label class="assessment-option">
+                <input type="radio" name="q2" value="admin" />
+                <div class="assessment-option-content">
+                  <div class="assessment-option-title">
+                    I manage IT systems and infrastructure
+                  </div>
+                  <div class="assessment-option-desc">
+                    Comfortable with system configuration and user management
+                  </div>
+                </div>
+              </label>
+              <label class="assessment-option">
+                <input type="radio" name="q2" value="builder" />
+                <div class="assessment-option-content">
+                  <div class="assessment-option-title">
+                    I build applications and solutions
+                  </div>
+                  <div class="assessment-option-desc">
+                    Comfortable with development tools and workflows
+                  </div>
+                </div>
+              </label>
+              <label class="assessment-option">
+                <input type="radio" name="q2" value="sme" />
+                <div class="assessment-option-content">
+                  <div class="assessment-option-title">
+                    I provide domain expertise
+                  </div>
+                  <div class="assessment-option-desc">
+                    Focus on content accuracy and business knowledge
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div
+            id="question-3"
+            class="assessment-question"
+            style="display: none"
+          >
+            <h3>3. What's your immediate goal?</h3>
+            <div class="assessment-options">
+              <label class="assessment-option">
+                <input type="radio" name="q3" value="admin" />
+                <div class="assessment-option-content">
+                  <div class="assessment-option-title">
+                    Get the platform ready for my team
+                  </div>
+                  <div class="assessment-option-desc">
+                    Set up connections, configure models, invite users
+                  </div>
+                </div>
+              </label>
+              <label class="assessment-option">
+                <input type="radio" name="q3" value="builder" />
+                <div class="assessment-option-content">
+                  <div class="assessment-option-title">
+                    Create my first agent
+                  </div>
+                  <div class="assessment-option-desc">
+                    Start building and deploying agents quickly
+                  </div>
+                </div>
+              </label>
+              <label class="assessment-option">
+                <input type="radio" name="q3" value="sme" />
+                <div class="assessment-option-content">
+                  <div class="assessment-option-title">
+                    Help improve existing agents
+                  </div>
+                  <div class="assessment-option-desc">
+                    Review, test, and provide expert feedback
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="persona-actions">
+            <div class="persona-actions-left"></div>
+            <div class="persona-actions-right">
+              <button class="persona-btn secondary" onclick="backToPersona()">
+                Back
+              </button>
+              <button
+                class="persona-btn primary"
+                id="assessmentNextBtn"
+                disabled
+                onclick="nextAssessmentQuestion()"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Assessment Result Screen -->
+        <div id="assessmentResultScreen" style="display: none">
+          <h2>We recommend: <span id="recommended-role"></span></h2>
+          <p class="description" id="recommendation-reason"></p>
+
+          <div class="info-banner">
+            <div class="info-banner-title">Remember</div>
+            <div class="info-banner-text">
+              You can always switch roles later or work in multiple roles. This
+              is just your starting point.
+            </div>
+          </div>
+
+          <div class="persona-actions">
+            <div class="persona-actions-left"></div>
+            <div class="persona-actions-right">
+              <button class="persona-btn secondary" onclick="backToPersona()">
+                Choose a different role
+              </button>
+              <button
+                class="persona-btn primary"
+                onclick="acceptRecommendation()"
+              >
+                Continue with this role
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main App Content -->
+    <div
+      id="appContent"
+      style="
+        display: none;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <header class="app-header">
+        <div class="header-content">
+          <div class="brand">
+            <span class="brand-ibm">IBM</span
+            ><span class="brand-product">watsonx Orchestrate</span>
+          </div>
+          <div class="persona-badge" id="personaBadge"></div>
+          <button class="change-role-btn" id="changeRole">Change Role</button>
+        </div>
+      </header>
+
+      <div class="main-layout">
+        <aside class="ai-chat-panel">
+          <div class="chat-header">
+            <h3>Control Plane Agent</h3>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="#0f62fe">
+              <path
+                d="M8,1C4.1,1,1,4.1,1,8s3.1,7,7,7s7-3.1,7-7S11.9,1,8,1z M8,13.5c-3,0-5.5-2.5-5.5-5.5S5,2.5,8,2.5s5.5,2.5,5.5,5.5 S11,13.5,8,13.5z"
+              />
+              <circle cx="8" cy="5.5" r="1" />
+              <rect x="7" y="7" width="2" height="5" />
+            </svg>
+          </div>
+          <div class="chat-messages" id="chatMessages">
+            <!-- Dynamic content -->
+          </div>
+          <div class="chat-input-wrapper">
+            <textarea
+              class="chat-input"
+              rows="2"
+              placeholder="Ask me anything..."
+            ></textarea>
+          </div>
+        </aside>
+
+        <div class="content-area">
+          <div class="hero-section">
+            <div class="hero-content" id="heroContent">
+              <!-- Dynamic content -->
+            </div>
+          </div>
+
+          <div class="main-content" id="mainContent">
+            <!-- Dynamic content -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let selectedPersona = null;
+      let assessmentAnswers = { q1: null, q2: null, q3: null };
+      let currentQuestion = 1;
+
+      const personaContent = {
+        builder: {
+          badge: "🔨 Builder",
+          hero: {
+            title: "Welcome! Let's build your first agent",
+            subtitle: "Choose the path that works best for you",
+          },
+          chat: {
+            message:
+              "Hi! I'm here to help you build agents. I can guide you through templates, explain configurations, and answer questions about integrations.",
+            suggestions: [
+              "What's the fastest way to get started?",
+              "Show me Client Zero templates",
+              "How do I connect to ServiceNow?",
+            ],
+          },
+          cards: [
+            {
+              featured: true,
+              badge: "BEST FOR FIRST TIME",
+              title: "Create Agent from Template",
+              description:
+                "Start with proven Client Zero patterns: Ask HR, Ask IT, or Ask Procurement",
+              meta: ["⏱️ 10-15 min", "📊 Beginner", "🎯 Client Zero"],
+            },
+            {
+              title: "Take Product Tour First",
+              description:
+                "5-minute walkthrough of the platform and agent builder",
+              meta: ["⏱️ 5 min", "📊 All levels"],
+            },
+            {
+              title: "Explore Agent Catalog",
+              description: "See what's possible with 300+ example agents",
+              meta: ["⏱️ 2-5 min", "🔍 Discovery"],
+            },
+            {
+              title: "Build from Scratch",
+              description: "Create a custom agent with full control (advanced)",
+              meta: ["⏱️ 30-45 min", "📊 Advanced"],
+            },
+          ],
+          banner: {
+            title: "💡 Need connections?",
+            message:
+              "Work with your admin to set up ServiceNow, Salesforce, or SAP credentials before building agents that need them.",
+          },
+        },
+        admin: {
+          badge: "⚙️ Admin",
+          hero: {
+            title: "Platform Setup",
+            subtitle:
+              "Before your team can build agents, let's set up the essentials",
+          },
+          chat: {
+            message:
+              "Hi! I can help you manage platform settings, set up connections, configure models, and manage user access.",
+            suggestions: [
+              "How do I add a new connection?",
+              "Show me model configuration",
+              "Explain user roles and permissions",
+            ],
+          },
+          cards: [
+            {
+              featured: true,
+              badge: "PRIORITY",
+              title: "Add your first connection",
+              description:
+                "Connect to ServiceNow, Salesforce, SAP, or other enterprise systems",
+              meta: ["⏱️ 5-10 min", "🔗 Integration"],
+            },
+            {
+              title: "Configure AI models",
+              description:
+                "Add models and set usage policies for your organization",
+              meta: ["⏱️ 10-15 min", "🤖 AI Models"],
+            },
+            {
+              title: "Invite team members",
+              description: "Add users and assign roles (Admin, Builder, SME)",
+              meta: ["⏱️ 5 min", "👥 RBAC"],
+            },
+            {
+              title: "Explore Platform First",
+              description:
+                "Take a tour to understand platform capabilities before setup",
+              meta: ["⏱️ 5-10 min", "📚 Learning"],
+            },
+          ],
+          banner: {
+            title: "💡 Getting Started",
+            message:
+              "Complete these 3 setup steps to enable your team to start building agents. You can always come back and adjust settings later.",
+          },
+        },
+        sme: {
+          badge: "💡 Subject Matter Expert",
+          hero: {
+            title: "Your Review Queue",
+            subtitle: "Help improve agents with your domain expertise",
+          },
+          chat: {
+            message:
+              "Hi! I can help you review agents, run test scenarios, and provide feedback to builders. Let me know what you need!",
+            suggestions: [
+              "Show me agents awaiting review",
+              "How do I test an agent?",
+              "Explain the feedback process",
+            ],
+          },
+          cards: [
+            {
+              featured: true,
+              badge: "RECOMMENDED",
+              title: "Explore Sample Agents",
+              description:
+                "See examples of what you'll be reviewing and testing",
+              meta: ["⏱️ 5-10 min", "🔍 Discovery"],
+            },
+            {
+              title: "Learn Review Best Practices",
+              description:
+                "Quick guide to effective agent validation and feedback",
+              meta: ["⏱️ 10 min", "📚 Training"],
+            },
+            {
+              title: "Connect with Builders",
+              description: "See who's building agents in your domain",
+              meta: ["⏱️ 2 min", "👥 Collaboration"],
+            },
+          ],
+          banner: {
+            title: "💡 What happens next?",
+            message:
+              "When builders create agents that need your expertise, they'll assign them to you for review. You'll receive notifications and see them in your queue.",
+          },
+        },
+      };
+
+      // Persona card selection
+      document.querySelectorAll(".persona-card").forEach((card) => {
+        card.addEventListener("click", function () {
+          document
+            .querySelectorAll(".persona-card")
+            .forEach((c) => c.classList.remove("selected"));
+          this.classList.add("selected");
+          selectedPersona = this.dataset.persona;
+          document.getElementById("continueBtn").disabled = false;
+        });
+      });
+
+      // Assessment option selection
+      document.querySelectorAll(".assessment-option").forEach((option) => {
+        option.addEventListener("click", function () {
+          const radio = this.querySelector('input[type="radio"]');
+          radio.checked = true;
+          this.parentElement
+            .querySelectorAll(".assessment-option")
+            .forEach((opt) => {
+              opt.classList.remove("selected");
+            });
+          this.classList.add("selected");
+          document.getElementById("assessmentNextBtn").disabled = false;
+        });
+      });
+
+      function showScreen(screenId) {
+        document.getElementById("personaScreen").style.display = "none";
+        document.getElementById("assessmentScreen").style.display = "none";
+        document.getElementById("assessmentResultScreen").style.display =
+          "none";
+        document.getElementById(screenId).style.display = "block";
+      }
+
+      function showAssessment() {
+        showScreen("assessmentScreen");
+        currentQuestion = 1;
+      }
+
+      function backToPersona() {
+        showScreen("personaScreen");
+        currentQuestion = 1;
+        assessmentAnswers = { q1: null, q2: null, q3: null };
+      }
+
+      function nextAssessmentQuestion() {
+        const selectedOption = document.querySelector(
+          `input[name="q${currentQuestion}"]:checked`,
+        );
+        if (selectedOption) {
+          assessmentAnswers[`q${currentQuestion}`] = selectedOption.value;
+        }
+
+        if (currentQuestion < 3) {
+          document.getElementById(`question-${currentQuestion}`).style.display =
+            "none";
+          currentQuestion++;
+          document.getElementById(`question-${currentQuestion}`).style.display =
+            "block";
+          document
+            .getElementById(`progress-${currentQuestion}`)
+            .classList.add("active");
+          document.getElementById("assessmentNextBtn").disabled = true;
+
+          if (currentQuestion === 3) {
+            document.getElementById("assessmentNextBtn").textContent =
+              "See Recommendation";
+          }
+        } else {
+          showAssessmentResult();
+        }
+      }
+
+      function showAssessmentResult() {
+        const scores = { admin: 0, builder: 0, sme: 0 };
+        Object.values(assessmentAnswers).forEach((answer) => {
+          if (answer) scores[answer]++;
+        });
+
+        const recommended = Object.keys(scores).reduce((a, b) =>
+          scores[a] > scores[b] ? a : b,
+        );
+        selectedPersona = recommended;
+
+        const roleNames = {
+          admin: "⚙️ Admin",
+          builder: "🔨 Builder",
+          sme: "💡 Subject Matter Expert",
+        };
+
+        const roleReasons = {
+          admin:
+            "Based on your answers, you're focused on platform management, system configuration, and enabling your team. The Admin role will give you the tools to set up connections, manage users, and monitor platform health.",
+          builder:
+            "Based on your answers, you're focused on creating and deploying AI agents. The Builder role will give you access to templates, the agent builder, and deployment tools to get started quickly.",
+          sme: "Based on your answers, you're focused on validating agents and providing domain expertise. The SME role will give you tools to review, test, and provide feedback on agents in your area of expertise.",
+        };
+
+        document.getElementById("recommended-role").textContent =
+          roleNames[recommended];
+        document.getElementById("recommendation-reason").textContent =
+          roleReasons[recommended];
+        showScreen("assessmentResultScreen");
+      }
+
+      function acceptRecommendation() {
+        continueToLanding();
+      }
+
+      function continueToLanding() {
+        if (!selectedPersona) return;
+        showPersonaDashboard();
+      }
+
+      function skipOnboarding() {
+        selectedPersona = "builder"; // Default to builder
+        showPersonaDashboard();
+      }
+
+      function showRoleGuide() {
+        alert(
+          "Role guide would open here with detailed information about each role, responsibilities, and typical workflows.",
+        );
+      }
+
+      // Change role button
+      document.getElementById("changeRole").addEventListener("click", () => {
+        document.getElementById("personaOverlay").classList.remove("hidden");
+        document.getElementById("appContent").style.display = "none";
+        showScreen("personaScreen");
+      });
+
+      function showPersonaDashboard() {
+        document.getElementById("personaOverlay").classList.add("hidden");
+        document.getElementById("appContent").style.display = "flex";
+
+        const content = personaContent[selectedPersona];
+
+        // Update badge
+        document.getElementById("personaBadge").textContent = content.badge;
+
+        // Update chat
+        const chatMessages = document.getElementById("chatMessages");
+        chatMessages.innerHTML = `
+          <div class="chat-message">
+            <div class="chat-avatar">AI</div>
+            <div class="chat-content">
+              <div class="chat-source">Control Plane Agent</div>
+              <div class="chat-text">${content.chat.message}</div>
+              <div class="chat-suggestions">
+                ${content.chat.suggestions.map((s) => `<div class="suggestion-card">${s}</div>`).join("")}
+              </div>
+            </div>
+          </div>
+        `;
+
+        // Update hero
+        const heroContent = document.getElementById("heroContent");
+        heroContent.innerHTML = `
+          <h1>${content.hero.title}</h1>
+          <p class="subtitle">${content.hero.subtitle}</p>
+        `;
+
+        // Update main content
+        const mainContent = document.getElementById("mainContent");
+        mainContent.innerHTML = `
+          <div class="action-cards">
+            ${content.cards
+              .map(
+                (card) => `
+              <div class="action-card ${card.featured ? "featured" : ""}">
+                <div class="action-card-header">
+                  <div class="action-card-title">${card.title}</div>
+                  ${card.badge ? `<div class="action-card-badge">${card.badge}</div>` : ""}
+                </div>
+                <div class="action-card-description">${card.description}</div>
+                <div class="action-card-meta">
+                  ${card.meta.map((m) => `<span>${m}</span>`).join("")}
+                </div>
+                <a href="#" class="action-card-cta">Get Started →</a>
+              </div>
+            `,
+              )
+              .join("")}
+          </div>
+          ${
+            content.banner
+              ? `
+          <div class="info-banner">
+            <div class="info-banner-title">${content.banner.title}</div>
+            <div class="info-banner-text">${content.banner.message}</div>
+          </div>
+          `
+              : ""
+          }
+        `;
+      }
+    </script>
+  </body>
+</html>

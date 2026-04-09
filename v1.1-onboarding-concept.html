@@ -1,0 +1,978 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>watsonx Orchestrate - Onboarding Concept</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        body {
+          font-family: "IBM Plex Sans", sans-serif;
+          color: #161616;
+          background: #f4f4f4;
+          display: flex;
+          flex-direction: column;
+          height: 100vh;
+          overflow: hidden;
+        }
+        .app-header {
+          background: #161616;
+          color: white;
+          height: 48px;
+          display: flex;
+          align-items: center;
+          z-index: 1000;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+          flex-shrink: 0;
+        }
+        .main-layout {
+          display: flex;
+          flex: 1;
+          overflow: hidden;
+        }
+        .ai-chat-panel {
+          width: 320px;
+          background: white;
+          border-right: 1px solid #e0e0e0;
+          display: flex;
+          flex-direction: column;
+          flex-shrink: 0;
+        }
+        .chat-header {
+          padding: 12px 16px;
+          border-bottom: 1px solid #e0e0e0;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .chat-header h3 {
+          font-size: 14px;
+          font-weight: 600;
+        }
+        .chat-messages {
+          flex: 1;
+          overflow-y: auto;
+          padding: 16px;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+        .chat-message {
+          display: flex;
+          gap: 12px;
+        }
+        .chat-avatar {
+          width: 32px;
+          height: 32px;
+          background: linear-gradient(135deg, #0f62fe 0%, #0043ce 100%);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-size: 12px;
+          font-weight: 600;
+          flex-shrink: 0;
+        }
+        .chat-content {
+          flex: 1;
+        }
+        .chat-source {
+          font-size: 12px;
+          color: #525252;
+          margin-bottom: 4px;
+        }
+        .chat-text {
+          font-size: 14px;
+          line-height: 20px;
+          color: #161616;
+        }
+        .chat-suggestions {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          margin-top: 12px;
+        }
+        .suggestion-card {
+          background: #f4f4f4;
+          border: 1px solid #e0e0e0;
+          padding: 12px;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: all 0.2s;
+          font-size: 13px;
+        }
+        .suggestion-card:hover {
+          background: #e8e8e8;
+          border-color: #0f62fe;
+        }
+        .chat-input-wrapper {
+          padding: 16px;
+          border-top: 1px solid #e0e0e0;
+        }
+        .chat-input {
+          width: 100%;
+          padding: 12px;
+          border: 1px solid #e0e0e0;
+          border-radius: 4px;
+          font-family: inherit;
+          font-size: 14px;
+          resize: none;
+        }
+        .chat-input:focus {
+          outline: none;
+          border-color: #0f62fe;
+        }
+        .content-area {
+          flex: 1;
+          overflow-y: auto;
+        }
+        .header-content {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          max-width: 1312px;
+          margin: 0 auto;
+          padding: 0 16px;
+        }
+        .brand {
+          font-size: 14px;
+          padding: 0 16px;
+        }
+        .brand-ibm {
+          font-weight: 400;
+        }
+        .brand-product {
+          font-weight: 600;
+          margin-left: 4px;
+        }
+        .hero-section {
+          background: linear-gradient(to bottom, white 0%, #e8e8e8 100%);
+          padding: 48px 32px;
+          position: relative;
+        }
+        .hero-content {
+          max-width: 1248px;
+          margin: 0 auto;
+        }
+        .hero-section h1 {
+          font-size: 32px;
+          font-weight: 400;
+          margin-bottom: 16px;
+        }
+        .hero-section .subtitle {
+          font-size: 20px;
+          margin-bottom: 32px;
+          color: #525252;
+        }
+        .action-cards {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 16px;
+          max-width: 1248px;
+          margin: 0 auto;
+        }
+        .action-card {
+          background: white;
+          border: 1px solid #e0e0e0;
+          padding: 24px;
+          cursor: pointer;
+          transition: all 0.2s;
+          min-height: 200px;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+        .action-card:hover {
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          transform: translateY(-2px);
+          border-color: #0f62fe;
+        }
+        .action-card.featured {
+          border: 2px solid #0f62fe;
+          box-shadow: 0 2px 8px rgba(15, 98, 254, 0.2);
+        }
+        .badge {
+          background: #0f62fe;
+          color: white;
+          padding: 4px 12px;
+          border-radius: 12px;
+          font-size: 11px;
+          font-weight: 600;
+          align-self: flex-start;
+        }
+        .card-icon {
+          width: 32px;
+          height: 32px;
+          fill: #0f62fe;
+        }
+        .card-title {
+          font-size: 18px;
+          font-weight: 600;
+        }
+        .card-description {
+          font-size: 14px;
+          color: #525252;
+          line-height: 20px;
+          flex: 1;
+        }
+        .card-meta {
+          display: flex;
+          gap: 16px;
+          font-size: 12px;
+          color: #525252;
+          padding-top: 12px;
+          border-top: 1px solid #e0e0e0;
+        }
+        .main-content {
+          max-width: 1248px;
+          margin: 0 auto;
+          padding: 32px;
+        }
+        .info-banner {
+          background: #e5f6ff;
+          border-left: 4px solid #0f62fe;
+          padding: 16px;
+          margin-bottom: 32px;
+          display: flex;
+          gap: 16px;
+        }
+        .info-banner .title {
+          font-weight: 600;
+          margin-bottom: 4px;
+        }
+        .dashboard-preview {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: 16px;
+          margin-bottom: 32px;
+        }
+        .dashboard-card {
+          background: white;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .dashboard-card .card-header {
+          padding: 16px;
+          border-bottom: 1px solid #e0e0e0;
+          font-size: 16px;
+          font-weight: 600;
+        }
+        .dashboard-card .card-body {
+          padding: 24px;
+          text-align: center;
+        }
+        .placeholder-chart {
+          width: 120px;
+          height: 100px;
+          margin: 0 auto 16px;
+          opacity: 0.3;
+        }
+        .card-action {
+          background: transparent;
+          border: 1px solid #0f62fe;
+          color: #0f62fe;
+          padding: 11px 16px;
+          cursor: pointer;
+          font-size: 14px;
+          width: 100%;
+          transition: all 0.2s;
+        }
+        .card-action:hover {
+          background: #0f62fe;
+          color: white;
+        }
+        .quick-start {
+          background: white;
+          padding: 32px;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+          margin-bottom: 32px;
+        }
+        .quick-start h2 {
+          font-size: 24px;
+          margin-bottom: 24px;
+        }
+        .quick-start-steps {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 24px;
+        }
+        .step-card {
+          display: flex;
+          gap: 16px;
+        }
+        .step-number {
+          width: 32px;
+          height: 32px;
+          background: #0f62fe;
+          color: white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 600;
+          flex-shrink: 0;
+        }
+        .step-content h3 {
+          font-size: 16px;
+          margin-bottom: 8px;
+        }
+        .step-content p {
+          font-size: 14px;
+          color: #525252;
+          line-height: 20px;
+        }
+        @media (max-width: 1024px) {
+          .main-layout {
+            flex-direction: column;
+          }
+          .ai-chat-panel {
+            width: 100%;
+            max-height: 300px;
+            border-right: none;
+            border-bottom: 1px solid #e0e0e0;
+          }
+        }
+        @media (max-width: 768px) {
+          .hero-section {
+            padding: 32px 16px;
+          }
+          .hero-section h1 {
+            font-size: 24px;
+          }
+          .action-cards,
+          .dashboard-preview,
+          .quick-start-steps {
+            grid-template-columns: 1fr;
+          }
+          .main-content,
+          .quick-start {
+            padding: 20px;
+          }
+          .ai-chat-panel {
+            max-height: 250px;
+          }
+        }
+        .header-actions {
+          margin-left: auto;
+          display: flex;
+          gap: 16px;
+          align-items: center;
+        }
+        .header-btn {
+          background: transparent;
+          color: white;
+          border: 1px solid #525252;
+          padding: 8px 16px;
+          cursor: pointer;
+          font-size: 13px;
+          font-weight: 400;
+          transition: all 0.2s;
+          font-family: inherit;
+        }
+        .header-btn:hover {
+          background: #353535;
+          border-color: white;
+        }
+        .header-btn.primary {
+          background: #0f62fe;
+          border-color: #0f62fe;
+        }
+        .header-btn.primary:hover {
+          background: #0043ce;
+        }
+        @media (max-width: 768px) {
+          .header-actions {
+            display: none;
+          }
+          .persona-selector-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(22, 22, 22, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+          }
+          .persona-selector-overlay.hidden {
+            display: none;
+          }
+          .persona-modal {
+            background: white;
+            max-width: 800px;
+            width: 90%;
+            padding: 48px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+          }
+          .persona-modal h2 {
+            font-size: 28px;
+            margin-bottom: 12px;
+            font-weight: 400;
+          }
+          .persona-modal .description {
+            font-size: 16px;
+            color: #525252;
+            margin-bottom: 32px;
+            line-height: 24px;
+          }
+          .persona-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+          }
+          .persona-card {
+            border: 2px solid #e0e0e0;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+            text-align: center;
+          }
+          .persona-card:hover {
+            border-color: #0f62fe;
+            box-shadow: 0 4px 12px rgba(15, 98, 254, 0.2);
+          }
+          .persona-card.selected {
+            border-color: #0f62fe;
+            background: #e8f4ff;
+          }
+          .persona-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+          }
+          .persona-card h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            font-weight: 600;
+          }
+          .persona-card p {
+            font-size: 13px;
+            color: #525252;
+            line-height: 18px;
+          }
+          .persona-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+          }
+          .persona-btn {
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            font-family: inherit;
+          }
+          .persona-btn.secondary {
+            background: transparent;
+            border: 1px solid #e0e0e0;
+            color: #161616;
+          }
+          .persona-btn.secondary:hover {
+            background: #e8e8e8;
+          }
+          .persona-btn.primary {
+            background: #0f62fe;
+            color: white;
+          }
+          .persona-btn.primary:hover {
+            background: #0043ce;
+          }
+          .persona-btn.primary:disabled {
+            background: #c6c6c6;
+            cursor: not-allowed;
+          }
+          @media (max-width: 768px) {
+            .persona-cards {
+              grid-template-columns: 1fr;
+      <!-- Persona Selection Overlay -->
+      <div class="persona-selector-overlay" id="personaOverlay">
+        <div class="persona-modal">
+          <h2>Welcome to watsonx Orchestrate</h2>
+          <p class="description">
+            To personalize your experience, please tell us about your role. This helps us show you the most relevant features and guidance.
+          </p>
+
+          <div class="persona-cards">
+            <div class="persona-card" data-persona="admin">
+              <div class="persona-icon">⚙️</div>
+              <h3>Admin</h3>
+              <p>I manage platform settings, connections, models, and user access</p>
+            </div>
+
+            <div class="persona-card" data-persona="builder">
+              <div class="persona-icon">🔨</div>
+              <h3>Builder</h3>
+              <p>I design and build agents using templates or from scratch</p>
+            </div>
+
+            <div class="persona-card" data-persona="sme">
+              <div class="persona-icon">💡</div>
+              <h3>Subject Matter Expert</h3>
+              <p>I provide domain knowledge and test agents for my department</p>
+            </div>
+          </div>
+
+          <div class="persona-actions">
+            <button class="persona-btn secondary" id="skipPersona">Skip for now</button>
+            <button class="persona-btn primary" id="continuePersona" disabled>Continue</button>
+          </div>
+        </div>
+      </div>
+
+            }
+            .persona-modal {
+              padding: 32px 24px;
+            }
+          }
+        }
+    </style>
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="header-content">
+        <div class="brand">
+          <span class="brand-ibm">IBM</span
+          ><span class="brand-product">watsonx Orchestrate</span>
+        </div>
+        <div class="header-actions">
+          <button class="header-btn" id="headerCatalog">Browse Catalog</button>
+          <button class="header-btn primary" id="headerCreate">
+            Create Agent
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="main-layout">
+      <aside class="ai-chat-panel">
+        <div class="chat-header">
+          <h3>Control Plane Agent</h3>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#0f62fe">
+            <path
+              d="M8,1C4.1,1,1,4.1,1,8s3.1,7,7,7s7-3.1,7-7S11.9,1,8,1z M8,13.5c-3,0-5.5-2.5-5.5-5.5S5,2.5,8,2.5s5.5,2.5,5.5,5.5 S11,13.5,8,13.5z"
+            />
+            <circle cx="8" cy="5.5" r="1" />
+            <rect x="7" y="7" width="2" height="5" />
+          </svg>
+        </div>
+        <div class="chat-messages">
+          <div class="chat-message">
+            <div class="chat-avatar">AI</div>
+            <div class="chat-content">
+              <div class="chat-source">Control Plane Agent</div>
+              <div class="chat-text">
+                Welcome to watsonx Orchestrate! 👋<br /><br />I'm your control
+                plane agent. I can help you get started, answer questions about
+                the platform, and guide you through creating your first agent.
+              </div>
+              <div class="chat-suggestions">
+                <div class="suggestion-card">
+                  💡 What's the best way to get started?
+                </div>
+                <div class="suggestion-card">🔍 Show me agent templates</div>
+                <div class="suggestion-card">📊 Explain agent monitoring</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="chat-input-wrapper">
+          <textarea
+            class="chat-input"
+            rows="2"
+            placeholder="Ask me anything about watsonx Orchestrate..."
+          ></textarea>
+        </div>
+      </aside>
+
+      <div class="content-area">
+        <div class="hero-section">
+          <div class="hero-content">
+            <h1>Welcome to watsonx Orchestrate 👋</h1>
+            <p class="subtitle">
+              Get started in under 15 minutes with proven agent templates
+            </p>
+
+            <div class="action-cards">
+              <div class="action-card featured">
+                <span class="badge">RECOMMENDED</span>
+                <svg class="card-icon" viewBox="0 0 32 32">
+                  <path
+                    d="M26,30H24V25H22v5H20V24a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v6Z"
+                  />
+                  <path
+                    d="M16,13a4,4,0,1,1,4-4A4,4,0,0,1,16,13Zm0-6a2,2,0,1,0,2,2A2,2,0,0,0,16,7Z"
+                  />
+                </svg>
+                <div class="card-title">Create Agent from Template</div>
+                <div class="card-description">
+                  Start with proven Client Zero patterns: Ask HR, Ask IT, or Ask
+                  Procurement agents that showcase real agentic capabilities
+                </div>
+                <div class="card-meta">
+                  <span>⏱️ 10-15 min</span>
+                  <span>📊 Beginner</span>
+                  <span>🎯 Client Zero</span>
+                </div>
+              </div>
+
+              <div class="action-card">
+                <svg class="card-icon" viewBox="0 0 32 32">
+                  <path
+                    d="M28,4H4A2,2,0,0,0,2,6V26a2,2,0,0,0,2,2H28a2,2,0,0,0,2-2V6A2,2,0,0,0,28,4ZM4,6h8v6H4ZM4,14h8v6H4Zm0,12V20h8v6Z"
+                  />
+                </svg>
+                <div class="card-title">Explore Agent Catalog</div>
+                <div class="card-description">
+                  Browse 300+ pre-built agents across HR, IT, procurement,
+                  customer service, and more
+                </div>
+                <div class="card-meta">
+                  <span>⏱️ 2-5 min</span>
+                  <span>📊 All levels</span>
+                  <span>🔍 Discovery</span>
+                </div>
+              </div>
+
+              <div class="action-card">
+                <svg class="card-icon" viewBox="0 0 32 32">
+                  <path
+                    d="M16,4A12,12,0,1,0,28,16,12,12,0,0,0,16,4Zm0,22A10,10,0,1,1,26,16,10,10,0,0,1,16,26Z"
+                  />
+                </svg>
+                <div class="card-title">Bring Your Own Agent</div>
+                <div class="card-description">
+                  Import agents from other platforms and add governance,
+                  evaluation, and monitoring - Orchestrate's key differentiator
+                </div>
+                <div class="card-meta">
+                  <span>⏱️ 15-20 min</span>
+                  <span>📊 Intermediate</span>
+                  <span>🔗 Integration</span>
+                </div>
+              </div>
+
+              <div class="action-card">
+                <svg class="card-icon" viewBox="0 0 32 32">
+                  <path
+                    d="M23,30H9a2,2,0,0,1-2-2V4A2,2,0,0,1,9,2H23a2,2,0,0,1,2,2V28A2,2,0,0,1,23,30ZM9,4V28H23V4Z"
+                  />
+                  <circle cx="16" cy="25" r="2" />
+                </svg>
+                <div class="card-title">Take a Product Tour</div>
+                <div class="card-description">
+                  Interactive walkthrough of agent builder, integrations,
+                  governance tools, and monitoring capabilities
+                </div>
+                <div class="card-meta">
+                  <span>⏱️ 5-8 min</span>
+                  <span>📊 All levels</span>
+                  <span>📚 Learning</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="main-content">
+          <div
+            class="info-banner"
+            style="background: #fff3cd; border-left-color: #f1c21b"
+          >
+            <div>
+              <svg width="20" height="20" viewBox="0 0 32 32" fill="#f1c21b">
+                <path
+                  d="M16,2A14,14,0,1,0,30,16,14,14,0,0,0,16,2Zm0,26A12,12,0,1,1,28,16,12,12,0,0,1,16,28Z"
+                />
+                <circle cx="16" cy="10" r="1.5" />
+                <path d="M17,22H15V13h2Z" />
+              </svg>
+            </div>
+            <div>
+              <div class="title">Need help with connections?</div>
+              <div>
+                If you need to connect to ServiceNow, Salesforce, SAP, or other
+                enterprise systems, work with your admin to set up credentials.
+                The AI assistant can guide you through the process or answer
+                questions about integrations.
+              </div>
+            </div>
+          </div>
+
+          <div class="info-banner">
+            <div>
+              <svg width="20" height="20" viewBox="0 0 32 32" fill="#0f62fe">
+                <path
+                  d="M16,2A14,14,0,1,0,30,16,14,14,0,0,0,16,2Zm0,26A12,12,0,1,1,28,16,12,12,0,0,1,16,28Z"
+                />
+                <circle cx="16" cy="10" r="1.5" />
+                <path d="M17,22H15V13h2Z" />
+              </svg>
+            </div>
+            <div>
+              <div class="title">After you create your first agent</div>
+              <div>
+                This section will expand to show real-time metrics, charts, and
+                insights to help you monitor and optimize your agents
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-preview">
+            <div class="dashboard-card">
+              <div class="card-header">Agents</div>
+              <div class="card-body">
+                <svg class="placeholder-chart" viewBox="0 0 100 100">
+                  <rect
+                    x="10"
+                    y="60"
+                    width="15"
+                    height="30"
+                    fill="#0f62fe"
+                    opacity="0.3"
+                  />
+                  <rect
+                    x="30"
+                    y="40"
+                    width="15"
+                    height="50"
+                    fill="#0f62fe"
+                    opacity="0.5"
+                  />
+                  <rect
+                    x="50"
+                    y="20"
+                    width="15"
+                    height="70"
+                    fill="#0f62fe"
+                    opacity="0.7"
+                  />
+                  <rect
+                    x="70"
+                    y="50"
+                    width="15"
+                    height="40"
+                    fill="#0f62fe"
+                    opacity="0.4"
+                  />
+                </svg>
+                <p style="font-size: 14px; color: #525252; margin-bottom: 16px">
+                  Track total agents, usage, messages, latency, and error rates
+                </p>
+                <button class="card-action">Add agents</button>
+              </div>
+            </div>
+
+            <div class="dashboard-card">
+              <div class="card-header">Models</div>
+              <div class="card-body">
+                <svg class="placeholder-chart" viewBox="0 0 100 100">
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="40"
+                    fill="none"
+                    stroke="#0f62fe"
+                    stroke-width="15"
+                    opacity="0.2"
+                  />
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="40"
+                    fill="none"
+                    stroke="#0f62fe"
+                    stroke-width="15"
+                    stroke-dasharray="80 170"
+                    opacity="0.6"
+                  />
+                </svg>
+                <p style="font-size: 14px; color: #525252; margin-bottom: 16px">
+                  View connected AI models and their usage distribution
+                </p>
+                <button class="card-action">Add models</button>
+              </div>
+            </div>
+
+            <div class="dashboard-card">
+              <div class="card-header">Policies</div>
+              <div class="card-body">
+                <svg class="placeholder-chart" viewBox="0 0 100 100">
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="35"
+                    fill="none"
+                    stroke="#e0e0e0"
+                    stroke-width="20"
+                  />
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="35"
+                    fill="none"
+                    stroke="#0f62fe"
+                    stroke-width="20"
+                    stroke-dasharray="110 220"
+                    opacity="0.6"
+                  />
+                </svg>
+                <p style="font-size: 14px; color: #525252; margin-bottom: 16px">
+                  Monitor active guardrails and policy violations
+                </p>
+                <button class="card-action">Add policies</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="quick-start">
+            <h2>Quick Start Guide</h2>
+            <div class="quick-start-steps">
+              <div class="step-card">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h3>Choose a Client Zero template</h3>
+                  <p>
+                    Start with Ask HR, Ask IT, or Ask Procurement - proven
+                    patterns that work immediately and showcase agentic AI
+                    capabilities
+                  </p>
+                </div>
+              </div>
+              <div class="step-card">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h3>Set up connections (if needed)</h3>
+                  <p>
+                    Work with your admin to connect enterprise systems like
+                    ServiceNow, Salesforce, or SAP. Many templates work without
+                    connections initially.
+                  </p>
+                </div>
+              </div>
+              <div class="step-card">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h3>Configure & test</h3>
+                  <p>
+                    Customize instructions and guardrails, then test with sample
+                    queries. The AI assistant can explain configuration options.
+                  </p>
+                </div>
+              </div>
+              <div class="step-card">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h3>Deploy & monitor</h3>
+                  <p>
+                    Launch your agent and track performance metrics, error
+                    rates, user feedback, and policy compliance in real-time
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Navigation for Returning Users -->
+    <div class="quick-nav">
+      <button class="quick-nav-btn" id="quickCreate">
+        <svg viewBox="0 0 16 16">
+          <path
+            d="M8,1L8,1c0.6,0,1,0.4,1,1v5h5c0.6,0,1,0.4,1,1v0c0,0.6-0.4,1-1,1h-5v5c0,0.6-0.4,1-1,1h0c-0.6,0-1-0.4-1-1V9H2 C1.4,9,1,8.6,1,8v0c0-0.6,0.4-1,1-1h5V2C7,1.4,7.4,1,8,1z"
+          />
+        </svg>
+        Create Agent
+      </button>
+      <button class="quick-nav-btn" id="quickCatalog">
+        <svg viewBox="0 0 16 16">
+          <path
+            d="M14,2H2C1.4,2,1,2.4,1,3v10c0,0.6,0.4,1,1,1h12c0.6,0,1-0.4,1-1V3C15,2.4,14.6,2,14,2z M2,3h4v4H2V3z M2,8h4v4H2V8z M14,12H7V8h7V12z M14,7H7V3h7V7z"
+          />
+        </svg>
+        Browse Catalog
+      </button>
+    </div>
+
+    <script>
+      // AI Chat interaction
+      document.querySelectorAll(".suggestion-card").forEach((card) => {
+        card.addEventListener("click", function () {
+          const chatMessages = document.querySelector(".chat-messages");
+          const userMessage = document.createElement("div");
+          userMessage.className = "chat-message";
+          userMessage.innerHTML = `
+            <div class="chat-avatar" style="background: #525252;">U</div>
+            <div class="chat-content">
+              <div class="chat-source">You</div>
+              <div class="chat-text">${this.textContent}</div>
+            </div>
+          `;
+          chatMessages.appendChild(userMessage);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+
+          // Simulate AI response
+          setTimeout(() => {
+            const aiResponse = document.createElement("div");
+            aiResponse.className = "chat-message";
+            let responseText = "";
+
+            if (this.textContent.includes("get started")) {
+              responseText =
+                'Great question! I recommend starting with the "Create Agent from Template" option. It\'s the fastest way to see watsonx Orchestrate in action. You can choose from templates like Ask HR, Ask IT, or Ask Procurement - all proven patterns from real implementations.';
+            } else if (this.textContent.includes("templates")) {
+              responseText =
+                "We have 300+ pre-built agent templates across various domains. The most popular ones for getting started are:<br><br>• Ask HR - Employee queries and onboarding<br>• Ask IT - Technical support and troubleshooting<br>• Ask Procurement - Purchase requests and vendor management<br><br>Would you like me to show you one of these?";
+            } else if (this.textContent.includes("monitoring")) {
+              responseText =
+                "Agent monitoring gives you real-time insights into:<br><br>• Message volume and response times<br>• Error rates and failure patterns<br>• User satisfaction scores<br>• Policy compliance status<br><br>Once you create your first agent, you'll see these metrics populate in your dashboard.";
+            }
+
+            aiResponse.innerHTML = `
+              <div class="chat-avatar">AI</div>
+              <div class="chat-content">
+                <div class="chat-source">Control Plane Agent</div>
+                <div class="chat-text">${responseText}</div>
+              </div>
+            `;
+            chatMessages.appendChild(aiResponse);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+          }, 800);
+        });
+      });
+
+      // Action card interactions
+      document.querySelectorAll(".action-card").forEach((card) => {
+        card.addEventListener("click", function () {
+          const title = this.querySelector(".card-title").textContent;
+          alert(
+            `Starting: ${title}\n\nThis would navigate to the ${title.toLowerCase()} workflow.`,
+          );
+        });
+      });
+
+      // Header navigation buttons
+      document.getElementById("headerCreate").addEventListener("click", () => {
+        alert("Navigate to: Agent Creation Wizard");
+      });
+
+      document.getElementById("headerCatalog").addEventListener("click", () => {
+        alert("Navigate to: Agent Catalog");
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1227 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>watsonx Orchestrate - Day 0 Enhanced Onboarding</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          "IBM Plex Sans",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        background: linear-gradient(135deg, #0f62fe 0%, #001d6c 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .container {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+        max-width: 1200px;
+        width: 100%;
+        padding: 48px;
+        animation: fadeIn 0.5s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .screen {
+        display: none;
+      }
+
+      .screen.active {
+        display: block;
+        animation: fadeIn 0.3s ease-in;
+      }
+
+      h1 {
+        font-size: 32px;
+        font-weight: 400;
+        color: #161616;
+        margin-bottom: 16px;
+      }
+
+      .subtitle {
+        font-size: 16px;
+        color: #525252;
+        margin-bottom: 32px;
+        line-height: 1.5;
+      }
+
+      .persona-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+        margin-bottom: 32px;
+      }
+
+      .persona-card {
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 32px 24px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: center;
+        background: white;
+      }
+
+      .persona-card:hover {
+        border-color: #0f62fe;
+        box-shadow: 0 2px 8px rgba(15, 98, 254, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .persona-card.selected {
+        border-color: #0f62fe;
+        background: #f4f4f4;
+      }
+
+      .persona-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+      }
+
+      .persona-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #161616;
+        margin-bottom: 8px;
+      }
+
+      .persona-description {
+        font-size: 14px;
+        color: #525252;
+        margin-bottom: 16px;
+        line-height: 1.5;
+      }
+
+      .persona-focus {
+        background: #f4f4f4;
+        border-radius: 4px;
+        padding: 12px;
+        margin-top: 16px;
+      }
+
+      .persona-focus-title {
+        font-size: 12px;
+        font-weight: 600;
+        color: #161616;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+      }
+
+      .persona-focus-list {
+        list-style: none;
+        font-size: 13px;
+        color: #525252;
+        text-align: left;
+      }
+
+      .persona-focus-list li {
+        padding: 4px 0;
+        padding-left: 20px;
+        position: relative;
+      }
+
+      .persona-focus-list li:before {
+        content: "•";
+        position: absolute;
+        left: 8px;
+        color: #0f62fe;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 16px;
+        justify-content: flex-end;
+        margin-top: 32px;
+      }
+
+      .btn {
+        padding: 12px 24px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+        font-family: inherit;
+      }
+
+      .btn-primary {
+        background: #0f62fe;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #0353e9;
+      }
+
+      .btn-primary:disabled {
+        background: #c6c6c6;
+        cursor: not-allowed;
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: #0f62fe;
+        border: 1px solid #0f62fe;
+      }
+
+      .btn-secondary:hover {
+        background: #f4f4f4;
+      }
+
+      .btn-tertiary {
+        background: transparent;
+        color: #525252;
+        text-decoration: underline;
+      }
+
+      .btn-tertiary:hover {
+        color: #161616;
+      }
+
+      .info-banner {
+        background: #e5f6ff;
+        border-left: 4px solid #0f62fe;
+        padding: 16px;
+        margin-bottom: 24px;
+        border-radius: 4px;
+      }
+
+      .info-banner-title {
+        font-weight: 600;
+        color: #161616;
+        margin-bottom: 4px;
+      }
+
+      .info-banner-text {
+        font-size: 14px;
+        color: #525252;
+      }
+
+      .assessment-question {
+        margin-bottom: 32px;
+      }
+
+      .assessment-question h3 {
+        font-size: 18px;
+        color: #161616;
+        margin-bottom: 16px;
+      }
+
+      .assessment-options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .assessment-option {
+        border: 2px solid #e0e0e0;
+        border-radius: 4px;
+        padding: 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .assessment-option:hover {
+        border-color: #0f62fe;
+        background: #f4f4f4;
+      }
+
+      .assessment-option.selected {
+        border-color: #0f62fe;
+        background: #e5f6ff;
+      }
+
+      .assessment-option input[type="radio"] {
+        margin-top: 4px;
+      }
+
+      .assessment-option-content {
+        flex: 1;
+      }
+
+      .assessment-option-title {
+        font-weight: 600;
+        color: #161616;
+        margin-bottom: 4px;
+      }
+
+      .assessment-option-desc {
+        font-size: 14px;
+        color: #525252;
+      }
+
+      .dashboard {
+        padding: 24px 0;
+      }
+
+      .dashboard-header {
+        margin-bottom: 32px;
+      }
+
+      .dashboard-title {
+        font-size: 28px;
+        color: #161616;
+        margin-bottom: 8px;
+      }
+
+      .dashboard-subtitle {
+        font-size: 16px;
+        color: #525252;
+      }
+
+      .action-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+        margin-bottom: 32px;
+      }
+
+      .action-card {
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 24px;
+        transition: all 0.2s ease;
+        cursor: pointer;
+      }
+
+      .action-card:hover {
+        border-color: #0f62fe;
+        box-shadow: 0 2px 8px rgba(15, 98, 254, 0.1);
+      }
+
+      .action-card.featured {
+        border-color: #0f62fe;
+        background: linear-gradient(135deg, #f4f4f4 0%, #ffffff 100%);
+      }
+
+      .action-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+      }
+
+      .action-card-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #161616;
+      }
+
+      .action-card-badge {
+        background: #0f62fe;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .action-card-description {
+        font-size: 14px;
+        color: #525252;
+        margin-bottom: 16px;
+        line-height: 1.5;
+      }
+
+      .action-card-meta {
+        display: flex;
+        gap: 16px;
+        font-size: 13px;
+        color: #525252;
+        margin-bottom: 16px;
+      }
+
+      .action-card-meta span {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .action-card-cta {
+        display: inline-block;
+        color: #0f62fe;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .action-card-cta:hover {
+        text-decoration: underline;
+      }
+
+      .zero-state {
+        text-align: center;
+        padding: 48px 24px;
+        background: #f4f4f4;
+        border-radius: 8px;
+        margin-bottom: 32px;
+      }
+
+      .zero-state-icon {
+        font-size: 64px;
+        margin-bottom: 16px;
+        opacity: 0.5;
+      }
+
+      .zero-state-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #161616;
+        margin-bottom: 8px;
+      }
+
+      .zero-state-text {
+        font-size: 14px;
+        color: #525252;
+        margin-bottom: 24px;
+      }
+
+      .checklist {
+        background: #f4f4f4;
+        border-radius: 8px;
+        padding: 24px;
+        margin-bottom: 32px;
+      }
+
+      .checklist-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #161616;
+        margin-bottom: 16px;
+      }
+
+      .checklist-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px;
+        background: white;
+        border-radius: 4px;
+        margin-bottom: 12px;
+      }
+
+      .checklist-checkbox {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #e0e0e0;
+        border-radius: 4px;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      .checklist-content {
+        flex: 1;
+      }
+
+      .checklist-item-title {
+        font-weight: 600;
+        color: #161616;
+        margin-bottom: 4px;
+      }
+
+      .checklist-item-desc {
+        font-size: 14px;
+        color: #525252;
+        margin-bottom: 8px;
+      }
+
+      .checklist-item-meta {
+        font-size: 13px;
+        color: #525252;
+      }
+
+      .role-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #e5f6ff;
+        color: #0f62fe;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 16px;
+      }
+
+      .help-text {
+        font-size: 14px;
+        color: #525252;
+        text-align: center;
+        margin-top: 24px;
+      }
+
+      .help-text a {
+        color: #0f62fe;
+        text-decoration: none;
+      }
+
+      .help-text a:hover {
+        text-decoration: underline;
+      }
+
+      .progress-indicator {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 32px;
+      }
+
+      .progress-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #e0e0e0;
+      }
+
+      .progress-dot.active {
+        background: #0f62fe;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Screen 1: Enhanced Persona Selection -->
+      <div id="screen-persona" class="screen active">
+        <h1>Welcome to watsonx Orchestrate</h1>
+        <p class="subtitle">
+          To give you the best experience, please select your primary role.
+          We'll tailor the interface, guidance, and features to match your
+          needs.<br /><br />
+          <strong>Don't worry</strong> - you can switch roles anytime or work in
+          multiple roles.
+        </p>
+
+        <div class="persona-grid">
+          <div class="persona-card" data-persona="admin">
+            <div class="persona-icon">⚙️</div>
+            <div class="persona-title">Admin</div>
+            <div class="persona-description">
+              I manage the platform and enable teams
+            </div>
+            <div class="persona-focus">
+              <div class="persona-focus-title">You'll focus on:</div>
+              <ul class="persona-focus-list">
+                <li>Managing connections</li>
+                <li>Configuring models</li>
+                <li>Platform analytics</li>
+                <li>User access control</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="persona-card" data-persona="builder">
+            <div class="persona-icon">🔨</div>
+            <div class="persona-title">Builder</div>
+            <div class="persona-description">I design and build AI agents</div>
+            <div class="persona-focus">
+              <div class="persona-focus-title">You'll focus on:</div>
+              <ul class="persona-focus-list">
+                <li>Creating agents</li>
+                <li>Using templates</li>
+                <li>Testing agents</li>
+                <li>Deploying to production</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="persona-card" data-persona="sme">
+            <div class="persona-icon">💡</div>
+            <div class="persona-title">Subject Matter Expert</div>
+            <div class="persona-description">
+              I provide expertise and validate agents
+            </div>
+            <div class="persona-focus">
+              <div class="persona-focus-title">You'll focus on:</div>
+              <ul class="persona-focus-list">
+                <li>Testing accuracy</li>
+                <li>Providing knowledge</li>
+                <li>Reviewing responses</li>
+                <li>Suggesting improvements</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="btn btn-tertiary" onclick="showAssessment()">
+            I'm not sure - Help me choose
+          </button>
+          <button class="btn btn-secondary" onclick="skipOnboarding()">
+            Skip for now
+          </button>
+          <button
+            class="btn btn-primary"
+            id="continueBtn"
+            disabled
+            onclick="continueToLanding()"
+          >
+            Continue
+          </button>
+        </div>
+
+        <p class="help-text">
+          Need help understanding roles?
+          <a
+            href="#"
+            onclick="
+              showRoleGuide();
+              return false;
+            "
+            >Learn about each role</a
+          >
+        </p>
+      </div>
+
+      <!-- Screen 2: Assessment Flow -->
+      <div id="screen-assessment" class="screen">
+        <h1>Let's find your best role</h1>
+        <p class="subtitle">
+          Answer 3 quick questions to help us recommend the right role for you.
+        </p>
+
+        <div class="progress-indicator">
+          <div class="progress-dot active"></div>
+          <div class="progress-dot" id="progress-2"></div>
+          <div class="progress-dot" id="progress-3"></div>
+        </div>
+
+        <div id="question-1" class="assessment-question">
+          <h3>1. What will you primarily do in watsonx Orchestrate?</h3>
+          <div class="assessment-options">
+            <label class="assessment-option">
+              <input type="radio" name="q1" value="admin" />
+              <div class="assessment-option-content">
+                <div class="assessment-option-title">
+                  Set up and manage the platform
+                </div>
+                <div class="assessment-option-desc">
+                  Configure connections, manage users, monitor usage
+                </div>
+              </div>
+            </label>
+            <label class="assessment-option">
+              <input type="radio" name="q1" value="builder" />
+              <div class="assessment-option-content">
+                <div class="assessment-option-title">
+                  Create and deploy AI agents
+                </div>
+                <div class="assessment-option-desc">
+                  Build agents, configure tools, test and deploy
+                </div>
+              </div>
+            </label>
+            <label class="assessment-option">
+              <input type="radio" name="q1" value="sme" />
+              <div class="assessment-option-content">
+                <div class="assessment-option-title">
+                  Review and validate agents
+                </div>
+                <div class="assessment-option-desc">
+                  Test accuracy, provide feedback, improve responses
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div id="question-2" class="assessment-question" style="display: none">
+          <h3>2. What's your technical comfort level?</h3>
+          <div class="assessment-options">
+            <label class="assessment-option">
+              <input type="radio" name="q2" value="admin" />
+              <div class="assessment-option-content">
+                <div class="assessment-option-title">
+                  I manage IT systems and infrastructure
+                </div>
+                <div class="assessment-option-desc">
+                  Comfortable with system configuration and user management
+                </div>
+              </div>
+            </label>
+            <label class="assessment-option">
+              <input type="radio" name="q2" value="builder" />
+              <div class="assessment-option-content">
+                <div class="assessment-option-title">
+                  I build applications and solutions
+                </div>
+                <div class="assessment-option-desc">
+                  Comfortable with development tools and workflows
+                </div>
+              </div>
+            </label>
+            <label class="assessment-option">
+              <input type="radio" name="q2" value="sme" />
+              <div class="assessment-option-content">
+                <div class="assessment-option-title">
+                  I provide domain expertise
+                </div>
+                <div class="assessment-option-desc">
+                  Focus on content accuracy and business knowledge
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div id="question-3" class="assessment-question" style="display: none">
+          <h3>3. What's your immediate goal?</h3>
+          <div class="assessment-options">
+            <label class="assessment-option">
+              <input type="radio" name="q3" value="admin" />
+              <div class="assessment-option-content">
+                <div class="assessment-option-title">
+                  Get the platform ready for my team
+                </div>
+                <div class="assessment-option-desc">
+                  Set up connections, configure models, invite users
+                </div>
+              </div>
+            </label>
+            <label class="assessment-option">
+              <input type="radio" name="q3" value="builder" />
+              <div class="assessment-option-content">
+                <div class="assessment-option-title">Create my first agent</div>
+                <div class="assessment-option-desc">
+                  Start building and deploying agents quickly
+                </div>
+              </div>
+            </label>
+            <label class="assessment-option">
+              <input type="radio" name="q3" value="sme" />
+              <div class="assessment-option-content">
+                <div class="assessment-option-title">
+                  Help improve existing agents
+                </div>
+                <div class="assessment-option-desc">
+                  Review, test, and provide expert feedback
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="btn btn-secondary" onclick="backToPersona()">
+            Back
+          </button>
+          <button
+            class="btn btn-primary"
+            id="assessmentNextBtn"
+            disabled
+            onclick="nextAssessmentQuestion()"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+
+      <!-- Screen 3: Assessment Result -->
+      <div id="screen-assessment-result" class="screen">
+        <h1>We recommend: <span id="recommended-role"></span></h1>
+        <p class="subtitle" id="recommendation-reason"></p>
+
+        <div class="info-banner">
+          <div class="info-banner-title">Remember</div>
+          <div class="info-banner-text">
+            You can always switch roles later or work in multiple roles. This is
+            just your starting point.
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="btn btn-secondary" onclick="backToPersona()">
+            Choose a different role
+          </button>
+          <button class="btn btn-primary" onclick="acceptRecommendation()">
+            Continue with this role
+          </button>
+        </div>
+      </div>
+
+      <!-- Screen 4: Builder Day 0 Landing -->
+      <div id="screen-builder-day0" class="screen">
+        <div class="dashboard">
+          <div class="dashboard-header">
+            <div class="role-badge">🔨 Builder</div>
+            <h2 class="dashboard-title">
+              Welcome! Let's build your first agent
+            </h2>
+            <p class="dashboard-subtitle">
+              Choose the path that works best for you
+            </p>
+          </div>
+
+          <div class="action-cards">
+            <div class="action-card featured">
+              <div class="action-card-header">
+                <div class="action-card-title">Create Agent from Template</div>
+                <div class="action-card-badge">Best for first time</div>
+              </div>
+              <div class="action-card-description">
+                Start with proven Client Zero patterns: Ask HR, Ask IT, or Ask
+                Procurement
+              </div>
+              <div class="action-card-meta">
+                <span>⏱️ 10-15 min</span>
+                <span>📊 Beginner</span>
+                <span>🎯 Client Zero</span>
+              </div>
+              <a href="#" class="action-card-cta">Choose Template →</a>
+            </div>
+
+            <div class="action-card">
+              <div class="action-card-header">
+                <div class="action-card-title">Take Product Tour First</div>
+              </div>
+              <div class="action-card-description">
+                5-minute walkthrough of the platform and agent builder
+              </div>
+              <div class="action-card-meta">
+                <span>⏱️ 5 min</span>
+                <span>📊 All levels</span>
+              </div>
+              <a href="#" class="action-card-cta">Start Tour →</a>
+            </div>
+
+            <div class="action-card">
+              <div class="action-card-header">
+                <div class="action-card-title">Explore Agent Catalog</div>
+              </div>
+              <div class="action-card-description">
+                See what's possible with 300+ example agents
+              </div>
+              <div class="action-card-meta">
+                <span>⏱️ 2-5 min</span>
+                <span>🔍 Discovery</span>
+              </div>
+              <a href="#" class="action-card-cta">Browse Catalog →</a>
+            </div>
+
+            <div class="action-card">
+              <div class="action-card-header">
+                <div class="action-card-title">Build from Scratch</div>
+              </div>
+              <div class="action-card-description">
+                Create a custom agent with full control (advanced)
+              </div>
+              <div class="action-card-meta">
+                <span>⏱️ 30-45 min</span>
+                <span>📊 Advanced</span>
+              </div>
+              <a href="#" class="action-card-cta">Start Building →</a>
+            </div>
+          </div>
+
+          <div class="info-banner">
+            <div class="info-banner-title">💡 Need connections?</div>
+            <div class="info-banner-text">
+              Work with your admin to set up ServiceNow, Salesforce, or SAP
+              credentials before building agents that need them.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Screen 5: Admin Day 0 Landing -->
+      <div id="screen-admin-day0" class="screen">
+        <div class="dashboard">
+          <div class="dashboard-header">
+            <div class="role-badge">⚙️ Admin</div>
+            <h2 class="dashboard-title">Platform Setup</h2>
+            <p class="dashboard-subtitle">
+              Before your team can build agents, let's set up the essentials
+            </p>
+          </div>
+
+          <div class="checklist">
+            <div class="checklist-title">Setup Checklist</div>
+
+            <div class="checklist-item">
+              <div class="checklist-checkbox">☐</div>
+              <div class="checklist-content">
+                <div class="checklist-item-title">
+                  Step 1: Add your first connection
+                </div>
+                <div class="checklist-item-desc">
+                  Connect to ServiceNow, Salesforce, SAP, or other enterprise
+                  systems
+                </div>
+                <div class="checklist-item-meta">
+                  ⏱️ 5-10 min |
+                  <a href="#" style="color: #0f62fe">Start Setup →</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="checklist-item">
+              <div class="checklist-checkbox">☐</div>
+              <div class="checklist-content">
+                <div class="checklist-item-title">
+                  Step 2: Configure AI models
+                </div>
+                <div class="checklist-item-desc">
+                  Add models and set usage policies for your organization
+                </div>
+                <div class="checklist-item-meta">
+                  ⏱️ 10-15 min |
+                  <a href="#" style="color: #0f62fe">Configure Models →</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="checklist-item">
+              <div class="checklist-checkbox">☐</div>
+              <div class="checklist-content">
+                <div class="checklist-item-title">
+                  Step 3: Invite team members
+                </div>
+                <div class="checklist-item-desc">
+                  Add users and assign roles (Admin, Builder, SME)
+                </div>
+                <div class="checklist-item-meta">
+                  ⏱️ 5 min |
+                  <a href="#" style="color: #0f62fe">Invite Users →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="action-cards">
+            <div class="action-card">
+              <div class="action-card-header">
+                <div class="action-card-title">Explore Platform First</div>
+              </div>
+              <div class="action-card-description">
+                Take a tour to understand platform capabilities before setup
+              </div>
+              <div class="action-card-meta">
+                <span>⏱️ 5-10 min</span>
+              </div>
+              <a href="#" class="action-card-cta">Start Tour →</a>
+            </div>
+
+            <div class="action-card">
+              <div class="action-card-header">
+                <div class="action-card-title">View Documentation</div>
+              </div>
+              <div class="action-card-description">
+                Learn about connections, models, and best practices
+              </div>
+              <div class="action-card-meta">
+                <span>📚 Reference</span>
+              </div>
+              <a href="#" class="action-card-cta">Read Docs →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Screen 6: SME Day 0 Landing -->
+      <div id="screen-sme-day0" class="screen">
+        <div class="dashboard">
+          <div class="dashboard-header">
+            <div class="role-badge">💡 Subject Matter Expert</div>
+            <h2 class="dashboard-title">Your Review Queue</h2>
+            <p class="dashboard-subtitle">
+              Help improve agents with your domain expertise
+            </p>
+          </div>
+
+          <div class="zero-state">
+            <div class="zero-state-icon">📋</div>
+            <div class="zero-state-title">No agents assigned yet</div>
+            <div class="zero-state-text">
+              We'll notify you when agents are ready for your review.<br />
+              In the meantime, here's what you can do:
+            </div>
+          </div>
+
+          <div class="action-cards">
+            <div class="action-card featured">
+              <div class="action-card-header">
+                <div class="action-card-title">Explore Sample Agents</div>
+                <div class="action-card-badge">Recommended</div>
+              </div>
+              <div class="action-card-description">
+                See examples of what you'll be reviewing and testing
+              </div>
+              <div class="action-card-meta">
+                <span>⏱️ 5-10 min</span>
+                <span>🔍 Discovery</span>
+              </div>
+              <a href="#" class="action-card-cta">View Examples →</a>
+            </div>
+
+            <div class="action-card">
+              <div class="action-card-header">
+                <div class="action-card-title">Learn Review Best Practices</div>
+              </div>
+              <div class="action-card-description">
+                Quick guide to effective agent validation and feedback
+              </div>
+              <div class="action-card-meta">
+                <span>⏱️ 10 min</span>
+                <span>📚 Training</span>
+              </div>
+              <a href="#" class="action-card-cta">Start Learning →</a>
+            </div>
+
+            <div class="action-card">
+              <div class="action-card-header">
+                <div class="action-card-title">Connect with Builders</div>
+              </div>
+              <div class="action-card-description">
+                See who's building agents in your domain
+              </div>
+              <div class="action-card-meta">
+                <span>⏱️ 2 min</span>
+                <span>👥 Collaboration</span>
+              </div>
+              <a href="#" class="action-card-cta">View Team →</a>
+            </div>
+          </div>
+
+          <div class="info-banner">
+            <div class="info-banner-title">💡 What happens next?</div>
+            <div class="info-banner-text">
+              When builders create agents that need your expertise, they'll
+              assign them to you for review. You'll receive notifications and
+              see them in your queue.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Screen 7: Skip Onboarding -->
+      <div id="screen-skip" class="screen">
+        <div class="zero-state">
+          <div class="zero-state-icon">👋</div>
+          <div class="zero-state-title">Welcome to watsonx Orchestrate</div>
+          <div class="zero-state-text">
+            You can explore the platform and select your role anytime from your
+            profile settings.
+          </div>
+        </div>
+
+        <div class="info-banner">
+          <div class="info-banner-title">💡 Tip</div>
+          <div class="info-banner-text">
+            Selecting a role helps us personalize your experience and show you
+            the most relevant features. You can do this anytime from the profile
+            menu.
+          </div>
+        </div>
+
+        <div class="action-cards">
+          <div class="action-card">
+            <div class="action-card-header">
+              <div class="action-card-title">Explore Agent Catalog</div>
+            </div>
+            <div class="action-card-description">
+              Browse 300+ pre-built agents to see what's possible
+            </div>
+            <a href="#" class="action-card-cta">Browse Catalog →</a>
+          </div>
+
+          <div class="action-card">
+            <div class="action-card-header">
+              <div class="action-card-title">Take Product Tour</div>
+            </div>
+            <div class="action-card-description">
+              5-minute walkthrough of platform capabilities
+            </div>
+            <a href="#" class="action-card-cta">Start Tour →</a>
+          </div>
+
+          <div class="action-card">
+            <div class="action-card-header">
+              <div class="action-card-title">View Documentation</div>
+            </div>
+            <div class="action-card-description">
+              Learn about agents, tools, and best practices
+            </div>
+            <a href="#" class="action-card-cta">Read Docs →</a>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="btn btn-primary" onclick="backToPersona()">
+            Select My Role Now
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let selectedPersona = null;
+      let assessmentAnswers = { q1: null, q2: null, q3: null };
+      let currentQuestion = 1;
+
+      // Persona selection
+      document.querySelectorAll(".persona-card").forEach((card) => {
+        card.addEventListener("click", function () {
+          document
+            .querySelectorAll(".persona-card")
+            .forEach((c) => c.classList.remove("selected"));
+          this.classList.add("selected");
+          selectedPersona = this.dataset.persona;
+          document.getElementById("continueBtn").disabled = false;
+        });
+      });
+
+      // Assessment option selection
+      document.querySelectorAll(".assessment-option").forEach((option) => {
+        option.addEventListener("click", function () {
+          const radio = this.querySelector('input[type="radio"]');
+          radio.checked = true;
+
+          // Remove selected class from siblings
+          this.parentElement
+            .querySelectorAll(".assessment-option")
+            .forEach((opt) => {
+              opt.classList.remove("selected");
+            });
+          this.classList.add("selected");
+
+          // Enable next button
+          document.getElementById("assessmentNextBtn").disabled = false;
+        });
+      });
+
+      function showScreen(screenId) {
+        document.querySelectorAll(".screen").forEach((screen) => {
+          screen.classList.remove("active");
+        });
+        document.getElementById(screenId).classList.add("active");
+      }
+
+      function showAssessment() {
+        showScreen("screen-assessment");
+        currentQuestion = 1;
+      }
+
+      function backToPersona() {
+        showScreen("screen-persona");
+        currentQuestion = 1;
+        assessmentAnswers = { q1: null, q2: null, q3: null };
+      }
+
+      function nextAssessmentQuestion() {
+        const selectedOption = document.querySelector(
+          `input[name="q${currentQuestion}"]:checked`,
+        );
+        if (selectedOption) {
+          assessmentAnswers[`q${currentQuestion}`] = selectedOption.value;
+        }
+
+        if (currentQuestion < 3) {
+          document.getElementById(`question-${currentQuestion}`).style.display =
+            "none";
+          currentQuestion++;
+          document.getElementById(`question-${currentQuestion}`).style.display =
+            "block";
+          document
+            .getElementById(`progress-${currentQuestion}`)
+            .classList.add("active");
+          document.getElementById("assessmentNextBtn").disabled = true;
+
+          if (currentQuestion === 3) {
+            document.getElementById("assessmentNextBtn").textContent =
+              "See Recommendation";
+          }
+        } else {
+          showAssessmentResult();
+        }
+      }
+
+      function showAssessmentResult() {
+        // Calculate recommendation based on answers
+        const scores = { admin: 0, builder: 0, sme: 0 };
+        Object.values(assessmentAnswers).forEach((answer) => {
+          if (answer) scores[answer]++;
+        });
+
+        const recommended = Object.keys(scores).reduce((a, b) =>
+          scores[a] > scores[b] ? a : b,
+        );
+        selectedPersona = recommended;
+
+        const roleNames = {
+          admin: "⚙️ Admin",
+          builder: "🔨 Builder",
+          sme: "💡 Subject Matter Expert",
+        };
+
+        const roleReasons = {
+          admin:
+            "Based on your answers, you're focused on platform management, system configuration, and enabling your team. The Admin role will give you the tools to set up connections, manage users, and monitor platform health.",
+          builder:
+            "Based on your answers, you're focused on creating and deploying AI agents. The Builder role will give you access to templates, the agent builder, and deployment tools to get started quickly.",
+          sme: "Based on your answers, you're focused on validating agents and providing domain expertise. The SME role will give you tools to review, test, and provide feedback on agents in your area of expertise.",
+        };
+
+        document.getElementById("recommended-role").textContent =
+          roleNames[recommended];
+        document.getElementById("recommendation-reason").textContent =
+          roleReasons[recommended];
+        showScreen("screen-assessment-result");
+      }
+
+      function acceptRecommendation() {
+        continueToLanding();
+      }
+
+      function continueToLanding() {
+        if (!selectedPersona) return;
+
+        const landingScreens = {
+          admin: "screen-admin-day0",
+          builder: "screen-builder-day0",
+          sme: "screen-sme-day0",
+        };
+
+        showScreen(landingScreens[selectedPersona]);
+      }
+
+      function skipOnboarding() {
+        showScreen("screen-skip");
+      }
+
+      function showRoleGuide() {
+        alert(
+          "Role guide would open here with detailed information about each role, responsibilities, and typical workflows.",
+        );
+      }
+    </script>
+  </body>
+</html>
