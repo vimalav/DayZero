@@ -21,10 +21,18 @@
 **File:** `v1.0-research-concept.html`
 **Date:** Initial version
 
+**Design Philosophy:**
+
+> "Let's understand what onboarding could be"
+
+**Approach:** Exploratory, open-ended concept validation
+
 **Features:**
 
 - Basic onboarding exploration
 - Initial concept validation
+
+**User Assumption:** Needs to learn everything about the product
 
 ---
 
@@ -33,10 +41,18 @@
 **File:** `v1.1-onboarding-concept.html`
 **Date:** Iteration 1
 
+**Design Philosophy:**
+
+> "Let's refine the basic concept"
+
+**Approach:** Iterative improvement on v1.0
+
 **Features:**
 
 - Refined onboarding flow
 - Improved user guidance
+
+**User Assumption:** Needs structured guidance through the product
 
 ---
 
@@ -44,6 +60,12 @@
 
 **File:** `v2.0-persona-based-onboarding.html`
 **Date:** Major update
+
+**Design Philosophy:**
+
+> "Different users need different experiences"
+
+**Approach:** Role-based differentiation with persona selection
 
 **Features:**
 
@@ -53,6 +75,10 @@
   - 💡 Subject Matter Expert - Agent validation
 - Role-specific focus areas
 - Persona selection interface
+
+**User Assumption:** Knows their role, needs guidance specific to that role
+
+**Key Insight:** One size doesn't fit all - different roles have different goals
 
 **Research Alignment:**
 
@@ -67,6 +93,12 @@
 **File:** `v2.1-persona-selection-complete.html`
 **Date:** Refinement
 
+**Design Philosophy:**
+
+> "Make persona selection clear and polished"
+
+**Approach:** Visual refinement and UX polish on persona selection
+
 **Features:**
 
 - Polished persona selection screen
@@ -80,12 +112,24 @@
 - Clearer role differentiation
 - Enhanced user experience
 
+**User Assumption:** Needs clear, visually appealing choices to make informed decision
+
 ---
 
-### v3.0 - Day 0 Enhanced with Assessment ⭐ LATEST
+### v3.0 - Day 0 Enhanced with Assessment
 
 **File:** `v3.0-day0-enhanced-with-assessment.html`
 **Date:** April 9, 2026
+
+**Design Philosophy:**
+
+> "Handle the zero state honestly"
+
+**Approach:** Assessment-driven persona selection with comprehensive zero-state handling
+
+**User Assumption:** Might not know their role, needs help choosing and understanding what to do when nothing exists yet
+
+**Key Insight:** Day 0 is fundamentally different from Day 1+ - users need help when there's nothing there yet
 
 **Major Features:**
 
@@ -199,10 +243,20 @@ If you want to test different versions:
 
 ---
 
-### v3.1 - Enhanced Dashboard Experience ⭐ LATEST
+### v3.1 - Enhanced Dashboard Experience
 
 **File:** `v3.1-enhanced-dashboard.html`
 **Date:** April 9, 2026
+
+**Design Philosophy:**
+
+> "Make it actionable and conversational"
+
+**Approach:** Dashboard UI + AI chat assistance + role switching capability
+
+**User Assumption:** Wants to explore options and get contextual help while working
+
+**Key Insight:** Chat can guide, dashboard can show options - combine both for best experience
 
 **Major Features:**
 
@@ -308,10 +362,88 @@ Each role gets:
 **File:** `v4.0-checklist-driven-onboarding.html`
 **Date:** April 9, 2026
 
+**Design Philosophy:**
+
+> "Activation Over Education - Users already know the product, get them to value FAST"
+
+**Approach:** Checklist-based progress + multi-purpose help + progressive disclosure
+
+**User Assumption:** Already seen product demos and marketing materials, ready to take action
+
+**Key Insight:** Day 0 is about activation, not education. Focus on "Time to First Agent" not learning.
+
+**The Fundamental Shift:**
+
+```
+v1-v3: "Let me teach you about the product"
+v4.0:  "Let me help you DO something with the product"
+```
+
+**📖 Detailed Design Rationale:** See [`research/Design_Rationale_v4.0.md`](research/Design_Rationale_v4.0.md) for comprehensive documentation of design decisions, persona journeys, and open questions.
+
+**🆕 Latest Enhancements (April 9, 2026):**
+
+1. **Visual Linking Between "Needs Attention" and Checklist**
+   - "Needs Attention" items now show which checklist step they block (e.g., "Blocks step 2")
+   - Checklist items display "⚠️ Blocked" badge when prerequisites aren't met
+   - Blocker notice appears within checklist item explaining what needs to be fixed
+   - Smooth scroll and highlight animation when navigating between sections
+
+2. **Interactive Blocker Resolution**
+   - Click "Fix now" in "Needs Attention" → highlights related checklist step
+   - Click "View in Needs Attention" in checklist → scrolls to blocker section
+   - Disabled CTA buttons on blocked checklist items (visual + functional)
+   - Clear visual feedback with highlight animations (1s pulse effect)
+
+3. **Improved Information Architecture**
+   - Meta information shows "Blocks step X" under each "Needs Attention" item
+   - Blocker notice in checklist explains exactly what needs to be fixed
+   - Two-way navigation between blockers and blocked steps
+   - Consistent visual language (red for blockers, animations for focus)
+
+4. **Renamed "Control Plane Agent" to "watsonx Assistant"**
+   - More brand-aligned and multi-purpose
+   - Updated tab labels to action-oriented names:
+     - 🤖 Agent → Build
+     - 💬 Help → Learn
+     - 📰 News → Updates
+
+**🎉 v4.1 Enhancements Added (April 9, 2026):**
+
+1. **Collapsible Checklist Panel**
+   - Toggle button (☰) in header to collapse/expand checklist
+   - Mini progress indicator appears in header when collapsed
+   - Shows progress dots (●●●○○) and step count (3/5)
+   - Smooth transition animation (0.3s ease)
+   - Remembers state during session
+
+2. **Progress Celebrations**
+   - Animated checkmark on step completion (pop effect)
+   - Success pulse animation on completed items
+   - Success toast message for each completed step
+   - Progress bar color changes:
+     - 0-49%: Blue (#0f62fe)
+     - 50%: Celebration + stays blue
+     - 100%: Green (#24a148) + "🎉 All steps completed!"
+   - Subtle animations (no confetti - not distracting)
+
+3. **Enhanced Progress Tracking**
+   - Mini progress dots in header (when collapsed)
+   - Each dot shows status: pending (gray), active (blue), completed (green)
+   - Real-time updates as steps complete
+   - Visual feedback at 50% and 100% milestones
+
+4. **Improved User Experience**
+   - More workspace when checklist collapsed
+   - Always know progress (mini indicator in header)
+   - Positive reinforcement with celebrations
+   - Smooth, professional animations
+     - 👤 Support → Support (with chat icon)
+
 **Major Paradigm Shift:**
 This version represents a fundamental rethinking of Day 0 onboarding based on comprehensive stakeholder feedback and competitive analysis (Intercom). The focus shifts from education to **activation** - getting users to their first agent as fast as possible.
 
-**Core Philosophy:**
+**Core Philosophy Quote:**
 
 > "First time users would have already seen the product. So, the goal shouldn't be helping them learn about the product but quickly get them started to an agent" - Ronak (PM)
 
