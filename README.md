@@ -10,12 +10,43 @@ This repository contains HTML prototypes demonstrating different approaches to o
 
 **View the Latest Prototype:**
 
-- Open [`v3.1-enhanced-dashboard.html`](v3.1-enhanced-dashboard.html) in your browser
-- Or view live: [https://vimalav.github.io/DayZero/v3.1-enhanced-dashboard.html](https://vimalav.github.io/DayZero/v3.1-enhanced-dashboard.html)
+- Open [`v4.2.1-domain-specific-working.html`](v4.2.1-domain-specific-working.html) in your browser
+- Or view live: [https://vimalav.github.io/DayZero/v4.2.1-domain-specific-working.html](https://vimalav.github.io/DayZero/v4.2.1-domain-specific-working.html)
 
 ## 📋 Prototype Versions
 
-### v3.1 - Enhanced Dashboard (LATEST)
+### v4.2.1 - Domain-Specific Onboarding (LATEST)
+
+**File:** `v4.2.1-domain-specific-working.html`
+
+Domain-specific onboarding with checklist-driven approach:
+
+- Domain selection (HR, IT, Procurement, Finance, Sales, Custom)
+- Checklist-driven onboarding flow
+- Progressive task completion
+- Domain-specific templates and guidance
+- Enhanced zero-state handling
+
+### v4.2 - Domain Concept Variants
+
+**Files:**
+
+- `v4.2-domain-specific-onboarding.html` - Full domain concept
+- `v4.2-domain-concept-simple.html` - Simplified domain approach
+
+Domain-based onboarding exploration with multiple implementation approaches.
+
+### v4.0 - Checklist-Driven Onboarding
+
+**File:** `v4.0-checklist-driven-onboarding.html`
+
+Introduced checklist-based onboarding:
+
+- Step-by-step task completion
+- Progress tracking
+- Guided workflows
+
+### v3.1 - Enhanced Dashboard
 
 **File:** `v3.1-enhanced-dashboard.html`
 
@@ -77,22 +108,51 @@ Initial concept based on user research insights.
 
 ```
 .
-├── v3.1-enhanced-dashboard.html          # Latest prototype
+├── v4.2.1-domain-specific-working.html   # Latest prototype
+├── v4.2-domain-specific-onboarding.html
+├── v4.2-domain-concept-simple.html
+├── v4.2_Visual_Concept.md
+├── v4.0-checklist-driven-onboarding.html
+├── v3.1-enhanced-dashboard.html
 ├── v3.0-day0-enhanced-with-assessment.html
 ├── v2.1-persona-selection-complete.html
 ├── v2.0-persona-based-onboarding.html
 ├── v1.1-onboarding-concept.html
 ├── v1.0-research-concept.html
 ├── VERSION_HISTORY.md                    # Detailed version changelog
+├── UPDATES_SUMMARY.md                    # Summary of updates
 ├── research/                             # Research data and insights
 │   ├── Interview_Analysis_Report.md
 │   ├── MVP_Day0_Analysis.md
 │   ├── Mockup_Feedback_Analysis.md
+│   ├── v4.2_Features_Specification.md
+│   ├── v4.2_Implementation_Issues_and_Clarifications.md
 │   └── ...
+├── Intercom/                             # Intercom screenshots
 └── README.md
 ```
 
 ## 🔍 Key Features
+
+### Domain-Specific Onboarding
+
+Tailored experiences for different business domains:
+
+- **HR**: Employee onboarding, benefits, time-off management
+- **IT**: Service desk, asset management, access requests
+- **Procurement**: Purchase requests, vendor management, approvals
+- **Finance**: Expense reports, budget tracking, invoice processing
+- **Sales**: Lead management, quote generation, CRM integration
+- **Custom**: Flexible domain creation for unique needs
+
+### Checklist-Driven Flow
+
+Progressive task completion with:
+
+- Clear step-by-step guidance
+- Progress tracking
+- Task dependencies
+- Completion validation
 
 ### Persona-Based Experience
 
@@ -151,5 +211,5 @@ This is a design exploration project. For feedback or suggestions, please open a
 
 ---
 
-**Last Updated:** April 2026  
-**Current Version:** v3.1
+**Last Updated:** April 2026
+**Current Version:** v4.2.1
