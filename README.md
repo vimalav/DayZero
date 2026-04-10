@@ -15,6 +15,20 @@ This repository contains HTML prototypes demonstrating different approaches to o
 
 ## 📋 Prototype Versions
 
+### v3.2 - Persona + Domain-Specific Onboarding (NEW)
+
+**File:** [`v3.2-persona-domain-onboarding.html`](v3.2-persona-domain-onboarding.html)
+**Live Demo:** [https://vimalav.github.io/DayZero/v3.2-persona-domain-onboarding.html](https://vimalav.github.io/DayZero/v3.2-persona-domain-onboarding.html)
+
+Combines persona-based and domain-specific onboarding:
+
+- Two-step selection: Persona → Domain
+- Three personas (Admin, Builder, SME)
+- Six domains (HR, IT, Procurement, Finance, Sales, Custom)
+- Dashboard displays both persona and domain context
+- Enhanced badge showing persona + domain (e.g., "🔨 Builder • 💰 FINANCE")
+- Fixed CSS class conflicts for proper domain selection
+
 ### v4.2.1 - Domain-Specific Onboarding (LATEST)
 
 **File:** [`v4.2.1-domain-specific-working.html`](v4.2.1-domain-specific-working.html)
@@ -121,6 +135,7 @@ Initial concept based on user research insights.
 ├── v4.2-domain-concept-simple.html
 ├── v4.2_Visual_Concept.md
 ├── v4.0-checklist-driven-onboarding.html
+├── v3.2-persona-domain-onboarding.html   # NEW: Persona + Domain
 ├── v3.1-enhanced-dashboard.html
 ├── v3.0-day0-enhanced-with-assessment.html
 ├── v2.1-persona-selection-complete.html
@@ -130,7 +145,9 @@ Initial concept based on user research insights.
 ├── VERSION_HISTORY.md                    # Detailed version changelog
 ├── UPDATES_SUMMARY.md                    # Summary of updates
 ├── research/                             # Research data and insights
-│   ├── Interview_Analysis_Report.md
+│   ├── Interview_Analysis_Report.md      # Updated with Interview 4
+│   ├── 4.md                              # NEW: Interview 4 transcript
+│   ├── 1.md, 2.md, 3.md                  # Interview transcripts
 │   ├── MVP_Day0_Analysis.md
 │   ├── Mockup_Feedback_Analysis.md
 │   ├── v4.2_Features_Specification.md
@@ -197,6 +214,10 @@ Thoughtful empty states for Day 0 users:
 ## 📚 Documentation
 
 - **[VERSION_HISTORY.md](VERSION_HISTORY.md)** - Complete changelog with design decisions
+- **[research/Interview_Analysis_Report.md](research/Interview_Analysis_Report.md)** - Updated with 4 interviews (latest: April 10, 2026)
+  - New Finding #11: Issue-First Dashboard for Experienced Users
+  - Control Plane Agent concept for fleet health monitoring
+  - Critical insights from Technology Sales Leader perspective
 - **[research/](research/)** - User research, analysis reports, and specifications
 
 ## 🛠️ Development
@@ -217,7 +238,20 @@ See [VERSION_HISTORY.md](VERSION_HISTORY.md) for detailed information about each
 
 This is a design exploration project. For feedback or suggestions, please open an issue or reach out to the team.
 
+## 🔬 Latest Research Insights
+
+**Interview 4 (April 10, 2026) - Sai Bezawada, Technology Sales Leader:**
+
+Key findings for experienced users:
+
+- Need **issue-first dashboard** prioritizing critical problems over general analytics
+- Want **Control Plane Agent** for AI-powered fleet health monitoring
+- Require visibility into high failure rates and client impact immediately upon login
+- "Jump back in" should show problematic agents, not just recent ones
+
+See [Interview_Analysis_Report.md](research/Interview_Analysis_Report.md) for complete findings.
+
 ---
 
-**Last Updated:** April 2026
-**Current Version:** v4.2.1
+**Last Updated:** April 10, 2026
+**Current Version:** v4.2.1 (HTML) | v3.2 (Persona + Domain)
