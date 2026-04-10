@@ -50,6 +50,12 @@ temp/
 node_modules/
 npm-debug.log*
 
+# React app (local development only)
+react-app/
+
+# Roo skills
+.roo/
+
 # Environment variables
 .env
 .env.local
