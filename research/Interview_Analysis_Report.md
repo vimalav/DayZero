@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-Three user research interviews were conducted to evaluate the watsonx Orchestrate landing page and day-zero onboarding experience. The research revealed critical insights about user needs, pain points, and opportunities for improvement. Key findings indicate that **integration challenges** and **time to value** are the most significant barriers, with users requiring 10-30 minutes to understand product value (target: under 5-10 minutes).
+Four user research interviews were conducted to evaluate the watsonx Orchestrate landing page and day-zero onboarding experience. The research revealed critical insights about user needs, pain points, and opportunities for improvement. Key findings indicate that **integration challenges** and **time to value** are the most significant barriers, with users requiring 10-30 minutes to understand product value (target: under 5-10 minutes). A new critical insight from experienced users emphasizes the need for **issue-first dashboards** that prioritize critical problems over general analytics.
 
 ---
 
@@ -19,6 +19,7 @@ Three user research interviews were conducted to evaluate the watsonx Orchestrat
 | 1         | Cameron Seitz, Joseph Kozhaya, Ankitha T C | Client Engineering       | 59 minutes            |
 | 2         | Richard Shannon                            | Account Technical Leader | ~44 minutes (excerpt) |
 | 3         | Dana Abu Ali                               | User                     | 42 minutes            |
+| 4         | Sai Bezawada                               | Technology Sales Leader  | ~51 minutes (excerpt) |
 
 ---
 
@@ -167,6 +168,7 @@ These domain-specific examples help users immediately understand value and appli
 - Add quick access to agent list
 - Consider persistent navigation for frequent actions
 - Separate admin and builder views
+- **NEW:** Implement issue-first dashboard for experienced users (see Finding #11)
 
 ---
 
@@ -341,6 +343,130 @@ Team is building a multi-agent help system:
 3. **Implement workspace segregation** for team collaboration
 4. **Enhanced analytics dashboard** with role-specific views
 5. **Advanced governance tools** for agent evaluation and monitoring
+6. **Issue-first dashboard** for experienced users with critical problem prioritization
+
+---
+
+## New Finding from Interview 4: Sai Bezawada
+
+### 11. 🚨 Issue-First Dashboard for Experienced Users (Critical)
+
+#### Key Insight
+
+Experienced users (Technology Sales Leaders, Account Managers) need a fundamentally different landing experience focused on **critical issues** rather than general analytics or agent building.
+
+#### User Persona: Experienced Administrator/Manager
+
+**Role:** Technology Sales Leader supporting enterprise clients (e.g., Elevance Health)
+**Primary Goal:** Monitor agent fleet health and quickly address critical issues impacting clients
+**Daily Workflow:** Check system status, identify failures, take immediate action on high-priority problems
+
+#### Pain Points with Current Design
+
+1. **Analytics placement is good, but content priority is wrong**
+   - Current dashboard shows general metrics (model usage, policies)
+   - Experienced users need **failure messages and critical issues first**
+   - High failure rates and client impact should be immediately visible
+
+2. **"Jump back in" section needs rethinking**
+   - Shows recent agents (customer service agent, sales agent)
+   - Should show **critical issues requiring attention** instead
+   - Quick starters are less relevant for experienced users
+
+3. **Missing: Control Plane Agent concept**
+   - Need a chat interface that acts as "control plane agent"
+   - Should summarize fleet health, explain errors, and guide issue resolution
+   - Example: "Welcome to Watson X orchestrate. I'm your control plane agent. Let me summarise the fleet health, explain errors, issues..."
+
+#### User Quotes
+
+> "I still like the one on the left side to give some type of chat interface where you say, welcome to Watson X orchestrate. I'm your control plane agent. Let me summarise the fleet health explain errors, issues." - Sai Bezawada
+
+> "I want to know what my high failure rates are, right? Where my client's impact is. So that's what I would have want to see first when I popped it. What are my critical issues?" - Sai Bezawada
+
+> "When I log back in, I want to see, as an experienced user, I want to see where my issues are." - Sai Bezawada
+
+> "If customer support is an issue, I want to be able to start taking action on it." - Sai Bezawada
+
+#### Recommended Dashboard Structure for Experienced Users
+
+**Priority 1: Critical Issues Section (Top)**
+
+- Failed messages count with severity indicators
+- High failure rate agents highlighted
+- Client impact assessment
+- Direct action buttons for each issue
+
+**Priority 2: Control Plane Agent (Left Sidebar)**
+
+- AI-powered chat interface
+- Fleet health summary
+- Error explanation and troubleshooting
+- Guided issue resolution
+
+**Priority 3: Quick Actions**
+
+- "Build a new agent" should still be accessible
+- But not prioritized over issue management
+- Include in quick starters, not as primary action
+
+**Priority 4: Analytics (Lower Priority)**
+
+- Model usage, policies, and general metrics
+- Still valuable but not the first thing shown
+- Accessible but not prominent
+
+#### Navigation Improvements
+
+**Categories Organization:**
+
+- Agents, Models, and Policies should be clearly separated
+- Need better visual hierarchy to distinguish categories
+- Consider tabbed interface or clearer section breaks
+
+**Quick Access:**
+
+- Agent list should be easily accessible
+- Filter by status (failing, healthy, warning)
+- Sort by client impact or failure rate
+
+#### Recommendations
+
+**Immediate Actions:**
+
+1. Create "Experienced User" mode with issue-first dashboard
+2. Implement Control Plane Agent chat interface
+3. Add critical issues section at top of dashboard
+4. Reorganize "Jump back in" to show problematic agents, not recent ones
+
+**Design Considerations:**
+
+1. Ask user experience level on first login
+2. Provide toggle between "Builder" and "Manager" views
+3. Experienced users should see issues first, then analytics
+4. New users should see getting started, then building tools
+
+**Success Metrics:**
+
+- Time to identify critical issue: Target < 30 seconds
+- Time to take action on issue: Target < 2 minutes
+- User satisfaction with issue visibility: Target > 4.5/5.0
+
+#### Impact on Existing Findings
+
+This finding reinforces:
+
+- **Finding #6 (RBAC Gap):** Different personas need different landing experiences
+- **Finding #5 (Navigation):** Analytics placement depends on user experience level
+- **Finding #8 (Landing Page):** Need to personalize based on user role AND experience level
+
+#### New User Journey for Experienced Users
+
+1. **Login** → See critical issues dashboard immediately
+2. **Identify** → High failure rate agents highlighted with client impact
+3. **Investigate** → Click issue to see details and error logs
+4. **Resolve** → Take action directly from dashboard (restart, reconfigure, escalate)
+5. **Monitor** → Control plane agent provides ongoing fleet health updates
 
 ---
 
@@ -396,6 +522,14 @@ Team is building a multi-agent help system:
 
 > "Another key big item is evaluate my agent... that's a big blocker for a lot of people because it's easy to build, it's hard to govern." - Joseph Kozhaya
 
+### On Issue-First Dashboard (NEW)
+
+> "I still like the one on the left side to give some type of chat interface where you say, welcome to Watson X orchestrate. I'm your control plane agent. Let me summarise the fleet health explain errors, issues." - Sai Bezawada
+
+> "I want to know what my high failure rates are, right? Where my client's impact is. So that's what I would have want to see first when I popped it. What are my critical issues?" - Sai Bezawada
+
+> "When I log back in, I want to see, as an experienced user, I want to see where my issues are." - Sai Bezawada
+
 ---
 
 ## Next Steps
@@ -409,6 +543,13 @@ Team is building a multi-agent help system:
 
 ---
 
-**Report Prepared By:** UX Research Team  
-**Date:** April 7, 2026  
+**Report Prepared By:** UX Research Team
+**Date:** April 10, 2026 (Updated with Interview 4 findings)
 **Contact:** For questions or clarifications, please reach out to the research team.
+
+---
+
+## Revision History
+
+- **April 7, 2026:** Initial report with 3 interviews
+- **April 10, 2026:** Added Interview 4 (Sai Bezawada) - New Finding #11: Issue-First Dashboard for Experienced Users
