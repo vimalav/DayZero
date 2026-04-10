@@ -128,11 +128,33 @@
         margin-bottom: 20px;
       }
 
+      /* Domain card specific styles for horizontal layout */
+      .domain-card {
+        padding: 20px 24px;
+        text-align: left;
+      }
+
+      .domain-card-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 8px;
+      }
+
+      .domain-card .persona-icon {
+        font-size: 32px;
+        margin-bottom: 0;
+      }
+
       .persona-card h3,
       .domain-card h3 {
         font-size: 20px;
         margin-bottom: 12px;
         font-weight: 600;
+      }
+
+      .domain-card h3 {
+        margin-bottom: 0;
       }
 
       .persona-card p,
@@ -959,84 +981,98 @@
           </p>
 
           <div class="persona-cards">
-            <div class="domain-card" data-domain="hr">
-              <div class="persona-icon">👥</div>
-              <h3>Human Resources</h3>
-              <p>Employee onboarding, benefits, time-off management</p>
-              <div class="focus-areas">
-                <strong>Common use cases:</strong>
-                <ul>
-                  <li>Employee onboarding</li>
-                  <li>Benefits inquiries</li>
-                  <li>Time-off requests</li>
-                  <li>Policy questions</li>
-                </ul>
+            <div class="domain-card" data-domain="customer-service">
+              <div class="domain-card-header">
+                <div class="persona-icon">🎧</div>
+                <h3>Customer Service</h3>
               </div>
-            </div>
-
-            <div class="domain-card" data-domain="it">
-              <div class="persona-icon">💻</div>
-              <h3>IT Support</h3>
-              <p>Service desk, asset management, access requests</p>
+              <p>Deliver frictionless support experiences across channels</p>
               <div class="focus-areas">
                 <strong>Common use cases:</strong>
                 <ul>
-                  <li>Service desk tickets</li>
-                  <li>Access requests</li>
-                  <li>Asset management</li>
-                  <li>Password resets</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="domain-card" data-domain="procurement">
-              <div class="persona-icon">📦</div>
-              <h3>Procurement</h3>
-              <p>Purchase requests, vendor management, approvals</p>
-              <div class="focus-areas">
-                <strong>Common use cases:</strong>
-                <ul>
-                  <li>Purchase requests</li>
-                  <li>Vendor management</li>
-                  <li>Approval workflows</li>
-                  <li>Order tracking</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="domain-card" data-domain="finance">
-              <div class="persona-icon">💰</div>
-              <h3>Finance</h3>
-              <p>Expense reports, budget tracking, invoice processing</p>
-              <div class="focus-areas">
-                <strong>Common use cases:</strong>
-                <ul>
-                  <li>Expense reports</li>
-                  <li>Budget tracking</li>
-                  <li>Invoice processing</li>
-                  <li>Financial approvals</li>
+                  <li>Reduce friction in support experiences</li>
+                  <li>Automate customer inquiries</li>
+                  <li>Multi-channel support integration</li>
+                  <li>Case management automation</li>
                 </ul>
               </div>
             </div>
 
             <div class="domain-card" data-domain="sales">
-              <div class="persona-icon">📈</div>
-              <h3>Sales</h3>
-              <p>Lead management, quote generation, CRM integration</p>
+              <div class="domain-card-header">
+                <div class="persona-icon">📈</div>
+                <h3>Sales</h3>
+              </div>
+              <p>Transform sales with agentic AI that unifies workflows</p>
               <div class="focus-areas">
                 <strong>Common use cases:</strong>
                 <ul>
-                  <li>Lead management</li>
-                  <li>Quote generation</li>
-                  <li>CRM updates</li>
-                  <li>Sales reporting</li>
+                  <li>Automate sales workflows</li>
+                  <li>Orchestrate actions across tools</li>
+                  <li>Focus on closing, not clicking</li>
+                  <li>Automate decisions and tasks</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="domain-card" data-domain="hr">
+              <div class="domain-card-header">
+                <div class="persona-icon">👥</div>
+                <h3>Human Resources</h3>
+              </div>
+              <p>
+                Empower employees, managers and HR professionals with AI agents
+              </p>
+              <div class="focus-areas">
+                <strong>Common use cases:</strong>
+                <ul>
+                  <li>Automate complex HR tasks</li>
+                  <li>Enterprise-ready AI agents</li>
+                  <li>Seamless system integration</li>
+                  <li>Employee self-service</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="domain-card" data-domain="finance">
+              <div class="domain-card-header">
+                <div class="persona-icon">💰</div>
+                <h3>Finance</h3>
+              </div>
+              <p>Empower finance teams with AI agents for speed and accuracy</p>
+              <div class="focus-areas">
+                <strong>Common use cases:</strong>
+                <ul>
+                  <li>Improve speed and accuracy</li>
+                  <li>Enhance decision-making</li>
+                  <li>No code required</li>
+                  <li>Automate financial processes</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="domain-card" data-domain="procurement">
+              <div class="domain-card-header">
+                <div class="persona-icon">📦</div>
+                <h3>Procurement</h3>
+              </div>
+              <p>Boost resiliency and cost efficiency with pre-built agents</p>
+              <div class="focus-areas">
+                <strong>Common use cases:</strong>
+                <ul>
+                  <li>Improve productivity and efficiency</li>
+                  <li>Connect across ecosystem</li>
+                  <li>Pre-built procurement agents</li>
+                  <li>Vendor and order management</li>
                 </ul>
               </div>
             </div>
 
             <div class="domain-card" data-domain="custom">
-              <div class="persona-icon">⚙️</div>
-              <h3>Custom Domain</h3>
+              <div class="domain-card-header">
+                <div class="persona-icon">⚙️</div>
+                <h3>Custom Domain</h3>
+              </div>
               <p>Create your own domain-specific workflows</p>
               <div class="focus-areas">
                 <strong>Flexibility to:</strong>
@@ -1164,7 +1200,7 @@
               badge: "BEST FOR FIRST TIME",
               title: "Create Agent from Template",
               description:
-                "Start with proven Client Zero patterns: Ask HR, Ask IT, or Ask Procurement",
+                "Start with proven Client Zero patterns: Ask HR, Ask Sales, or Ask Procurement",
               meta: ["⏱️ 10-15 min", "📊 Beginner", "🎯 Client Zero"],
             },
             {
@@ -1470,11 +1506,11 @@
 
         // Update badge with domain if selected
         const domainEmojis = {
-          hr: "👥",
-          it: "💻",
-          procurement: "📦",
-          finance: "💰",
+          "customer-service": "🎧",
           sales: "📈",
+          hr: "👥",
+          finance: "💰",
+          procurement: "📦",
           custom: "⚙️",
         };
         const badgeText = selectedDomain
