@@ -17,7 +17,8 @@ This repository contains HTML prototypes demonstrating different approaches to o
 
 ### v4.2.1 - Domain-Specific Onboarding (LATEST)
 
-**File:** `v4.2.1-domain-specific-working.html`
+**File:** [`v4.2.1-domain-specific-working.html`](v4.2.1-domain-specific-working.html)
+**Live Demo:** [https://vimalav.github.io/DayZero/v4.2.1-domain-specific-working.html](https://vimalav.github.io/DayZero/v4.2.1-domain-specific-working.html)
 
 Domain-specific onboarding with checklist-driven approach:
 
@@ -31,14 +32,15 @@ Domain-specific onboarding with checklist-driven approach:
 
 **Files:**
 
-- `v4.2-domain-specific-onboarding.html` - Full domain concept
-- `v4.2-domain-concept-simple.html` - Simplified domain approach
+- [`v4.2-domain-specific-onboarding.html`](v4.2-domain-specific-onboarding.html) | [Live Demo](https://vimalav.github.io/DayZero/v4.2-domain-specific-onboarding.html)
+- [`v4.2-domain-concept-simple.html`](v4.2-domain-concept-simple.html) | [Live Demo](https://vimalav.github.io/DayZero/v4.2-domain-concept-simple.html)
 
 Domain-based onboarding exploration with multiple implementation approaches.
 
 ### v4.0 - Checklist-Driven Onboarding
 
-**File:** `v4.0-checklist-driven-onboarding.html`
+**File:** [`v4.0-checklist-driven-onboarding.html`](v4.0-checklist-driven-onboarding.html)
+**Live Demo:** [https://vimalav.github.io/DayZero/v4.0-checklist-driven-onboarding.html](https://vimalav.github.io/DayZero/v4.0-checklist-driven-onboarding.html)
 
 Introduced checklist-based onboarding:
 
@@ -48,7 +50,8 @@ Introduced checklist-based onboarding:
 
 ### v3.1 - Enhanced Dashboard
 
-**File:** `v3.1-enhanced-dashboard.html`
+**File:** [`v3.1-enhanced-dashboard.html`](v3.1-enhanced-dashboard.html)
+**Live Demo:** [https://vimalav.github.io/DayZero/v3.1-enhanced-dashboard.html](https://vimalav.github.io/DayZero/v3.1-enhanced-dashboard.html)
 
 Complete persona-based onboarding with:
 
@@ -66,7 +69,8 @@ Complete persona-based onboarding with:
 
 ### v3.0 - Day 0 Enhanced with Assessment
 
-**File:** `v3.0-day0-enhanced-with-assessment.html`
+**File:** [`v3.0-day0-enhanced-with-assessment.html`](v3.0-day0-enhanced-with-assessment.html)
+**Live Demo:** [https://vimalav.github.io/DayZero/v3.0-day0-enhanced-with-assessment.html](https://vimalav.github.io/DayZero/v3.0-day0-enhanced-with-assessment.html)
 
 Introduced assessment flow and Day 0 enhancements:
 
@@ -77,7 +81,8 @@ Introduced assessment flow and Day 0 enhancements:
 
 ### v2.1 - Complete Persona Selection
 
-**File:** `v2.1-persona-selection-complete.html`
+**File:** [`v2.1-persona-selection-complete.html`](v2.1-persona-selection-complete.html)
+**Live Demo:** [https://vimalav.github.io/DayZero/v2.1-persona-selection-complete.html](https://vimalav.github.io/DayZero/v2.1-persona-selection-complete.html)
 
 Dashboard-focused approach:
 
@@ -88,19 +93,22 @@ Dashboard-focused approach:
 
 ### v2.0 - Persona-Based Onboarding
 
-**File:** `v2.0-persona-based-onboarding.html`
+**File:** [`v2.0-persona-based-onboarding.html`](v2.0-persona-based-onboarding.html)
+**Live Demo:** [https://vimalav.github.io/DayZero/v2.0-persona-based-onboarding.html](https://vimalav.github.io/DayZero/v2.0-persona-based-onboarding.html)
 
 Initial persona-based approach with three distinct user roles.
 
 ### v1.1 - Onboarding Concept
 
-**File:** `v1.1-onboarding-concept.html`
+**File:** [`v1.1-onboarding-concept.html`](v1.1-onboarding-concept.html)
+**Live Demo:** [https://vimalav.github.io/DayZero/v1.1-onboarding-concept.html](https://vimalav.github.io/DayZero/v1.1-onboarding-concept.html)
 
 Basic onboarding flow exploration.
 
 ### v1.0 - Research Concept
 
-**File:** `v1.0-research-concept.html`
+**File:** [`v1.0-research-concept.html`](v1.0-research-concept.html)
+**Live Demo:** [https://vimalav.github.io/DayZero/v1.0-research-concept.html](https://vimalav.github.io/DayZero/v1.0-research-concept.html)
 
 Initial concept based on user research insights.
 
