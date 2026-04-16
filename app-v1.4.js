@@ -2185,6 +2185,8 @@ window.updateConnectionId = function (displayName) {
 // New function to update connection ID from name input
 window.updateConnectionIdFromName = function (displayName) {
   const connectionIdInput = document.getElementById("connectionId");
+  const subdomainInput = document.getElementById("subdomain");
+  const subdomainLiveInput = document.getElementById("subdomainLive");
 
   if (!displayName || displayName.trim() === "") {
     connectionIdInput.value = "";
@@ -2201,6 +2203,15 @@ window.updateConnectionIdFromName = function (displayName) {
     .replace(/^-|-$/g, "");
 
   connectionIdInput.value = connectionId;
+
+  // Update subdomain dynamically based on the app name
+  const subdomain = getSubdomainForApp(displayName);
+  if (subdomainInput) {
+    subdomainInput.value = subdomain;
+  }
+  if (subdomainLiveInput) {
+    subdomainLiveInput.value = subdomain;
+  }
 };
 
 // Function to get subdomain based on app

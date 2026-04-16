@@ -1,0 +1,1463 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>wxO Day 0 User Research Insights & Recommendations</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          "IBM Plex Sans",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        line-height: 1.6;
+        color: #161616;
+        background: #f4f4f4;
+      }
+
+      /* Header */
+      .app-header {
+        background: #161616;
+        color: white;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        height: 48px;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      }
+
+      .app-header .header-content {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 0 16px;
+      }
+
+      .app-header .brand {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 14px;
+      }
+
+      .app-header .brand-ibm {
+        font-weight: 400;
+      }
+
+      .app-header .brand-product {
+        font-weight: 600;
+      }
+
+      /* Container */
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 32px 24px;
+      }
+
+      /* Hero Section */
+      .hero {
+        background: white;
+        border-radius: 8px;
+        padding: 48px;
+        margin-bottom: 32px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .hero h1 {
+        font-size: 42px;
+        font-weight: 400;
+        margin-bottom: 16px;
+        color: #161616;
+      }
+
+      .hero .subtitle {
+        font-size: 20px;
+        color: #525252;
+        margin-bottom: 24px;
+      }
+
+      .hero .meta {
+        display: flex;
+        gap: 32px;
+        flex-wrap: wrap;
+        font-size: 14px;
+        color: #525252;
+      }
+
+      .hero .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .hero .meta-item strong {
+        color: #161616;
+      }
+
+      /* Executive Summary */
+      .executive-summary {
+        background: linear-gradient(135deg, #0f62fe 0%, #0043ce 100%);
+        color: white;
+        border-radius: 8px;
+        padding: 40px;
+        margin-bottom: 32px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .executive-summary h2 {
+        font-size: 28px;
+        font-weight: 400;
+        margin-bottom: 20px;
+      }
+
+      .executive-summary p {
+        font-size: 16px;
+        line-height: 1.8;
+        margin-bottom: 16px;
+        opacity: 0.95;
+      }
+
+      .executive-summary .highlight-box {
+        background: rgba(255, 255, 255, 0.15);
+        border-left: 4px solid #ffffff;
+        padding: 20px;
+        margin-top: 24px;
+        border-radius: 4px;
+      }
+
+      .executive-summary .highlight-box h3 {
+        font-size: 18px;
+        margin-bottom: 12px;
+        font-weight: 600;
+      }
+
+      .executive-summary .highlight-box ul {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      .executive-summary .highlight-box li {
+        padding: 8px 0;
+        padding-left: 24px;
+        position: relative;
+      }
+
+      .executive-summary .highlight-box li:before {
+        content: "→";
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+      }
+
+      /* Stats Grid */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 32px;
+      }
+
+      .stat-card {
+        background: white;
+        border-radius: 8px;
+        padding: 24px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        border-top: 4px solid #0f62fe;
+      }
+
+      .stat-card .stat-number {
+        font-size: 48px;
+        font-weight: 300;
+        color: #0f62fe;
+        margin-bottom: 8px;
+      }
+
+      .stat-card .stat-label {
+        font-size: 14px;
+        color: #525252;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* Section */
+      .section {
+        background: white;
+        border-radius: 8px;
+        padding: 40px;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .section h2 {
+        font-size: 32px;
+        font-weight: 400;
+        margin-bottom: 24px;
+        color: #161616;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h3 {
+        font-size: 24px;
+        font-weight: 400;
+        margin-top: 32px;
+        margin-bottom: 16px;
+        color: #161616;
+      }
+
+      .section h4 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-top: 24px;
+        margin-bottom: 12px;
+        color: #161616;
+      }
+
+      .section p {
+        margin-bottom: 16px;
+        color: #525252;
+        font-size: 16px;
+      }
+
+      /* Finding Cards */
+      .findings-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 24px;
+        margin-top: 24px;
+      }
+
+      .finding-card {
+        background: #f4f4f4;
+        border-radius: 8px;
+        padding: 24px;
+        border-left: 4px solid #0f62fe;
+      }
+
+      .finding-card.critical {
+        border-left-color: #da1e28;
+        background: #fff1f1;
+      }
+
+      .finding-card.important {
+        border-left-color: #f1c21b;
+        background: #fcf4d6;
+      }
+
+      .finding-card h4 {
+        margin-top: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .finding-card ul {
+        margin-left: 20px;
+        margin-top: 12px;
+      }
+
+      .finding-card li {
+        margin-bottom: 8px;
+        color: #525252;
+      }
+
+      /* Quote Box */
+      .quote-box {
+        background: #e8f5ff;
+        border-left: 4px solid #0f62fe;
+        padding: 20px 24px;
+        margin: 24px 0;
+        border-radius: 4px;
+        font-style: italic;
+        color: #161616;
+      }
+
+      .quote-box .quote-author {
+        font-style: normal;
+        font-weight: 600;
+        margin-top: 12px;
+        color: #0f62fe;
+      }
+
+      /* Persona Table */
+      .persona-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 24px 0;
+        background: white;
+      }
+
+      .persona-table th,
+      .persona-table td {
+        padding: 16px;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      .persona-table th {
+        background: #f4f4f4;
+        font-weight: 600;
+        color: #161616;
+      }
+
+      .persona-table tr:hover {
+        background: #f4f4f4;
+      }
+
+      /* Recommendations */
+      .recommendations {
+        background: #e5f6ff;
+        border-radius: 8px;
+        padding: 24px;
+        margin: 24px 0;
+      }
+
+      .recommendations h4 {
+        color: #0043ce;
+        margin-top: 0;
+        margin-bottom: 16px;
+      }
+
+      .recommendations ul {
+        margin-left: 20px;
+      }
+
+      .recommendations li {
+        margin-bottom: 12px;
+        color: #161616;
+      }
+
+      /* Priority Badge */
+      .priority-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .priority-badge.critical {
+        background: #da1e28;
+        color: white;
+      }
+
+      .priority-badge.high {
+        background: #f1c21b;
+        color: #161616;
+      }
+
+      .priority-badge.medium {
+        background: #0f62fe;
+        color: white;
+      }
+
+      /* Stakeholder Section */
+      .stakeholder-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 24px;
+        margin-top: 24px;
+      }
+
+      .stakeholder-card {
+        background: #f4f4f4;
+        border-radius: 8px;
+        padding: 24px;
+        border-top: 4px solid #0f62fe;
+      }
+
+      .stakeholder-card h4 {
+        margin-top: 0;
+        color: #0f62fe;
+      }
+
+      .stakeholder-card .role {
+        font-size: 14px;
+        color: #525252;
+        margin-bottom: 16px;
+      }
+
+      /* Metrics */
+      .metrics-comparison {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin: 24px 0;
+      }
+
+      .metric-box {
+        background: #f4f4f4;
+        border-radius: 8px;
+        padding: 24px;
+        text-align: center;
+      }
+
+      .metric-box.current {
+        border: 2px solid #da1e28;
+      }
+
+      .metric-box.target {
+        border: 2px solid #24a148;
+      }
+
+      .metric-box .label {
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+        font-weight: 600;
+      }
+
+      .metric-box.current .label {
+        color: #da1e28;
+      }
+
+      .metric-box.target .label {
+        color: #24a148;
+      }
+
+      .metric-box .value {
+        font-size: 48px;
+        font-weight: 300;
+        margin-bottom: 8px;
+      }
+
+      .metric-box .description {
+        font-size: 14px;
+        color: #525252;
+      }
+
+      /* Competitive Insights */
+      .competitive-section {
+        background: linear-gradient(135deg, #8a3ffc 0%, #6929c4 100%);
+        color: white;
+        border-radius: 8px;
+        padding: 40px;
+        margin: 24px 0;
+      }
+
+      .competitive-section h3 {
+        color: white;
+        margin-top: 0;
+      }
+
+      .competitive-section ul {
+        margin-left: 20px;
+      }
+
+      .competitive-section li {
+        margin-bottom: 12px;
+        opacity: 0.95;
+      }
+
+      /* Action Items */
+      .action-items {
+        background: #fff;
+        border: 2px solid #0f62fe;
+        border-radius: 8px;
+        padding: 32px;
+        margin: 32px 0;
+      }
+
+      .action-items h3 {
+        color: #0f62fe;
+        margin-top: 0;
+        margin-bottom: 24px;
+      }
+
+      .action-phase {
+        margin-bottom: 32px;
+      }
+
+      .action-phase h4 {
+        background: #e5f6ff;
+        padding: 12px 16px;
+        border-radius: 4px;
+        margin-bottom: 16px;
+      }
+
+      .action-phase ul {
+        margin-left: 20px;
+      }
+
+      .action-phase li {
+        margin-bottom: 12px;
+        color: #161616;
+      }
+
+      /* Footer */
+      .footer {
+        text-align: center;
+        padding: 32px;
+        color: #525252;
+        font-size: 14px;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .hero {
+          padding: 32px 24px;
+        }
+
+        .hero h1 {
+          font-size: 32px;
+        }
+
+        .section {
+          padding: 24px;
+        }
+
+        .findings-grid,
+        .stakeholder-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .metrics-comparison {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="app-header">
+      <div class="header-content">
+        <div class="brand">
+          <span class="brand-ibm">IBM</span>
+          <span class="brand-product">watsonx Orchestrate</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+      <!-- Hero Section -->
+      <div class="hero">
+        <h1>User Research Insights & Recommendations</h1>
+        <p class="subtitle">
+          Comprehensive analysis of Day 0 onboarding experience based on 5 user
+          interviews and stakeholder feedback
+        </p>
+        <div class="meta">
+          <div class="meta-item">
+            <strong>Research Period:</strong> April 6-10, 2026
+          </div>
+          <div class="meta-item">
+            <strong>Participants:</strong> 5 complete interviews
+          </div>
+          <div class="meta-item">
+            <strong>Total Duration:</strong> 240 minutes
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">5</div>
+          <div class="stat-label">User Interviews</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">13</div>
+          <div class="stat-label">Key Findings</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">6</div>
+          <div class="stat-label">Stakeholder Inputs</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">5</div>
+          <div class="stat-label">User Personas</div>
+        </div>
+      </div>
+
+      <!-- Executive Summary -->
+      <div class="executive-summary">
+        <h2>Executive Summary</h2>
+        <p>
+          Five comprehensive user research interviews were conducted with Client
+          Engineering, Account Technical Leaders, Customer Success, Sales
+          Leadership, and Ecosystem Architects to evaluate the watsonx
+          Orchestrate landing page and day-zero onboarding experience.
+        </p>
+
+        <p>
+          The research revealed critical insights about user needs, pain points,
+          and opportunities for improvement across different user personas. Key
+          findings indicate that <strong>integration challenges</strong> and
+          <strong>time to value</strong> are the most significant barriers, with
+          users requiring 10-30 minutes to understand product value (target:
+          under 5-10 minutes).
+        </p>
+
+        <div class="highlight-box">
+          <h3>Critical New Insights</h3>
+          <ul>
+            <li>
+              <strong>Experienced users need issue-first dashboards</strong>
+              that prioritize critical problems over general analytics
+            </li>
+            <li>
+              <strong>Personalization is essential</strong> - templates must be
+              tuned to user's specific interests and use cases
+            </li>
+            <li>
+              <strong>Day-zero should showcase key features</strong> rather than
+              empty analytics for first-time users
+            </li>
+            <li>
+              <strong>Chat interface clarity</strong> needs improvement - users
+              don't immediately recognize conversational capabilities
+            </li>
+            <li>
+              <strong>"Time to First Agent"</strong> should be the primary
+              focus, not product education (users have already seen the product)
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Research Participants -->
+      <div class="section">
+        <h2>👥 Research Participants</h2>
+        <table class="persona-table">
+          <thead>
+            <tr>
+              <th>Interview</th>
+              <th>Participant(s)</th>
+              <th>Role</th>
+              <th>Duration</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Cameron Seitz, Joseph Kozhaya, Ankitha T C</td>
+              <td>Client Engineering</td>
+              <td>59 minutes</td>
+              <td>April 6</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Richard Shannon</td>
+              <td>Account Technical Leader</td>
+              <td>44 minutes</td>
+              <td>April 6</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Dana Abu Ali</td>
+              <td>Customer Success Engineer</td>
+              <td>42 minutes</td>
+              <td>April 7</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Sai Bezawada</td>
+              <td>Technology Sales Leader</td>
+              <td>51 minutes</td>
+              <td>April 10</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Ahmed Azraq</td>
+              <td>Chief Architect, Ecosystem Build</td>
+              <td>44 minutes</td>
+              <td>April 10</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Critical Findings -->
+      <div class="section">
+        <h2>🚨 Critical Findings</h2>
+
+        <div class="findings-grid">
+          <div class="finding-card critical">
+            <h4>
+              <span class="priority-badge critical">Critical</span> Integration
+              Challenges
+            </h4>
+            <p>
+              <strong>The #1 Pain Point:</strong> Connections to external
+              systems (ServiceNow, Salesforce, SAP, Workday, Milvus) is the most
+              significant barrier users face.
+            </p>
+            <ul>
+              <li>
+                Unclear ownership: Who creates connections (admin vs AI
+                engineer)?
+              </li>
+              <li>No RBAC separation causes role confusion</li>
+              <li>
+                AI engineers often lack credentials to create connections
+                themselves
+              </li>
+              <li>
+                When blocked, engineers can't build agents that integrate with
+                backend systems
+              </li>
+            </ul>
+            <div class="quote-box">
+              "The AI engineer typically does not have the credentials to
+              connect to the back end systems... they're stuck. They can't do
+              anything right."
+              <div class="quote-author">
+                — Joseph Kozhaya, Client Engineering
+              </div>
+            </div>
+          </div>
+
+          <div class="finding-card critical">
+            <h4>
+              <span class="priority-badge critical">Critical</span> Time to
+              Value
+            </h4>
+            <p>
+              <strong>Current State:</strong> Users estimate 10-30 minutes to
+              understand Orchestrate's value
+            </p>
+            <p>
+              <strong>Target State:</strong> Under 5-10 minutes to see value
+            </p>
+            <ul>
+              <li>Too long for effective onboarding</li>
+              <li>Users want to preview agents quickly</li>
+              <li>Need immediate understanding of capabilities</li>
+              <li>Streamline path to first agent preview</li>
+            </ul>
+          </div>
+
+          <div class="finding-card important">
+            <h4>
+              <span class="priority-badge high">High</span> Issue-First
+              Dashboard Needed
+            </h4>
+            <p>
+              Experienced users (Sales Leaders, Account Managers) need a
+              fundamentally different landing experience focused on
+              <strong>critical issues</strong> rather than general analytics.
+            </p>
+            <ul>
+              <li>
+                Current dashboard shows general metrics (model usage, policies)
+              </li>
+              <li>
+                Need <strong>failure messages and critical issues first</strong>
+              </li>
+              <li>
+                High failure rates and client impact should be immediately
+                visible
+              </li>
+              <li>
+                "Jump back in" should show critical issues requiring attention
+              </li>
+            </ul>
+            <div class="quote-box">
+              "I want to know what my high failure rates are, right? Where my
+              client's impact is. So that's what I would have want to see first
+              when I popped it. What are my critical issues?"
+              <div class="quote-author">
+                — Sai Bezawada, Technology Sales Leader
+              </div>
+            </div>
+          </div>
+
+          <div class="finding-card important">
+            <h4>
+              <span class="priority-badge high">High</span> Agent Configuration
+              Complexity
+            </h4>
+            <p>
+              Users don't understand the differences between configuration
+              elements:
+            </p>
+            <ul>
+              <li>
+                <strong>Instructions</strong> vs <strong>Guardrails</strong> vs
+                <strong>Behavior</strong>
+              </li>
+              <li>Various configuration options and their purposes</li>
+              <li>When to use each configuration element</li>
+              <li>Documentation exists but users don't read it</li>
+              <li>Need contextual, step-by-step guidance with examples</li>
+            </ul>
+          </div>
+
+          <div class="finding-card">
+            <h4>
+              <span class="priority-badge medium">Medium</span> Personalization
+              Essential
+            </h4>
+            <p>
+              Templates and examples must be tuned to user's specific interests
+              and use cases.
+            </p>
+            <ul>
+              <li>Generic examples don't resonate with users</li>
+              <li>Need industry-specific templates</li>
+              <li>Use case-specific recommendations</li>
+              <li>Role-based content and workflows</li>
+            </ul>
+            <div class="quote-box">
+              "What would be helpful is if you can tune the pre-prompts to what
+              Ava's interests are... if Ava is looking to extract fields from a
+              passport, then it's something else, right?"
+              <div class="quote-author">
+                — Sai Bezawada, Technology Sales Leader
+              </div>
+            </div>
+          </div>
+
+          <div class="finding-card">
+            <h4>
+              <span class="priority-badge medium">Medium</span> Day-Zero
+              Analytics Problem
+            </h4>
+            <p>Empty analytics provide no value when no agents exist yet.</p>
+            <ul>
+              <li>
+                Analytics relevant for admins and experienced users, not
+                first-time users
+              </li>
+              <li>Should not be prominent on day-zero when no data exists</li>
+              <li>More appropriate for Day-30+ users who have built agents</li>
+              <li>
+                <strong>Solution:</strong> Show key features instead of empty
+                analytics
+              </li>
+            </ul>
+            <div class="quote-box">
+              "When I'm just on board with watsonx Orchestrate, there will be no
+              agents at all, so there will be no analytics at all, so this will
+              not really provide me any value."
+              <div class="quote-author">— Ahmed Azraq, Chief Architect</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time to Value Metrics -->
+      <div class="section">
+        <h2>⏱️ Time to Value Analysis</h2>
+        <div class="metrics-comparison">
+          <div class="metric-box current">
+            <div class="label">Current State</div>
+            <div class="value">10-30</div>
+            <div class="description">minutes to understand value</div>
+          </div>
+          <div class="metric-box target">
+            <div class="label">Target State</div>
+            <div class="value"><5-10</div>
+            <div class="description">minutes to see value</div>
+          </div>
+        </div>
+        <div class="recommendations">
+          <h4>Recommendations to Reduce Time to Value</h4>
+          <ul>
+            <li>Streamline path to first agent preview</li>
+            <li>Provide pre-configured examples that work immediately</li>
+            <li>Show value before requiring configuration</li>
+            <li>Use progressive disclosure for advanced features</li>
+            <li>Focus on "Time to First Agent" as primary metric</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Persona-Specific Needs -->
+      <div class="section">
+        <h2>👤 Persona-Specific Needs & Goals</h2>
+        <table class="persona-table">
+          <thead>
+            <tr>
+              <th>Persona</th>
+              <th>Primary Tasks</th>
+              <th>Time to "Aha"</th>
+              <th>Success Metric</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Bob/Betty (Builder)</strong></td>
+              <td>Building agents, testing, integrations, configuration</td>
+              <td>≤ 5 minutes</td>
+              <td>
+                First agent test run succeeds with ≥1 tool/action executed
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Pooja (Business SME)</strong></td>
+              <td>Creating solutions for business needs without code</td>
+              <td>≤ 10 minutes</td>
+              <td>
+                1 template-based agent/workflow created and run successfully
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Ava (Systems Admin)</strong></td>
+              <td>Connections, models, analytics, credentials, governance</td>
+              <td>≤ 1 hour</td>
+              <td>Tenant provisioned + RBAC configured + first user logs in</td>
+            </tr>
+            <tr>
+              <td><strong>Cassie (End User)</strong></td>
+              <td>Executing tasks with existing agents</td>
+              <td>≤ 5 minutes</td>
+              <td>First real work task completed end-to-end</td>
+            </tr>
+            <tr>
+              <td><strong>Sales/Account Leader</strong></td>
+              <td>Monitoring fleet health, addressing critical issues</td>
+              <td>Immediate</td>
+              <td>
+                Issue-first dashboard, failure alerts, client impact metrics
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Design Directions -->
+      <div class="section">
+        <h2>🎯 Three Proposed Design Directions</h2>
+        <div class="findings-grid">
+          <div class="finding-card">
+            <h4>Direction 1: AI-First Path</h4>
+            <p>
+              Leverage AI chat for tenant setup, Q&A, agent building via natural
+              language, chart generation
+            </p>
+            <p><strong>Goal:</strong> High flexibility and "magic" UX</p>
+          </div>
+          <div class="finding-card">
+            <h4>Direction 2: Curated Funnel</h4>
+            <p>
+              Initial questionnaire → structured checklist by role with clear
+              path to value
+            </p>
+            <p><strong>Goal:</strong> Clarity, structure, guided experience</p>
+          </div>
+          <div class="finding-card">
+            <h4>Direction 3: Educational Sandbox</h4>
+            <p>
+              PLG via interactive tours, sample agents, template previews for
+              learning by doing
+            </p>
+            <p><strong>Goal:</strong> Low friction, hands-on exploration</p>
+          </div>
+        </div>
+
+        <!-- ICE Analysis -->
+        <div class="section" style="margin-top: 32px">
+          <h3>📊 ICE Prioritization (Impact × Confidence ÷ Effort)</h3>
+          <table class="persona-table">
+            <thead>
+              <tr>
+                <th>Direction</th>
+                <th>Impact (1-10)</th>
+                <th>Confidence (1-10)</th>
+                <th>Effort (1-10)</th>
+                <th>ICE Score</th>
+                <th>Research Validation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background: #e5f6ff">
+                <td><strong>Direction 2: Curated Funnel</strong></td>
+                <td>10</td>
+                <td>9</td>
+                <td>6</td>
+                <td><strong>15.0</strong> 🏆</td>
+                <td>
+                  ✅ 5/5 interviews: "Personalization essential"<br />
+                  ✅ Steve: Clear "Aha moments" by persona<br />
+                  ✅ Ronak: "Persona IS important"<br />
+                  ✅ Intercom: Checklist-based progress proven
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Direction 1: AI-First</strong></td>
+                <td>9</td>
+                <td>7</td>
+                <td>8</td>
+                <td><strong>7.9</strong></td>
+                <td>
+                  ✅ Ronak: "Use chat for agent creation"<br />
+                  ✅ Frances: "Chat to curate experience"<br />
+                  ⚠️ Users: "Chat not immediately obvious"<br />
+                  ⚠️ High implementation complexity
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Direction 3: Educational</strong></td>
+                <td>4</td>
+                <td>8</td>
+                <td>7</td>
+                <td><strong>4.6</strong></td>
+                <td>
+                  ❌ Ronak: "Users already know product"<br />
+                  ❌ Ahmed: "Show features, not tutorials"<br />
+                  ❌ All interviews: Focus on action, not education<br />
+                  ❌ Contradicts "Activation Over Education"
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top: 16px; font-size: 14px; color: #525252">
+            <strong>Formula:</strong> ICE Score = (Impact × Confidence) ÷ Effort
+            | Higher score = Higher priority
+          </p>
+        </div>
+
+        <div class="highlight-box" style="margin-top: 24px">
+          <h3>Strategic Decision: Hybrid Approach</h3>
+          <p>
+            <strong>Primary:</strong> Direction 2 (Curated Funnel) - ICE Score
+            15.0
+          </p>
+          <ul>
+            <li>
+              Highest impact (10/10) - addresses #1 user need for
+              personalization
+            </li>
+            <li>
+              Highest confidence (9/10) - validated by ALL 5 interviews +
+              stakeholder consensus + Intercom competitive analysis
+            </li>
+            <li>
+              Medium effort (6/10) - persona selection + domain paths are
+              well-understood patterns
+            </li>
+          </ul>
+          <p style="margin-top: 16px">
+            <strong>Secondary:</strong> Direction 1 (AI-First) - ICE Score 7.9
+          </p>
+          <ul>
+            <li>Use as supporting interface, not primary experience</li>
+            <li>Needs visual clarity improvements before becoming primary</li>
+            <li>High effort (8/10) requires significant AI/UX investment</li>
+          </ul>
+          <p style="margin-top: 16px">
+            <strong>Deprioritized:</strong> Direction 3 (Educational) - ICE
+            Score 4.6
+          </p>
+          <ul>
+            <li>Low impact (4/10) - contradicts research findings</li>
+            <li>Move educational content to contextual help, not Day 0</li>
+          </ul>
+          <p
+            style="
+              margin-top: 16px;
+              padding-top: 16px;
+              border-top: 1px solid #e0e0e0;
+            "
+          >
+            <strong>Current Implementation (v1.2):</strong> Implements Direction
+            2 as primary (Persona + Domain selection), with Direction 1 elements
+            (AI chat) as secondary interface. Direction 3 moved to contextual
+            help.
+          </p>
+        </div>
+      </div>
+
+      <!-- Stakeholder Feedback -->
+      <div class="section">
+        <h2>💬 Stakeholder Feedback Synthesis</h2>
+        <div class="stakeholder-grid">
+          <div class="stakeholder-card">
+            <h4>Ronak (PM)</h4>
+            <div class="role">Product Manager</div>
+            <p>
+              <strong>Key Insight:</strong> "First time users would have already
+              seen the product. So, the goal shouldn't be helping them learn
+              about the product but quickly get them started to an agent"
+            </p>
+            <p>
+              <strong>Impact:</strong> This insight drives the design philosophy
+              toward "Activation Over Education"
+            </p>
+            <ul>
+              <li>Remove educational/tour elements from Day 0</li>
+              <li>Focus exclusively on "Time to First Agent"</li>
+              <li>Assume product awareness, optimize for action</li>
+              <li>Combine agent creation paths into unified AI chat</li>
+            </ul>
+            <p>
+              <strong>On Personalization:</strong> "Knowing Persona and
+              expertise in agent creation is definitely important but should be
+              prioritized later when we bring in Customer Care specific journey"
+            </p>
+            <ul>
+              <li>
+                Persona selection IS important for tailoring the experience
+              </li>
+              <li>
+                Domain-specific journeys (Customer Care, Procurement, etc.) can
+                be phased in later
+              </li>
+              <li>
+                Focus current version (v1.2) on core persona-based experience,
+                add advanced domain paths in future iterations
+              </li>
+            </ul>
+          </div>
+
+          <div class="stakeholder-card">
+            <h4>Frances (Manager)</h4>
+            <div class="role">Design Manager</div>
+            <p>
+              <strong>Recommendation:</strong> "Blend of direction 1 and 2,
+              where we ask specifying questions and use the chat to curate the
+              user's experience"
+            </p>
+            <ul>
+              <li>Supports combining AI chat with structured guidance</li>
+              <li>
+                Recognizes need to balance chat vs. other engagement methods
+              </li>
+              <li>
+                Use chat as primary interface with structured flows underneath
+              </li>
+            </ul>
+          </div>
+
+          <div class="stakeholder-card">
+            <h4>Steve (Design Leader)</h4>
+            <div class="role">Design Leadership</div>
+            <p>
+              <strong>Framework:</strong> Defined "Aha Moments" for each persona
+              with specific time targets and observable triggers
+            </p>
+            <ul>
+              <li>Builder: ≤5 min - First agent test succeeds</li>
+              <li>SME: ≤10 min - Template agent runs without code</li>
+              <li>Admin: ≤1 hour - First user logs in with correct access</li>
+              <li>End User: ≤5 min - First task completed</li>
+            </ul>
+          </div>
+
+          <div class="stakeholder-card">
+            <h4>Robert (Lead)</h4>
+            <div class="role">Technical Lead</div>
+            <p>
+              <strong>Framework:</strong> Global onboarding tasks +
+              domain-specific paths
+            </p>
+            <ul>
+              <li>Global: Invite team, setup workspace, environment, domain</li>
+              <li>
+                Customer Care: Contact center, support desk, human transfers
+              </li>
+              <li>Procurement: Order processing system integrations</li>
+              <li>Domain-specific KPIs and metrics</li>
+            </ul>
+          </div>
+
+          <div class="stakeholder-card">
+            <h4>Andy (Team Member)</h4>
+            <div class="role">Design Team</div>
+            <p>
+              <strong>Key Question:</strong> "What are the major experiential
+              milestones for each persona, and what do they need to support
+              their primary goal?"
+            </p>
+            <ul>
+              <li>Different "first win" for each persona</li>
+              <li>
+                Pooja: Clear path to creating solutions for business needs
+              </li>
+              <li>
+                Bob/Betty: Efficient path to build, test, monitor solutions
+              </li>
+            </ul>
+          </div>
+
+          <div class="stakeholder-card">
+            <h4>Intercom Analysis</h4>
+            <div class="role">Competitive Research</div>
+            <p>
+              <strong>Key Patterns:</strong> Checklist-based progress,
+              multi-purpose chat, progressive disclosure
+            </p>
+            <ul>
+              <li>"0/5 steps" progress tracking</li>
+              <li>
+                One primary action at a time (expand current, collapse others)
+              </li>
+              <li>Multi-purpose chat panel (Agent, Help, News, Support)</li>
+              <li>Short, skippable questionnaire (3-6 questions)</li>
+              <li>Separate core setup from optional "Go further" items</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Competitive Insights -->
+      <div class="competitive-section">
+        <h3>🏆 Competitive Insights from Intercom</h3>
+        <p>
+          Analysis of Intercom's Day 0 onboarding revealed several best
+          practices that should be adopted:
+        </p>
+        <ul>
+          <li>
+            <strong>Progress Visibility is Critical:</strong> "0/5 steps" beats
+            vague "getting started" - users need to know where they are and
+            what's left
+          </li>
+          <li>
+            <strong>One Primary Action at a Time:</strong> Expand current step,
+            collapse others - dramatically reduces cognitive load
+          </li>
+          <li>
+            <strong>Multi-Purpose Chat is Genius:</strong> Single panel with 4
+            tabs (Messages, Live chats, News, Help) consolidates all
+            communication in one place
+          </li>
+          <li>
+            <strong>Questionnaires Should Be Short & Skippable:</strong> 3-6
+            questions maximum, always allow skip, show progress
+          </li>
+          <li>
+            <strong>Separate Core from Optional:</strong> "Get set up"
+            (required) vs "Go further" (optional) - don't mix must-do with
+            nice-to-have
+          </li>
+        </ul>
+      </div>
+
+      <!-- Recommendations -->
+      <div class="action-items">
+        <h3>🎯 Strategic Recommendations</h3>
+
+        <div class="action-phase">
+          <h4>Current Implementation (v1.2)</h4>
+          <ul>
+            <li>
+              <strong>Design unified AI chat interface</strong> for agent
+              creation (combine "from scratch" and "search catalog")
+            </li>
+            <li>
+              <strong>Add "Needs Attention" section</strong> to replace empty
+              analytics - show blockers like connection setup, RBAC, guardrails
+            </li>
+            <li>
+              <strong>Remove Analytics/Assets from Day 0</strong> - show key
+              features instead for first-time users
+            </li>
+            <li>
+              <strong>Add tooltips to OOTB agents</strong> with contextual
+              examples (e.g., "Invoice Extractor - Process 100 invoices/day")
+            </li>
+            <li>
+              <strong>Implement persona selection</strong> - persona and
+              expertise level are important for tailoring the experience
+            </li>
+            <li>
+              <strong>Add progress milestones</strong> - "0/5 steps" checklist
+              with clear completion tracking
+            </li>
+            <li>
+              <strong>Implement issue-first dashboard</strong> for experienced
+              users (Sales Leaders, Account Managers)
+            </li>
+          </ul>
+        </div>
+
+        <div class="action-phase">
+          <h4>Future Enhancements</h4>
+          <ul>
+            <li>
+              <strong>Connection setup wizard</strong> - guided flow for
+              ServiceNow, Salesforce, SAP, Workday integrations
+            </li>
+            <li>
+              <strong>RBAC quick setup</strong> - clarify admin vs builder
+              roles, provide visibility into existing connections
+            </li>
+            <li>
+              <strong>Domain-specific paths</strong> - Customer Care onboarding
+              with contact center integrations
+            </li>
+            <li>
+              <strong>KPI tracking</strong> - deflection %, containment,
+              customer satisfaction metrics
+            </li>
+            <li>
+              <strong>Configuration guidance</strong> - in-context tooltips
+              explaining Instructions vs Guardrails vs Behavior
+            </li>
+            <li>
+              <strong>Personalized templates</strong> - tune examples to user's
+              industry and use case interests
+            </li>
+          </ul>
+        </div>
+
+        <div class="action-phase">
+          <h4>Long-term Vision (v2.0+)</h4>
+          <ul>
+            <li>
+              <strong>Full domain-specific onboarding</strong> - Procurement,
+              HR, IT Service Management paths
+            </li>
+            <li>
+              <strong>Advanced personalization</strong> - AI-driven
+              recommendations based on user behavior and goals
+            </li>
+            <li>
+              <strong>Comprehensive analytics</strong> - post-Day 0 dashboard
+              with fleet health, usage patterns, ROI metrics
+            </li>
+            <li>
+              <strong>Team collaboration features</strong> - shared workspaces,
+              agent templates, knowledge bases
+            </li>
+            <li>
+              <strong>Integration cookbooks</strong> - step-by-step guides for
+              common system integrations
+            </li>
+            <li>
+              <strong>Multi-agent orchestration examples</strong> - showcase
+              complex workflows and agent coordination
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Design Principles -->
+      <div class="section">
+        <h2>🎨 Design Principles</h2>
+        <div class="findings-grid">
+          <div class="finding-card">
+            <h4>1. Activation Over Education</h4>
+            <p>
+              Users already know the product. Focus on helping them DO
+              something, not learn about it.
+            </p>
+          </div>
+          <div class="finding-card">
+            <h4>2. Chat-First, Structure-Underneath</h4>
+            <p>
+              AI chat as primary interface with structured flows guiding the
+              conversation.
+            </p>
+          </div>
+          <div class="finding-card">
+            <h4>3. Context Over Empty States</h4>
+            <p>
+              No empty analytics/assets. Show "Needs Attention" items, examples,
+              and tooltips instead.
+            </p>
+          </div>
+          <div class="finding-card">
+            <h4>4. Persona-Aware Experience</h4>
+            <p>
+              Persona and expertise level are important for tailoring the
+              experience. Domain-specific journeys (Customer Care, etc.) can be
+              prioritized in later phases.
+            </p>
+          </div>
+          <div class="finding-card">
+            <h4>5. Milestone-Driven Progress</h4>
+            <p>
+              Clear progress indicators, celebrate "Aha moments", track time to
+              value.
+            </p>
+          </div>
+          <div class="finding-card">
+            <h4>6. Issue-First for Experienced Users</h4>
+            <p>
+              Prioritize critical problems over general analytics for Sales
+              Leaders and Account Managers.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success Metrics -->
+      <div class="section">
+        <h2>📊 Success Metrics by Persona</h2>
+        <table class="persona-table">
+          <thead>
+            <tr>
+              <th>Persona</th>
+              <th>Time to First Agent</th>
+              <th>Key Metrics</th>
+              <th>Success Criteria</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Bob/Betty (Builder)</strong></td>
+              <td><5 minutes</td>
+              <td>Test success rate >95%, Agents deployed 3+ in first week</td>
+              <td>Agent executes with ≥1 tool/action, Component reuse >50%</td>
+            </tr>
+            <tr>
+              <td><strong>Pooja (Business SME)</strong></td>
+              <td><10 minutes</td>
+              <td>No-code success 100%, Workflows created 2+ in first month</td>
+              <td>
+                Workflow runs without writing code, IT ticket reduction
+                measurable
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Ava (Admin)</strong></td>
+              <td><1 hour</td>
+              <td>
+                RBAC configuration complete day 1, Security incidents zero
+              </td>
+              <td>
+                User logs in with correct access, Smooth first login experience
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Cassie (End User)</strong></td>
+              <td><5 minutes</td>
+              <td>Task completion rate >90%, Daily usage 3+ days/week</td>
+              <td>
+                Real work task completed end-to-end, Time savings measurable
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Dave (Exec)</strong></td>
+              <td><1 week</td>
+              <td>Deployed agents visible, Usage metrics tracked</td>
+              <td>Governance + telemetry visible, ROI visibility clear</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p><strong>watsonx Orchestrate User Research</strong></p>
+        <p>Document Status: Complete | Last Updated: April 10, 2026</p>
+        <p>
+          Based on 5 user interviews (240 minutes) + stakeholder feedback
+          analysis
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

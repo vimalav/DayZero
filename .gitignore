@@ -56,6 +56,9 @@ react-app/
 # Roo skills
 .roo/
 
+# Room Guide materials (internal only)
+room-guide/
+
 # Environment variables
 .env
 .env.local

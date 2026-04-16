@@ -1,0 +1,1131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      watsonx Orchestrate User Research Insights - Interview Analysis
+    </title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          "IBM Plex Sans",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        line-height: 1.6;
+        color: #161616;
+        background: #f4f4f4;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        background: white;
+        min-height: 100vh;
+      }
+
+      header {
+        border-bottom: 3px solid #0f62fe;
+        padding-bottom: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        font-weight: 400;
+        color: #161616;
+        margin-bottom: 0.5rem;
+      }
+
+      .subtitle {
+        font-size: 1.25rem;
+        color: #525252;
+        margin-bottom: 0.5rem;
+      }
+
+      .meta {
+        font-size: 0.875rem;
+        color: #8d8d8d;
+      }
+
+      h2 {
+        font-size: 2rem;
+        font-weight: 400;
+        color: #161616;
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #e0e0e0;
+        padding-bottom: 0.5rem;
+      }
+
+      h3 {
+        font-size: 1.5rem;
+        font-weight: 400;
+        color: #161616;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .executive-summary {
+        background: #e8f4ff;
+        border-left: 4px solid #0f62fe;
+        padding: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .key-findings {
+        background: white;
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+        border: 1px solid #0f62fe;
+      }
+
+      .key-findings h3 {
+        margin-top: 0;
+        color: #0f62fe;
+      }
+
+      .key-findings ul {
+        margin-left: 1.5rem;
+        margin-top: 1rem;
+      }
+
+      .key-findings li {
+        margin-bottom: 0.75rem;
+      }
+
+      .insight-card {
+        background: white;
+        border-left: 4px solid #0f62fe;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .insight-card h3 {
+        margin-top: 0;
+      }
+
+      .quote {
+        background: #f4f4f4;
+        border-left: 3px solid #8a3ffc;
+        padding: 1rem;
+        margin: 1rem 0;
+        font-style: italic;
+      }
+
+      .participant {
+        color: #0f62fe;
+        font-weight: 600;
+        font-style: normal;
+      }
+
+      .theme-section {
+        margin-bottom: 3rem;
+      }
+
+      .severity-critical {
+        border-left-color: #da1e28;
+      }
+
+      .severity-high {
+        border-left-color: #ff832b;
+      }
+
+      .severity-medium {
+        border-left-color: #f1c21b;
+      }
+
+      .tag {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background: #e0e0e0;
+        border-radius: 12px;
+        font-size: 0.875rem;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .tag-critical {
+        background: #fff1f1;
+        color: #da1e28;
+      }
+
+      .tag-high {
+        background: #fff2e8;
+        color: #ff832b;
+      }
+
+      .tag-medium {
+        background: #fcf4d6;
+        color: #8e6a00;
+      }
+
+      .tag-positive {
+        background: #d0e2ff;
+        color: #0043ce;
+      }
+
+      ul,
+      ol {
+        margin-left: 2rem;
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      li {
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        margin-bottom: 1rem;
+      }
+
+      .recommendations {
+        background: #e5f6ff;
+        padding: 2rem;
+        margin-top: 3rem;
+        border-radius: 4px;
+      }
+
+      .recommendations h2 {
+        margin-top: 0;
+        color: #0f62fe;
+      }
+
+      .recommendations h3 {
+        color: #0f62fe;
+        margin-top: 2rem;
+      }
+
+      .methodology {
+        background: #f4f4f4;
+        padding: 2rem;
+        margin-top: 3rem;
+        border-radius: 4px;
+      }
+
+      footer {
+        margin-top: 4rem;
+        padding-top: 2rem;
+        border-top: 1px solid #e0e0e0;
+        text-align: center;
+        color: #8d8d8d;
+        font-size: 0.875rem;
+      }
+
+      footer p {
+        margin-bottom: 0.5rem;
+      }
+
+      strong {
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>watsonx Orchestrate User Research Insights</h1>
+        <p class="subtitle">
+          Analysis of 5 User Interview Transcripts - Day Zero & Day 30
+          Experience
+        </p>
+        <p class="meta">
+          Research Period: April 6-10, 2026 | Participants: 5 (Client Engineers,
+          Customer Success, Sales Leaders, Architects)
+        </p>
+      </header>
+
+      <section class="executive-summary">
+        <h2>Executive Summary</h2>
+        <p>
+          This report synthesizes insights from 5 in-depth user interviews
+          conducted with IBM professionals who work directly with watsonx
+          Orchestrate customers. Participants included Client Engineers
+          (Cameron, Joe, Ankitha), Account Technical Leader (Richard), Customer
+          Success Engineer (Dana), Technology Sales Leader (Sai), and Chief
+          Architect (Ahmed). The research focused on understanding pain points
+          in the onboarding experience and gathering feedback on proposed Day
+          Zero and Day 30 landing page designs.
+        </p>
+
+        <div class="key-findings">
+          <h3>Critical Findings</h3>
+          <ul>
+            <li>
+              <strong>RBAC is a fundamental missing piece</strong> - Current
+              "everyone has access to everything" model creates confusion and
+              doesn't match enterprise expectations
+            </li>
+            <li>
+              <strong>Integration complexity is the #1 pain point</strong> -
+              Connecting to external systems (ServiceNow, SAP, Workday) blocks
+              progress
+            </li>
+            <li>
+              <strong>Generic templates don't resonate</strong> - "Chat with
+              documents" and "Invoice extractor" examples don't showcase agentic
+              capabilities or match user needs
+            </li>
+            <li>
+              <strong>Persona-based experiences are essential</strong> - Admins,
+              AI Engineers, and Business Users have completely different needs
+            </li>
+            <li>
+              <strong
+                >Day 30 dashboard received strong positive feedback</strong
+              >
+              - Analytics, monitoring, and "needs attention" features align with
+              user expectations
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="theme-section">
+        <h2>Theme 1: Role-Based Access Control (RBAC) Confusion</h2>
+        <span class="tag tag-critical">Critical</span>
+        <span class="tag">Day Zero</span>
+        <span class="tag">Architecture</span>
+
+        <div class="insight-card severity-critical">
+          <h3>Everyone Has Access to Everything - Major Enterprise Blocker</h3>
+          <p>
+            <strong>Problem:</strong> The current model where all users see the
+            same interface and have access to all features doesn't align with
+            enterprise security and workflow expectations.
+          </p>
+
+          <div class="quote">
+            <p class="participant">Joseph (Client Engineer):</p>
+            <p>
+              "The problem is orchestrate everybody's access to everything, at
+              least that's how it is. If you think of a traditional from a
+              traditional RBAC enterprise approach, typically connections is
+              something done by admins. Typically it's something that usually
+              has somebody who actually has the credentials to access the
+              external systems."
+            </p>
+          </div>
+
+          <div class="quote">
+            <p class="participant">Joseph:</p>
+            <p>
+              "An AI engineer typically does not have the credentials to connect
+              to the back end systems. So if for example I wanna build an ask IT
+              agent... the AI engineer designing the Ask IT solution wouldn't be
+              able to connect to a ServiceNow instead because they usually don't
+              have admin level access... and at that point basically they're
+              stuck."
+            </p>
+          </div>
+
+          <p><strong>Impact:</strong></p>
+          <ul>
+            <li>
+              AI Engineers get blocked waiting for admins to create connections
+            </li>
+            <li>No clear way to know if required connections exist</li>
+            <li>Security concerns about credential access</li>
+            <li>Confusion about who should do what tasks</li>
+          </ul>
+
+          <p>
+            <strong>Recommendation:</strong> Implement role-based landing pages
+            with different views for Admin, AI Engineer/Builder, and Business
+            User personas.
+          </p>
+        </div>
+
+        <div class="insight-card severity-high">
+          <h3>Three Distinct Personas Identified</h3>
+          <p><strong>Admin Persona:</strong></p>
+          <ul>
+            <li>
+              Manages connections to external systems (ServiceNow, SAP, Workday)
+            </li>
+            <li>Handles credentials and security (Vault integration)</li>
+            <li>Monitors analytics, performance, and system health</li>
+            <li>Manages models and policies</li>
+            <li>
+              Needs: Connection management, analytics dashboard, system
+              monitoring
+            </li>
+          </ul>
+
+          <p><strong>AI Engineer/Builder Persona:</strong></p>
+          <ul>
+            <li>Designs and builds agents</li>
+            <li>Needs to know what connections are available</li>
+            <li>Configures agent behavior, tools, knowledge</li>
+            <li>Tests and iterates on agent performance</li>
+            <li>
+              Needs: Agent builder, connection visibility, testing tools,
+              documentation
+            </li>
+          </ul>
+
+          <p><strong>Business User Persona:</strong></p>
+          <ul>
+            <li>Uses pre-built agents or simple templates</li>
+            <li>Low-code/no-code preference</li>
+            <li>Domain-specific use cases</li>
+            <li>Needs: Quick starts, templates, guided experiences</li>
+          </ul>
+
+          <div class="quote">
+            <p class="participant">Joseph:</p>
+            <p>
+              "If somebody is their main job is to just put in credentials and
+              manage credentials and make connections to systems, then they
+              really don't want to see a lot of stuff that's here... Some people
+              are just interested in looking at analytics and status and make
+              sure everybody is green, everything is green... But they don't.
+              They're not gonna build agents."
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="theme-section">
+        <h2>Theme 2: Integration & Connection Challenges</h2>
+        <span class="tag tag-critical">Critical</span>
+        <span class="tag">Day Zero</span>
+        <span class="tag">Technical</span>
+
+        <div class="insight-card severity-critical">
+          <h3>Integration is the #1 Pain Point</h3>
+          <p>
+            <strong>Problem:</strong> Connecting to external systems (tools and
+            knowledge sources) is where users struggle most and spend the most
+            time.
+          </p>
+
+          <div class="quote">
+            <p class="participant">Joseph:</p>
+            <p>
+              "A lot of questions will come in around like integration.
+              Integrations and domain agents. Those are usually a lot of the
+              questions that come up in terms of how can I do this, how can I
+              connect to this external function, how to integrate with it."
+            </p>
+          </div>
+
+          <div class="quote">
+            <p class="participant">Cameron (Client Engineer):</p>
+            <p>
+              "I think integration points is definitely the hardest point to
+              kind of figure out from, you know, looking around or the
+              documentation. I think that's something that's kinda hard."
+            </p>
+          </div>
+
+          <p><strong>Common Integration Needs:</strong></p>
+          <ul>
+            <li>ServiceNow (for Ask IT agents)</li>
+            <li>SAP, Workday (for HR/procurement agents)</li>
+            <li>Salesforce (for sales agents)</li>
+            <li>Milvus (for vector databases)</li>
+            <li>watsonx.data (for data ingestion)</li>
+            <li>Document processing systems</li>
+          </ul>
+
+          <p>
+            <strong>Recommendation:</strong> Create integration-focused quick
+            start guides and make connection status visible to builders.
+          </p>
+        </div>
+
+        <div class="insight-card severity-high">
+          <h3>Need for Integration Cookbooks</h3>
+          <div class="quote">
+            <p class="participant">Cameron:</p>
+            <p>
+              "Maybe like a top three cookbooks of, you know, here's what you
+              can do with orchestrate... One using data ingestion with
+              watsonx.data. How you connect to Milvus? Maybe you have another
+              one about document processing things that like clients kind of
+              come in with a specific use case and it's not immediately clear
+              how to do that in orchestrate."
+            </p>
+          </div>
+
+          <p><strong>Suggested Cookbook Topics:</strong></p>
+          <ul>
+            <li>Connecting to ServiceNow for Ask IT agents</li>
+            <li>Setting up watsonx.data integration</li>
+            <li>Configuring Milvus vector database</li>
+            <li>Document processing workflows</li>
+            <li>SAP/Workday integration for HR use cases</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="theme-section">
+        <h2>Theme 3: Day Zero Experience - Template & Example Feedback</h2>
+        <span class="tag tag-high">High Priority</span>
+        <span class="tag">Day Zero</span>
+        <span class="tag">Content</span>
+
+        <div class="insight-card severity-high">
+          <h3>"Chat with Documents" Doesn't Showcase Agentic Value</h3>
+          <p>
+            <strong>Problem:</strong> The proposed "Chat with documents" example
+            is seen as generic RAG, not true agentic AI, and doesn't
+            differentiate Orchestrate.
+          </p>
+
+          <div class="quote">
+            <p class="participant">Joseph:</p>
+            <p>
+              "Chat with documents have... I guess to some level people think
+              it's old news and they don't think necessarily it's agents. Chat
+              with documents is Gen. AI is really more generative AI than
+              agentic AI... I think Orchestra can do a lot more than that. And
+              so I think it gives us an idea about some things that Orchestra
+              can do, yeah, but I think it may be not exposing the right
+              capabilities."
+            </p>
+          </div>
+
+          <div class="quote">
+            <p class="participant">Joseph:</p>
+            <p>
+              "People will not be very excited about chat with documents because
+              it's just been there for a long time. There are many, many
+              solutions that exist and do that, but it's definitely something
+              Orchestrator can do. But I don't think it's the only thing it's
+              like it's main power."
+            </p>
+          </div>
+        </div>
+
+        <div class="insight-card severity-high">
+          <h3>"Invoice Extractor" is Too Specific</h3>
+          <p>
+            <strong>Problem:</strong> Invoice extraction is too narrow and
+            doesn't resonate unless users have that exact use case.
+          </p>
+
+          <div class="quote">
+            <p class="participant">Richard (Account Technical Leader):</p>
+            <p>
+              "We're only presenting invoice extractor as an option. And maybe,
+              what's the purpose of that? Just help me understand that. Why
+              would we present this?"
+            </p>
+          </div>
+
+          <div class="quote">
+            <p class="participant">Sai (Sales Leader):</p>
+            <p>
+              "If my job is to do pre-authorize, when I log in, if you show me
+              this, these are interesting, but this is not my job. My job is to
+              build agents around pre-auth. So invoice extractor and chat with
+              documents is going to be meaningless."
+            </p>
+          </div>
+
+          <p>
+            <strong>Better Approach:</strong> Use "Document Extraction" as the
+            category with invoice as an example, making it clear it applies to
+            contracts, receipts, forms, etc.
+          </p>
+        </div>
+
+        <div class="insight-card severity-medium">
+          <h3>Need for Domain-Specific Examples</h3>
+          <p>
+            <strong>Recommendation:</strong> Show Client Zero use cases that
+            demonstrate multi-agent orchestration and tool integration.
+          </p>
+
+          <div class="quote">
+            <p class="participant">Cameron:</p>
+            <p>
+              "I think a lot of clients resonate with the client 0 strategy and
+              they'll see like a demo and ask procurement, ask HR and they kind
+              of get it. They get orchestrate and they're like, OK, so how do I
+              do that? You know, so maybe if they saw a client 0 use case."
+            </p>
+          </div>
+
+          <p><strong>Suggested Examples:</strong></p>
+          <ul>
+            <li>Ask HR (employee onboarding, benefits questions)</li>
+            <li>Ask IT (ServiceNow integration, ticket management)</li>
+            <li>Ask Procurement (purchase orders, vendor management)</li>
+            <li>Pre-authorization agent (healthcare)</li>
+            <li>Legal document analysis</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="theme-section">
+        <h2>Theme 4: Agent Configuration Complexity</h2>
+        <span class="tag tag-high">High Priority</span>
+        <span class="tag">Builder Experience</span>
+
+        <div class="insight-card severity-high">
+          <h3>Configuration Options Are Confusing</h3>
+          <p>
+            <strong>Problem:</strong> Users don't understand the difference
+            between Instructions, Guardrails, and Behavior fields.
+          </p>
+
+          <div class="quote">
+            <p class="participant">Joseph:</p>
+            <p>
+              "There are a lot of options to configure an agent. I don't think
+              it's always clear to them what the different options mean... A lot
+              of time we spend extra effort explaining what each step means. So
+              what's the right way to create a description?"
+            </p>
+          </div>
+
+          <div class="quote">
+            <p class="participant">Joseph:</p>
+            <p>
+              "One question I don't even know very clearly is what's the
+              difference between instructions and guardrails, right? And
+              behaviour. It's still not clear to me. I mean I I don't use
+              guardrails, but I know we added them for a reason, but I don't
+              personally know what they're for and documentation says something
+              but it's not very clear how to use those."
+            </p>
+          </div>
+
+          <p>
+            <strong>Impact:</strong> Users struggle to tune agents to work
+            correctly, especially as complexity increases with more tools and
+            knowledge.
+          </p>
+        </div>
+
+        <div class="insight-card severity-medium">
+          <h3>Agent Tuning is Time-Consuming</h3>
+          <div class="quote">
+            <p class="participant">Joseph:</p>
+            <p>
+              "The other big effort that we deal a lot with is is is when things
+              don't work, when basically you do something with the agent, you
+              build something. And maybe your description you put is not very
+              good, or maybe the tools you provided are not very very clear in
+              terms of natural language, or the behavior you provided is not
+              adequate."
+            </p>
+          </div>
+
+          <p>
+            <strong>Recommendation:</strong> Provide in-context help, examples,
+            and AI assistance for writing effective descriptions, instructions,
+            and guardrails.
+          </p>
+        </div>
+      </section>
+
+      <section class="theme-section">
+        <h2>Theme 5: Day Zero UI/UX Feedback</h2>
+        <span class="tag tag-medium">Medium Priority</span>
+        <span class="tag">Day Zero</span>
+        <span class="tag">UI/UX</span>
+
+        <div class="insight-card severity-medium">
+          <h3>Consolidate Similar Actions</h3>
+          <p>
+            <strong>Problem:</strong> "Create my first agent" and "Guide me to
+            create an agent" feel redundant.
+          </p>
+
+          <div class="quote">
+            <p class="participant">Cameron:</p>
+            <p>
+              "Wonder if those 3 can all be consolidated into one, right? Like
+              you're all creating an agent... It's not immediately clear to me
+              what the difference between the the first create my own agent and
+              then guide me to create my own agent. It feels like almost the
+              same action."
+            </p>
+          </div>
+
+          <div class="quote">
+            <p class="participant">Joseph:</p>
+            <p>
+              "Create my agent and got my agent would be 1 tile and explore
+              agent will be another tile. So there'll be two big tiles instead
+              of four."
+            </p>
+          </div>
+        </div>
+
+        <div class="insight-card severity-medium">
+          <h3>Ask Documentation Should Be Contextual</h3>
+          <div class="quote">
+            <p class="participant">Joseph:</p>
+            <p>
+              "As documentation, I think it's always good thing to provide, but
+              in my mind you can provide that as a as as an agent in as a pop-up
+              agent, right? It doesn't have to be right. I mean tile in in your
+              first interface... You could have it up there a button next to the
+              user profile or you could have it at the bottom agent at the
+              bottom right."
+            </p>
+          </div>
+
+          <p>
+            <strong>Recommendation:</strong> Move documentation to a persistent
+            help agent (bottom right) rather than a main tile.
+          </p>
+        </div>
+
+        <div class="insight-card severity-medium">
+          <h3>Analytics Section Not Relevant for Day Zero</h3>
+          <div class="quote">
+            <p class="participant">Joseph:</p>
+            <p>
+              "Again, who's your persona? If you're talking to the AI engineer,
+              the answer is no. If you're talking to an admin, the answer is
+              yes. So if you don't have separation personas, I would say no
+              because your main user would be AI engineers."
+            </p>
+          </div>
+
+          <div class="quote">
+            <p class="participant">Richard:</p>
+            <p>
+              "It's kind of taken up real estate that doesn't matter. If we'll
+              never use this screen after the first agent."
+            </p>
+          </div>
+        </div>
+
+        <div class="insight-card severity-medium">
+          <h3>Add "Bring Your Own Agent" Option</h3>
+          <div class="quote">
+            <p class="participant">Cameron:</p>
+            <p>
+              "A lot of people are kind of coming in with external agents.
+              They're not building with Orchestrate and it feels like at least
+              for the things I've heard from the product team or on the
+              governance and things like that, that's almost like the new
+              positioning because there's so many different apps that create
+              agents nowadays."
+            </p>
+          </div>
+
+          <div class="quote">
+            <p class="participant">Joseph:</p>
+            <p>
+              "Maybe three ones, right? One is create my first agent, second is
+              explored catalog, third one is bring my own agent or or yeah or or
+              or yeah, integrated with my own and bring my own agent."
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="theme-section">
+        <h2>Theme 6: Day 30 Dashboard - Strong Positive Reception</h2>
+        <span class="tag tag-positive">Positive Feedback</span>
+        <span class="tag">Day 30</span>
+
+        <div class="insight-card">
+          <h3>Day 30 Dashboard Meets User Needs</h3>
+          <p><strong>Key Success Factors:</strong></p>
+          <ul>
+            <li>
+              "Needs Attention" section surfaces critical issues immediately
+            </li>
+            <li>
+              Analytics and monitoring capabilities address long-standing gaps
+            </li>
+            <li>Historical work ("Jump back in") provides quick access</li>
+            <li>AI assistant for root cause analysis is valuable</li>
+          </ul>
+
+          <div class="quote">
+            <p class="participant">Dana (Customer Success):</p>
+            <p>
+              "I like this. This is very similar to what I had in mind as a
+              second, you know, as a frequent user. I would naturally go to the
+              needs attention, especially if I see higher risks and things like
+              that. So, you know, view traces and so on. That would be what
+              would attract me right away."
+            </p>
+          </div>
+
+          <div class="quote">
+            <p class="participant">Dana:</p>
+            <p>
+              "I think this is more of an end to end platform where you're doing
+              all of the governance in-house... In the current orchestrate,
+              because we didn't have agent monitoring. The analytics where
+              clients were always saying the analytics were not enough."
+            </p>
+          </div>
+
+          <div class="quote">
+            <p class="participant">Ahmed (Chief Architect):</p>
+            <p>
+              "If you ask me the same questions, I would actually give the
+              highest score actually for everything here. It's really amazing."
+            </p>
+          </div>
+        </div>
+
+        <div class="insight-card severity-medium">
+          <h3>Missing: Clear Path to Create New Agents</h3>
+          <p>
+            <strong>Problem:</strong> Day 30 dashboard focuses on monitoring but
+            doesn't provide obvious way to create new agents.
+          </p>
+
+          <div class="quote">
+            <p class="participant">Sai:</p>
+            <p>
+              "This looks like an operational Asian dashboard to me... From
+              here, I can't get to build an agent mode at all, right? Like, I
+              mean, because if you look at everything you're saying is
+              degradation of performance, root cause analysis, you want to fix
+              the latest agent. This is inadvertently giving me that this is an
+              operations team."
+            </p>
+          </div>
+
+          <div class="quote">
+            <p class="participant">Ahmed:</p>
+            <p>
+              "Where is where is the link here to build to create a new agent?
+              Front and center... I guess this is nice for managing the existing
+              agents... I guess it's just missing the creation, the development
+              port."
+            </p>
+          </div>
+
+          <p>
+            <strong>Recommendation:</strong> Add prominent "Create Agent" button
+            and access to agent catalog in Day 30 view.
+          </p>
+        </div>
+      </section>
+
+      <section class="theme-section">
+        <h2>Theme 7: Learning & Onboarding Support</h2>
+        <span class="tag tag-medium">Medium Priority</span>
+        <span class="tag">Education</span>
+
+        <div class="insight-card severity-medium">
+          <h3>Need for Guided Experiences</h3>
+          <div class="quote">
+            <p class="participant">Cameron:</p>
+            <p>
+              "I think it would be helpful to have like a tutorial almost like
+              maybe like a prebuilt agent that you can go into and preview off
+              to the side. This is like my first agent and this has like you
+              know an example knowledge base and things like that."
+            </p>
+          </div>
+
+          <div class="quote">
+            <p class="participant">Richard:</p>
+            <p>
+              "Having even a sample invoice extractor or a sample chat with
+              documents where you could... I mean, you could even have this be
+              not even like A scripted demo that's not really using the backend
+              tools."
+            </p>
+          </div>
+
+          <div class="quote">
+            <p class="participant">Ahmed:</p>
+            <p>
+              "Maybe we could have more guided experience more than create my
+              first agent... I like that you mentioned actually 3 to 5 minutes,
+              because I guess the user would need something very fast actually
+              in the beginning."
+            </p>
+          </div>
+        </div>
+
+        <div class="insight-card severity-medium">
+          <h3>Ask Documentation Agent is Being Built</h3>
+          <p>
+            <strong>Positive Development:</strong> Team is building an AI agent
+            trained on lab guides, documentation, and best practices.
+          </p>
+
+          <div class="quote">
+            <p class="participant">Joseph:</p>
+            <p>
+              "We have an agent that can help customers answer questions around
+              those. So that's something that we're doing... It has three
+              supporting agents. One of them is Ask Docs. It's integrated with
+              all IBM docs and answer questions about that. The second agent is
+              Ask Lab Guide... And then there's a third one for kind of like
+              general best practices around building with the product."
+            </p>
+          </div>
+
+          <p>
+            <strong>Recommendation:</strong> Integrate this agent prominently in
+            the onboarding experience.
+          </p>
+        </div>
+
+        <div class="insight-card severity-medium">
+          <h3>Experience Level Matters</h3>
+          <div class="quote">
+            <p class="participant">Cameron:</p>
+            <p>
+              "Maybe we could even do like when you first get on the page you
+              give like a rating one to five how familiar you are with agentic
+              tools or AI and then you know if someone gives A1. Then you can
+              maybe have a chat with documents, 'cause that might be good for
+              someone who doesn't really know what they're doing. But if you're
+              coming in as an experienced AI engineer, you give it like a little
+              four, like maybe don't show that option or show a more advanced
+              option."
+            </p>
+          </div>
+
+          <p>
+            <strong>Recommendation:</strong> Consider skill-level based
+            onboarding paths or at minimum show estimated time and complexity
+            for each option.
+          </p>
+        </div>
+      </section>
+
+      <section class="theme-section">
+        <h2>Theme 8: Time to Value</h2>
+        <span class="tag tag-high">High Priority</span>
+        <span class="tag">Metrics</span>
+
+        <div class="insight-card severity-high">
+          <h3>Ease of Building is a Key Strength</h3>
+          <div class="quote">
+            <p class="participant">Joseph:</p>
+            <p>
+              "The main thing was the ease of building, right? It is easy to
+              build an agent in a few clicks and you have something that seems
+              to work, right? And I think that's a positive experience. That's
+              the one that that's the main thing I would say, especially for
+              somebody who's not a a programmer."
+            </p>
+          </div>
+
+          <p>
+            <strong>Goal:</strong> Maintain this strength while addressing
+            integration and configuration challenges.
+          </p>
+        </div>
+
+        <div class="insight-card severity-medium">
+          <h3>Set Clear Time Expectations</h3>
+          <div class="quote">
+            <p class="participant">Joseph:</p>
+            <p>
+              "The create my first agent doesn't give them any an expectation in
+              terms of effort for how long it's gonna take them to build an
+              agent... If we can do something maybe with effects or something in
+              terms of like get started quickly or quick start versus or build
+              an agent in whatever 20 minutes."
+            </p>
+          </div>
+
+          <div class="quote">
+            <p class="participant">Cameron:</p>
+            <p>
+              "Maybe even having like if you don't wanna do a survey, you can
+              have like a little at the bottom of each tile estimated 20 minutes
+              experience level medium or something like that, just so that they
+              know what they're getting in into."
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="theme-section">
+        <h2>Theme 9: Governance & Evaluation</h2>
+        <span class="tag tag-high">High Priority</span>
+        <span class="tag">Enterprise</span>
+
+        <div class="insight-card severity-high">
+          <h3>Evaluate/Govern Agent as a Starting Point</h3>
+          <div class="quote">
+            <p class="participant">Joseph:</p>
+            <p>
+              "Another key big item is evaluate my agent, right? Create my
+              agent, explore the catalog, but create, evaluate my agent. And I
+              think that's something could be a very interesting starting point
+              because somebody may have built an agent and they just want to
+              figure out how orchestra can help them evaluate and govern it...
+              because that's a big blocker for a lot of people because it's easy
+              to build, it's hard to govern."
+            </p>
+          </div>
+
+          <p>
+            <strong>Use Case:</strong> Users who built agents elsewhere
+            (LangChain, custom code) want to use Orchestrate for governance and
+            monitoring.
+          </p>
+
+          <p>
+            <strong>Recommendation:</strong> Add "Evaluate/Govern My Agent" as a
+            primary Day Zero option alongside "Create" and "Explore Catalog".
+          </p>
+        </div>
+      </section>
+
+      <section class="recommendations">
+        <h2>Prioritized Recommendations</h2>
+
+        <h3>Critical (Must Have)</h3>
+        <ol>
+          <li>
+            <strong>Implement Role-Based Landing Pages</strong>
+            <ul>
+              <li>Admin view: Connections, models, policies, analytics</li>
+              <li>
+                Builder view: Agent creation, connection visibility, testing
+              </li>
+              <li>Business user view: Templates, guided experiences</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Make Connection Status Visible to Builders</strong>
+            <ul>
+              <li>Show what connections exist and are available</li>
+              <li>
+                Indicate what connections are needed for specific use cases
+              </li>
+              <li>Provide clear path to request connections from admins</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Replace Generic Examples with Client Zero Use Cases</strong>
+            <ul>
+              <li>Ask HR, Ask IT, Ask Procurement</li>
+              <li>Show multi-agent orchestration capabilities</li>
+              <li>Demonstrate tool integration and domain agents</li>
+            </ul>
+          </li>
+        </ol>
+
+        <h3>High Priority (Should Have)</h3>
+        <ol>
+          <li>
+            <strong>Create Integration Cookbooks</strong>
+            <ul>
+              <li>ServiceNow connection guide</li>
+              <li>watsonx.data integration</li>
+              <li>Milvus setup</li>
+              <li>Document processing workflows</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Add "Bring Your Own Agent" Option</strong>
+            <ul>
+              <li>Support governance-first use case</li>
+              <li>Enable evaluation of externally-built agents</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Improve Configuration Guidance</strong>
+            <ul>
+              <li>Clarify Instructions vs Guardrails vs Behavior</li>
+              <li>Provide in-context examples</li>
+              <li>Add AI assistance for writing effective prompts</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Add Create Agent Path to Day 30 Dashboard</strong>
+            <ul>
+              <li>Prominent "Create Agent" button</li>
+              <li>Access to agent catalog</li>
+              <li>Balance monitoring with creation workflows</li>
+            </ul>
+          </li>
+        </ol>
+
+        <h3>Medium Priority (Nice to Have)</h3>
+        <ol>
+          <li>
+            <strong>Consolidate Day Zero Actions</strong>
+            <ul>
+              <li>Merge "Create my first agent" and "Guide me to create"</li>
+              <li>Move Ask Documentation to contextual help agent</li>
+              <li>Remove analytics section from Day Zero</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Add Time & Complexity Indicators</strong>
+            <ul>
+              <li>Show estimated time for each option</li>
+              <li>Indicate experience level required</li>
+              <li>Consider skill-based onboarding paths</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Integrate Ask Documentation Agent</strong>
+            <ul>
+              <li>Make it persistent (bottom right)</li>
+              <li>Train on lab guides and best practices</li>
+              <li>Provide contextual help during agent building</li>
+            </ul>
+          </li>
+        </ol>
+      </section>
+
+      <section class="methodology">
+        <h2>Research Methodology</h2>
+        <p>
+          <strong>Participants:</strong> 5 IBM professionals with direct
+          customer-facing experience
+        </p>
+        <ul>
+          <li>Cameron Seitz - Client Engineer</li>
+          <li>Joseph Kozhaya - Client Engineer</li>
+          <li>Ankitha T C - Client Engineer</li>
+          <li>Richard Shannon - Account Technical Leader</li>
+          <li>Dana Abu Ali - Customer Success Engineer</li>
+          <li>Sai Bezawada - Technology Sales Leader</li>
+          <li>Ahmed Azraq - Chief Architect, Ecosystem Build & Service</li>
+        </ul>
+
+        <p>
+          <strong>Method:</strong> Semi-structured interviews with prototype
+          walkthrough
+        </p>
+        <p><strong>Duration:</strong> 45-60 minutes per session</p>
+        <p><strong>Focus Areas:</strong></p>
+        <ul>
+          <li>Current customer pain points in onboarding</li>
+          <li>Feedback on Day Zero landing page design</li>
+          <li>Feedback on Day 30 dashboard design</li>
+          <li>Role-based needs and workflows</li>
+        </ul>
+      </section>
+
+      <footer>
+        <p>
+          Research conducted by Preksha Jain (UX Researcher), Ronak Baldawa,
+          Vimal Venugopal
+        </p>
+        <p>watsonx Orchestrate Product Team | April 2026</p>
+      </footer>
+    </div>
+  </body>
+</html>
