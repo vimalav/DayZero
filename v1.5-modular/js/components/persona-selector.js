@@ -2,31 +2,30 @@
 
 import { setState, getState } from "../core/state.js";
 import { goToAssessment, goToDashboard } from "../core/router.js";
-import {
-  $,
-  $$,
-  onAll,
-  addClass,
-  removeClass,
-  enable,
-  disable,
-} from "../utils/dom.js";
+import { $, $$, addClass, removeClass, enable, disable } from "../utils/dom.js";
 
 export class PersonaSelector {
   constructor() {
     this.selectedPersona = null;
-    this.init();
   }
 
   init() {
-    this.attachEventListeners();
+    // Wait for DOM to be ready before attaching listeners
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", () =>
+        this.attachEventListeners(),
+      );
+    } else {
+      this.attachEventListeners();
+    }
   }
 
   attachEventListeners() {
     // Persona card selection
-    onAll(".persona-card", "click", (e) => {
-      const card = e.currentTarget;
-      this.selectPersona(card);
+    $$(".persona-card").forEach((card) => {
+      card.addEventListener("click", (e) => {
+        this.selectPersona(e.currentTarget);
+      });
     });
 
     // Continue button
@@ -35,23 +34,12 @@ export class PersonaSelector {
       continueBtn.addEventListener("click", () => this.continue());
     }
 
-    // Assessment button
-    const assessmentBtn = $("#assessmentBtn");
-    if (assessmentBtn) {
-      assessmentBtn.addEventListener("click", () => this.showAssessment());
-    }
-
-    // Skip button
-    const skipBtn = $("#skipBtn");
-    if (skipBtn) {
-      skipBtn.addEventListener("click", () => this.skip());
-    }
-
-    // Role guide button
-    const roleGuideBtn = $("#roleGuideBtn");
-    if (roleGuideBtn) {
-      roleGuideBtn.addEventListener("click", () => this.showRoleGuide());
-    }
+    // Skip button - look for any button with skip functionality
+    $$("button").forEach((btn) => {
+      if (btn.textContent.includes("Skip")) {
+        btn.addEventListener("click", () => this.skip());
+      }
+    });
   }
 
   selectPersona(card) {
