@@ -1,257 +1,178 @@
-# watsonx Orchestrate - Day 0 Onboarding Concepts
+# watsonx Orchestrate - Day Zero Prototypes
 
-Interactive prototypes exploring persona-based onboarding experiences for watsonx Orchestrate.
+Interactive prototypes exploring onboarding experiences for watsonx Orchestrate.
 
-## 🎯 Overview
+## 🎯 Quick Start
 
-This repository contains HTML prototypes demonstrating different approaches to onboarding new users to watsonx Orchestrate, with a focus on persona-based experiences and Day 0 user journeys.
+**Live Demo:** [https://vimalav.github.io/DayZero/](https://vimalav.github.io/DayZero/)
 
-## 🚀 Quick Start
+Or open any HTML file locally in your browser - no build process required.
 
-**View the Latest Prototype:**
+## 📋 Current Versions
 
-- Open [`v4.2.1-domain-specific-working.html`](v4.2.1-domain-specific-working.html) in your browser
-- Or view live: [https://vimalav.github.io/DayZero/v4.2.1-domain-specific-working.html](https://vimalav.github.io/DayZero/v4.2.1-domain-specific-working.html)
+### v1.4 - Jobs First ⭐ LATEST
 
-## 📋 Prototype Versions
+**File:** [`v1.4-jobs-first.html`](v1.4-jobs-first.html)
 
-### v3.2 - Persona + Domain-Specific Onboarding (NEW)
+**Design Philosophy:** "Jobs-to-be-done first, connections second"
 
-**File:** [`v3.2-persona-domain-onboarding.html`](v3.2-persona-domain-onboarding.html)
-**Live Demo:** [https://vimalav.github.io/DayZero/v3.2-persona-domain-onboarding.html](https://vimalav.github.io/DayZero/v3.2-persona-domain-onboarding.html)
+**Key Features:**
 
-Combines persona-based and domain-specific onboarding:
+- Enhanced connection flow with auto-populate connection ID
+- Dynamic subdomain population based on selected app
+- Carbon Design System icons throughout
+- Consistent modal heights (80vh)
+- Interactive success page with confetti animation
+- Tool preview with sliding chat panel
+- Working demo: quick action shows typing indicator and data table response
+- Reordered content flow: Tool Preview → What's next → Action buttons
 
-- Two-step selection: Persona → Domain
-- Three personas (Admin, Builder, SME)
-- Six domains (HR, IT, Procurement, Finance, Sales, Custom)
-- Dashboard displays both persona and domain context
-- Enhanced badge showing persona + domain (e.g., "🔨 Builder • 💰 FINANCE")
-- Fixed CSS class conflicts for proper domain selection
+**Why This Works:**
 
-### v4.2.1 - Domain-Specific Onboarding (LATEST)
+- Focuses on user's job to be done first
+- Streamlined connection setup with smart defaults
+- Interactive tool demonstrations show immediate value
+- Validated by user research and design iterations
 
-**File:** [`v4.2.1-domain-specific-working.html`](v4.2.1-domain-specific-working.html)
-**Live Demo:** [https://vimalav.github.io/DayZero/v4.2.1-domain-specific-working.html](https://vimalav.github.io/DayZero/v4.2.1-domain-specific-working.html)
+---
 
-Domain-specific onboarding with checklist-driven approach:
+### v1.7 - Account Jobs
 
-- Domain selection (HR, IT, Procurement, Finance, Sales, Custom)
-- Checklist-driven onboarding flow
-- Progressive task completion
-- Domain-specific templates and guidance
-- Enhanced zero-state handling
+**File:** [`v1.7-account-jobs.html`](v1.7-account-jobs.html)
 
-### v4.2 - Domain Concept Variants
+**Focus:** Account-level job management and monitoring capabilities
 
-**Files:**
+---
 
-- [`v4.2-domain-specific-onboarding.html`](v4.2-domain-specific-onboarding.html) | [Live Demo](https://vimalav.github.io/DayZero/v4.2-domain-specific-onboarding.html)
-- [`v4.2-domain-concept-simple.html`](v4.2-domain-concept-simple.html) | [Live Demo](https://vimalav.github.io/DayZero/v4.2-domain-concept-simple.html)
+### v1.3 - Simplified
 
-Domain-based onboarding exploration with multiple implementation approaches.
+**File:** [`v1.3-simplified.html`](v1.3-simplified.html)
 
-### v4.0 - Checklist-Driven Onboarding
+**Focus:** Streamlined onboarding experience with reduced complexity
 
-**File:** [`v4.0-checklist-driven-onboarding.html`](v4.0-checklist-driven-onboarding.html)
-**Live Demo:** [https://vimalav.github.io/DayZero/v4.0-checklist-driven-onboarding.html](https://vimalav.github.io/DayZero/v4.0-checklist-driven-onboarding.html)
+---
 
-Introduced checklist-based onboarding:
+### v1.2 - Persona Domain
 
-- Step-by-step task completion
-- Progress tracking
-- Guided workflows
+**File:** [`v1.2-persona-domain-onboarding.html`](v1.2-persona-domain-onboarding.html)
 
-### v3.1 - Enhanced Dashboard
+**Focus:** Persona-based onboarding with domain-specific guidance
 
-**File:** [`v3.1-enhanced-dashboard.html`](v3.1-enhanced-dashboard.html)
-**Live Demo:** [https://vimalav.github.io/DayZero/v3.1-enhanced-dashboard.html](https://vimalav.github.io/DayZero/v3.1-enhanced-dashboard.html)
+---
 
-Complete persona-based onboarding with:
+### v1.0 - Persona Chat
 
-- AI chat panel with contextual assistance
-- Role switching capability
-- Assessment flow with personalized recommendations
-- Dashboard-style landing pages that evolve by persona
-- Zero-state handling for Day 0 users
+**File:** [`v1.0-persona-chat-onboarding.html`](v1.0-persona-chat-onboarding.html)
 
-**Three Personas:**
+**Focus:** Initial persona-based onboarding with conversational interface
 
-- **Admin** - Platform configuration and user management
-- **Builder** - Skill and workflow creation
-- **SME (Subject Matter Expert)** - Content contribution and review
+---
 
-### v3.0 - Day 0 Enhanced with Assessment
+## 📚 Documentation
 
-**File:** [`v3.0-day0-enhanced-with-assessment.html`](v3.0-day0-enhanced-with-assessment.html)
-**Live Demo:** [https://vimalav.github.io/DayZero/v3.0-day0-enhanced-with-assessment.html](https://vimalav.github.io/DayZero/v3.0-day0-enhanced-with-assessment.html)
+### Research & Insights
 
-Introduced assessment flow and Day 0 enhancements:
+- **[research-insights.html](research-insights.html)** - Comprehensive insights webpage
+  - User research findings
+  - Key insights and recommendations
+  - Persona-specific needs
 
-- 3-question progressive assessment
-- Personalized role recommendations
-- Client Zero patterns (Ask HR, Ask IT, Ask Procurement)
-- Enhanced zero-state handling
+- **[research-insights-transcripts.html](research-insights-transcripts.html)** - Detailed interview transcripts
 
-### v2.1 - Complete Persona Selection
+- **[executive-summary.html](executive-summary.html)** - High-level project overview
 
-**File:** [`v2.1-persona-selection-complete.html`](v2.1-persona-selection-complete.html)
-**Live Demo:** [https://vimalav.github.io/DayZero/v2.1-persona-selection-complete.html](https://vimalav.github.io/DayZero/v2.1-persona-selection-complete.html)
+### Research Files
 
-Dashboard-focused approach:
+- **[research/Interview_Analysis_Report.md](research/Interview_Analysis_Report.md)** - Analysis of user interviews
+- **[research/Design_Rationale.md](research/Design_Rationale.md)** - Design principles and rationale
+- **[research/Stakeholder_Feedback_Analysis.md](research/Stakeholder_Feedback_Analysis.md)** - Stakeholder synthesis
+- **[research/Competitor_Analysis.md](research/Competitor_Analysis.md)** - Competitive analysis
+- **[research/Executive_Summary.md](research/Executive_Summary.md)** - Executive summary (markdown)
 
-- Full dashboard UI with action cards
-- AI chat integration
-- Role switching in header
-- Persona-specific landing pages
+---
 
-### v2.0 - Persona-Based Onboarding
+## 🔑 Key Design Principles
 
-**File:** [`v2.0-persona-based-onboarding.html`](v2.0-persona-based-onboarding.html)
-**Live Demo:** [https://vimalav.github.io/DayZero/v2.0-persona-based-onboarding.html](https://vimalav.github.io/DayZero/v2.0-persona-based-onboarding.html)
+### 1. Jobs-to-be-Done First
 
-Initial persona-based approach with three distinct user roles.
+Focus on what users want to accomplish before diving into technical setup.
 
-### v1.1 - Onboarding Concept
+### 2. Progressive Disclosure
 
-**File:** [`v1.1-onboarding-concept.html`](v1.1-onboarding-concept.html)
-**Live Demo:** [https://vimalav.github.io/DayZero/v1.1-onboarding-concept.html](https://vimalav.github.io/DayZero/v1.1-onboarding-concept.html)
+Show information when needed, not all at once. Guide users step-by-step.
 
-Basic onboarding flow exploration.
+### 3. Smart Defaults
 
-### v1.0 - Research Concept
+Auto-populate fields and suggest common configurations to reduce friction.
 
-**File:** [`v1.0-research-concept.html`](v1.0-research-concept.html)
-**Live Demo:** [https://vimalav.github.io/DayZero/v1.0-research-concept.html](https://vimalav.github.io/DayZero/v1.0-research-concept.html)
+### 4. Immediate Value
 
-Initial concept based on user research insights.
+Show users what they'll get before asking them to do work. Tool previews and demos build confidence.
+
+### 5. Contextual Help
+
+Provide assistance exactly when and where users need it.
+
+---
 
 ## 📁 Project Structure
 
 ```
 .
-├── v4.2.1-domain-specific-working.html   # Latest prototype
-├── v4.2-domain-specific-onboarding.html
-├── v4.2-domain-concept-simple.html
-├── v4.2_Visual_Concept.md
-├── v4.0-checklist-driven-onboarding.html
-├── v3.2-persona-domain-onboarding.html   # NEW: Persona + Domain
-├── v3.1-enhanced-dashboard.html
-├── v3.0-day0-enhanced-with-assessment.html
-├── v2.1-persona-selection-complete.html
-├── v2.0-persona-based-onboarding.html
-├── v1.1-onboarding-concept.html
-├── v1.0-research-concept.html
-├── VERSION_HISTORY.md                    # Detailed version changelog
-├── UPDATES_SUMMARY.md                    # Summary of updates
-├── research/                             # Research data and insights
-│   ├── Interview_Analysis_Report.md      # Updated with Interview 4
-│   ├── 4.md                              # NEW: Interview 4 transcript
-│   ├── 1.md, 2.md, 3.md                  # Interview transcripts
-│   ├── MVP_Day0_Analysis.md
-│   ├── Mockup_Feedback_Analysis.md
-│   ├── v4.2_Features_Specification.md
-│   ├── v4.2_Implementation_Issues_and_Clarifications.md
-│   └── ...
-├── Intercom/                             # Intercom screenshots
-└── README.md
+├── index.html                              # Version selector landing page
+├── v1.4-jobs-first.html                    # Latest version ⭐
+├── v1.7-account-jobs.html                  # Account management
+├── v1.3-simplified.html                    # Simplified flow
+├── v1.2-persona-domain-onboarding.html     # Persona + domain
+├── v1.0-persona-chat-onboarding.html       # Original persona flow
+├── app-v1.4.js                             # JavaScript for v1.4
+├── styles.css                              # Shared styles
+├── executive-summary.html                  # Executive overview
+├── research-insights.html                  # Research findings
+├── research-insights-transcripts.html      # Interview transcripts
+├── README.md                               # This file
+└── research/                               # Research documentation
+    ├── Interview_Analysis_Report.md
+    ├── Design_Rationale.md
+    ├── Stakeholder_Feedback_Analysis.md
+    ├── Competitor_Analysis.md
+    ├── Executive_Summary.md
+    └── 1.md - 5.md                         # Interview transcripts
 ```
-
-## 🔍 Key Features
-
-### Domain-Specific Onboarding
-
-Tailored experiences for different business domains:
-
-- **HR**: Employee onboarding, benefits, time-off management
-- **IT**: Service desk, asset management, access requests
-- **Procurement**: Purchase requests, vendor management, approvals
-- **Finance**: Expense reports, budget tracking, invoice processing
-- **Sales**: Lead management, quote generation, CRM integration
-- **Custom**: Flexible domain creation for unique needs
-
-### Checklist-Driven Flow
-
-Progressive task completion with:
-
-- Clear step-by-step guidance
-- Progress tracking
-- Task dependencies
-- Completion validation
-
-### Persona-Based Experience
-
-Each role gets a customized experience:
-
-- **Admin**: Focus on platform setup, user management, and governance
-- **Builder**: Emphasis on skill creation, workflow design, and automation
-- **SME**: Streamlined content contribution and review workflows
-
-### Assessment Flow
-
-3-question progressive disclosure to recommend the most appropriate role based on:
-
-- User's primary goals
-- Technical comfort level
-- Team collaboration needs
-
-### AI Assistance
-
-Control Plane Agent provides:
-
-- Contextual help and guidance
-- Persona-specific suggestions
-- Interactive chat support
-
-### Zero-State Handling
-
-Thoughtful empty states for Day 0 users:
-
-- Featured templates (Ask HR, Ask IT, Ask Procurement)
-- Clear next steps
-- Guided onboarding paths
-
-## 📚 Documentation
-
-- **[VERSION_HISTORY.md](VERSION_HISTORY.md)** - Complete changelog with design decisions
-- **[research/Interview_Analysis_Report.md](research/Interview_Analysis_Report.md)** - Updated with 4 interviews (latest: April 10, 2026)
-  - New Finding #11: Issue-First Dashboard for Experienced Users
-  - Control Plane Agent concept for fleet health monitoring
-  - Critical insights from Technology Sales Leader perspective
-- **[research/](research/)** - User research, analysis reports, and specifications
-
-## 🛠️ Development
-
-All prototypes are self-contained HTML files with embedded CSS and JavaScript. No build process required.
-
-**To view locally:**
-
-1. Clone this repository
-2. Open any `.html` file in a web browser
-3. No server or dependencies needed
-
-## 📝 Version History
-
-See [VERSION_HISTORY.md](VERSION_HISTORY.md) for detailed information about each version, including features, design decisions, and iteration notes.
-
-## 🤝 Contributing
-
-This is a design exploration project. For feedback or suggestions, please open an issue or reach out to the team.
-
-## 🔬 Latest Research Insights
-
-**Interview 4 (April 10, 2026) - Sai Bezawada, Technology Sales Leader:**
-
-Key findings for experienced users:
-
-- Need **issue-first dashboard** prioritizing critical problems over general analytics
-- Want **Control Plane Agent** for AI-powered fleet health monitoring
-- Require visibility into high failure rates and client impact immediately upon login
-- "Jump back in" should show problematic agents, not just recent ones
-
-See [Interview_Analysis_Report.md](research/Interview_Analysis_Report.md) for complete findings.
 
 ---
 
-**Last Updated:** April 10, 2026
-**Current Version:** v4.2.1 (HTML) | v3.2 (Persona + Domain)
+## 🚀 Development
+
+### Local Development
+
+Simply open any HTML file in your browser. No build process required.
+
+### Deployment
+
+The project is deployed to GitHub Pages at: https://vimalav.github.io/DayZero/
+
+To update the live site:
+
+1. Make changes to files
+2. Commit to `main` branch
+3. Merge `main` into `gh-pages` branch
+4. Push `gh-pages` to GitHub
+
+---
+
+## 📊 Version History
+
+| Version | Focus            | Key Innovation                           |
+| ------- | ---------------- | ---------------------------------------- |
+| v1.4    | Jobs First       | Interactive tool preview, smart defaults |
+| v1.7    | Account Jobs     | Account-level management                 |
+| v1.3    | Simplified       | Reduced complexity                       |
+| v1.2    | Persona + Domain | Two-dimensional personalization          |
+| v1.0    | Persona + Chat   | Conversational guidance                  |
+
+---
+
+**Last Updated:** April 16, 2026  
+**Current Version:** v1.4 (Jobs First)  
+**Status:** Production ready - validated by user research
