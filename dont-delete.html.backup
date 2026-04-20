@@ -3,10 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>watsonx Orchestrate - Domain Personalized v1.3</title>
+    <title>watsonx Orchestrate - Jobs-First v1.4 (Customer Care)</title>
     <link
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap"
       rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@carbon/web-components@latest/es/components/icon/index.css"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -34,10 +38,10 @@
               <div class="focus-areas">
                 <strong>You'll focus on:</strong>
                 <ul>
+                  <li>Setting up integrations</li>
                   <li>Managing connections</li>
-                  <li>Configuring models</li>
-                  <li>Platform analytics</li>
-                  <li>User access control</li>
+                  <li>Configuring access</li>
+                  <li>Monitoring usage</li>
                 </ul>
               </div>
             </div>
@@ -45,14 +49,14 @@
             <div class="persona-card" data-persona="builder">
               <div class="persona-icon">🔨</div>
               <h3>Builder</h3>
-              <p>I design and build AI agents</p>
+              <p>I solve customer care challenges with AI agents</p>
               <div class="focus-areas">
                 <strong>You'll focus on:</strong>
                 <ul>
-                  <li>Creating agents</li>
-                  <li>Using templates</li>
-                  <li>Testing agents</li>
-                  <li>Deploying to production</li>
+                  <li>Reducing ticket volume</li>
+                  <li>Speeding up inquiries</li>
+                  <li>Automating processes</li>
+                  <li>Improving satisfaction</li>
                 </ul>
               </div>
             </div>
@@ -60,14 +64,14 @@
             <div class="persona-card" data-persona="sme">
               <div class="persona-icon">💡</div>
               <h3>Subject Matter Expert</h3>
-              <p>I provide expertise and validate agents</p>
+              <p>I validate agents with customer service expertise</p>
               <div class="focus-areas">
                 <strong>You'll focus on:</strong>
                 <ul>
                   <li>Testing accuracy</li>
-                  <li>Providing knowledge</li>
-                  <li>Reviewing responses</li>
-                  <li>Suggesting improvements</li>
+                  <li>Validating responses</li>
+                  <li>Ensuring quality</li>
+                  <li>Providing feedback</li>
                 </ul>
               </div>
             </div>
@@ -130,10 +134,11 @@
                 <input type="radio" name="q1" value="builder" />
                 <div class="assessment-option-content">
                   <div class="assessment-option-title">
-                    Create and deploy AI agents
+                    Solve customer care challenges
                   </div>
                   <div class="assessment-option-desc">
-                    Build agents, configure tools, test and deploy
+                    Build agents to reduce tickets, speed up inquiries, automate
+                    processes
                   </div>
                 </div>
               </label>
@@ -141,10 +146,10 @@
                 <input type="radio" name="q1" value="sme" />
                 <div class="assessment-option-content">
                   <div class="assessment-option-title">
-                    Review and validate agents
+                    Validate and improve agents
                   </div>
                   <div class="assessment-option-desc">
-                    Test accuracy, provide feedback, improve responses
+                    Test accuracy, provide feedback, ensure quality
                   </div>
                 </div>
               </label>
@@ -173,10 +178,10 @@
                 <input type="radio" name="q2" value="builder" />
                 <div class="assessment-option-content">
                   <div class="assessment-option-title">
-                    I build applications and solutions
+                    I build solutions for business problems
                   </div>
                   <div class="assessment-option-desc">
-                    Comfortable with development tools and workflows
+                    Comfortable with tools and workflows
                   </div>
                 </div>
               </label>
@@ -208,7 +213,7 @@
                     Get the platform ready for my team
                   </div>
                   <div class="assessment-option-desc">
-                    Set up connections, configure models, invite users
+                    Set up connections, configure access, enable builders
                   </div>
                 </div>
               </label>
@@ -216,10 +221,10 @@
                 <input type="radio" name="q3" value="builder" />
                 <div class="assessment-option-content">
                   <div class="assessment-option-title">
-                    Create my first agent
+                    Solve a customer care challenge
                   </div>
                   <div class="assessment-option-desc">
-                    Start building and deploying agents quickly
+                    Reduce tickets, speed up inquiries, or automate processes
                   </div>
                 </div>
               </label>
@@ -227,7 +232,7 @@
                 <input type="radio" name="q3" value="sme" />
                 <div class="assessment-option-content">
                   <div class="assessment-option-title">
-                    Help improve existing agents
+                    Ensure agent quality and accuracy
                   </div>
                   <div class="assessment-option-desc">
                     Review, test, and provide expert feedback
@@ -283,96 +288,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Domain Selector Screen - ONLY 3 DOMAINS -->
-        <div id="domainSelectorScreen" style="display: none">
-          <h2>Select your primary domain</h2>
-          <p class="description">
-            Choose the business domain you'll focus on. This helps us provide
-            relevant templates and guidance.
-          </p>
-          <p class="reassurance">
-            You can work across multiple domains - this is just your starting
-            point.
-          </p>
-
-          <div class="persona-cards">
-            <div class="domain-card" data-domain="customercare">
-              <div class="domain-card-header">
-                <div class="persona-icon">🎧</div>
-                <h3>Customer Care</h3>
-              </div>
-              <p>Deliver frictionless support experiences across channels</p>
-              <div class="focus-areas">
-                <strong>Common use cases:</strong>
-                <ul>
-                  <li>Reduce friction in support experiences</li>
-                  <li>Automate customer inquiries</li>
-                  <li>Multi-channel support integration</li>
-                  <li>Case management automation</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="domain-card" data-domain="procurement">
-              <div class="domain-card-header">
-                <div class="persona-icon">📦</div>
-                <h3>Procurement</h3>
-              </div>
-              <p>Boost resiliency and cost efficiency with pre-built agents</p>
-              <div class="focus-areas">
-                <strong>Common use cases:</strong>
-                <ul>
-                  <li>Improve productivity and efficiency</li>
-                  <li>Connect across ecosystem</li>
-                  <li>Pre-built procurement agents</li>
-                  <li>Vendor and order management</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="domain-card" data-domain="custom">
-              <div class="domain-card-header">
-                <div class="persona-icon">⚙️</div>
-                <h3>Custom Domain</h3>
-              </div>
-              <p>Create your own domain-specific workflows</p>
-              <div class="focus-areas">
-                <strong>Flexibility to:</strong>
-                <ul>
-                  <li>Define custom workflows</li>
-                  <li>Build unique agents</li>
-                  <li>Integrate any system</li>
-                  <li>Tailor to your needs</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="persona-actions">
-            <div class="persona-actions-left">
-              <button
-                class="persona-btn tertiary"
-                onclick="skipDomainSelection()"
-              >
-                Skip - I'll choose later
-              </button>
-            </div>
-            <div class="persona-actions-right">
-              <button class="persona-btn secondary" onclick="backFromDomain()">
-                Back
-              </button>
-              <button
-                class="persona-btn primary"
-                id="domainContinueBtn"
-                disabled
-                onclick="continueWithDomain()"
-              >
-                Continue
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -388,26 +303,27 @@
     >
       <header class="app-header">
         <div class="header-content">
+          <button
+            class="hamburger-menu"
+            id="hamburgerMenu"
+            aria-label="Open menu"
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2 4h16v2H2V4zm0 5h16v2H2V9zm0 5h16v2H2v-2z" />
+            </svg>
+          </button>
           <div class="brand">
             <span class="brand-ibm">IBM</span
             ><span class="brand-product">watsonx Orchestrate</span>
           </div>
-          <div class="persona-badge" id="personaBadge"></div>
-          <button class="change-role-btn" id="changeRole">Change Role</button>
+          <button class="persona-badge" id="personaBadge"></button>
         </div>
       </header>
 
       <div class="main-layout">
         <aside class="ai-chat-panel">
           <div class="chat-header">
-            <h3>Control Plane Agent</h3>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="#0f62fe">
-              <path
-                d="M8,1C4.1,1,1,4.1,1,8s3.1,7,7,7s7-3.1,7-7S11.9,1,8,1z M8,13.5c-3,0-5.5-2.5-5.5-5.5S5,2.5,8,2.5s5.5,2.5,5.5,5.5 S11,13.5,8,13.5z"
-              />
-              <circle cx="8" cy="5.5" r="1" />
-              <rect x="7" y="7" width="2" height="5" />
-            </svg>
+            <h3>AI Chat</h3>
           </div>
           <div class="chat-messages" id="chatMessages">
             <!-- Dynamic content -->
@@ -417,11 +333,46 @@
               class="chat-input"
               rows="2"
               placeholder="Ask me anything..."
+              id="chatInput"
             ></textarea>
           </div>
         </aside>
 
         <div class="content-area">
+          <!-- Collapsible Page Header (IBM Carbon Pattern) -->
+          <div class="page-header collapsed" id="pageHeader">
+            <div class="page-header-toggle" onclick="togglePageHeader()">
+              <div class="page-header-title">
+                <h2>Getting Started</h2>
+                <span class="page-header-subtitle"
+                  >Quick setup and guidance</span
+                >
+              </div>
+              <button
+                class="page-header-toggle-btn"
+                aria-label="Toggle getting started section"
+              >
+                <svg
+                  class="page-header-chevron"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                >
+                  <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z" />
+                </svg>
+              </button>
+            </div>
+            <div class="page-header-content">
+              <p class="page-header-description">
+                Access setup guides, tutorials, and quick actions to help you
+                get the most out of watsonx Orchestrate. This panel stays
+                available even after you've built your first agents.
+              </p>
+              <div id="pageHeaderCards"></div>
+            </div>
+          </div>
+
           <div class="hero-section">
             <div class="hero-content" id="heroContent">
               <!-- Dynamic content -->
@@ -435,6 +386,56 @@
       </div>
     </div>
 
-    <script src="app-v1.3.js"></script>
+    <!-- Job Details Modal -->
+    <div class="job-modal-overlay" id="jobModal" style="display: none">
+      <div class="job-modal">
+        <div class="job-modal-header">
+          <h2 id="jobModalTitle"></h2>
+          <button
+            class="job-modal-close"
+            onclick="closeJobModal()"
+            aria-label="Close"
+          >
+            <svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor">
+              <path
+                d="M24 9.4L22.6 8 16 14.6 9.4 8 8 9.4 14.6 16 8 22.6 9.4 24 16 17.4 22.6 24 24 22.6 17.4 16 24 9.4z"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="job-modal-content" id="jobModalContent">
+          <!-- Dynamic content -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Connection Setup Modal -->
+    <div
+      class="connection-modal-overlay"
+      id="connectionModal"
+      style="display: none"
+    >
+      <div class="connection-modal">
+        <div class="connection-modal-header">
+          <h2 id="connectionModalTitle">Connect your first app</h2>
+          <button
+            class="connection-modal-close"
+            onclick="closeConnectionModal()"
+            aria-label="Close"
+          >
+            <svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor">
+              <path
+                d="M24 9.4L22.6 8 16 14.6 9.4 8 8 9.4 14.6 16 8 22.6 9.4 24 16 17.4 22.6 24 24 22.6 17.4 16 24 9.4z"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="connection-modal-content" id="connectionModalContent">
+          <!-- Dynamic content -->
+        </div>
+      </div>
+    </div>
+
+    <script src="app-v1.4.js"></script>
   </body>
 </html>
