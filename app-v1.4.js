@@ -3,9 +3,11 @@
 let selectedPersona = null;
 let selectedJob = null;
 let selectedDomain = "customercare"; // Default domain for connection recommendations
+let selectedIndustry = "customer-care";
 let assessmentAnswers = { q1: null, q2: null, q3: null };
 let currentQuestion = 1;
 let currentJobs = []; // Store current jobs globally for modal access
+let chatConnectionFlow = null;
 
 const personaContent = {
   builder: {
@@ -74,7 +76,7 @@ const personaContent = {
       },
     ],
     banner: {
-      title: "💡 Getting Started",
+      title: "Getting Started",
       message:
         "Complete these 3 setup steps to enable your team to start building agents. You can always come back and adjust settings later.",
     },
@@ -684,8 +686,8 @@ function showRoleGuide() {
   );
 }
 
-// Change role button
-document.getElementById("changeRole").addEventListener("click", () => {
+// Persona badge click to change role
+document.getElementById("personaBadge").addEventListener("click", () => {
   document.getElementById("personaOverlay").classList.remove("hidden");
   document.getElementById("appContent").style.display = "none";
   showScreen("personaScreen");
@@ -743,19 +745,101 @@ function showJobsDashboard() {
 
   const welcome = welcomeMessages[selectedPersona];
 
+  const starterCardsByPersona = {
+    admin: [
+      {
+        title: "Setup your team",
+        description: "Invite your team mates and set up role based access",
+      },
+      {
+        title: "Setup connections",
+        description: "Connect your applications so that you can try out agents",
+      },
+      {
+        title: "Suggested agents for you",
+        description:
+          "Tell us more about your needs so that we can help you get started",
+      },
+    ],
+    builder: [
+      {
+        title: "Explore starter agents",
+        description:
+          "Review recommended agents you can use as your starting point",
+      },
+      {
+        title: "Setup connections",
+        description: "Connect your applications so that you can try out agents",
+      },
+      {
+        title: "Suggested agents for you",
+        description:
+          "Tell us more about your needs so that we can help you get started",
+      },
+    ],
+    sme: [
+      {
+        title: "Review pending agents",
+        description: "See which agents are ready for validation and feedback",
+      },
+      {
+        title: "Setup connections",
+        description: "Connect your applications so that you can try out agents",
+      },
+      {
+        title: "Suggested agents for you",
+        description:
+          "Tell us more about your needs so that we can help you get started",
+      },
+    ],
+  };
+
+  const panelIntroByPersona = {
+    admin:
+      "Let's help you get started by inviting your team, connecting with your enterprise applications, and trying out you first agent.",
+    builder:
+      "Let's help you get started by exploring starter agents, connecting your applications, and trying out your first workflow.",
+    sme: "Let's help you get started by reviewing agents, connecting your applications, and validating your first experience.",
+  };
+
+  const starterCards =
+    starterCardsByPersona[selectedPersona] || starterCardsByPersona.admin;
+  const panelIntro =
+    panelIntroByPersona[selectedPersona] || panelIntroByPersona.admin;
+
   chatMessages.innerHTML = `
     <div class="chat-message">
-      <div class="chat-avatar">🤖</div>
+      <div class="chat-avatar" aria-hidden="true">
+        <img src="icons/wxo.svg" alt="" />
+      </div>
       <div class="chat-content">
-        <div class="chat-source">Control Plane Agent</div>
+        <div class="chat-source">
+          <span class="chat-source-name">watsonx</span>
+          <span class="chat-source-time">12:46</span>
+        </div>
         <div class="chat-text">
-          <strong>${welcome.greeting}</strong><br><br>
-          ${welcome.intro}<br><br>
-          ${welcome.context}
+          <span class="chat-title">Welcome to watsonx orchestrate</span>
+          <p>${panelIntro}</p>
+          <span class="chat-section-title">Quick starters</span>
         </div>
         <div class="chat-suggestions">
-          <div style="font-size: 12px; color: #525252; margin-bottom: 8px; font-weight: 600;">💡 Quick Actions:</div>
-          ${content.chat.suggestions.map((s) => `<div class="suggestion-card" onclick="handleChatSuggestion('${s.replace(/'/g, "\\'")}')">${s}</div>`).join("")}
+          ${starterCards
+            .map(
+              (card) => `
+                <div class="suggestion-card" onclick="handleChatSuggestion('${card.title.replace(/'/g, "\\'")}')">
+                  <div class="suggestion-card-content">
+                    <div class="suggestion-title">${card.title}</div>
+                    <div class="suggestion-description">${card.description}</div>
+                  </div>
+                  <div class="suggestion-arrow" aria-hidden="true">
+                    <svg width="24" height="24" viewBox="0 0 32 32" fill="currentColor">
+                      <path d="M18.59 24.59L20 26l10-10-10-10-1.41 1.41L26.17 15H4v2h22.17l-7.58 7.59z"></path>
+                    </svg>
+                  </div>
+                </div>
+              `,
+            )
+            .join("")}
         </div>
       </div>
     </div>
@@ -1138,6 +1222,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 // Connection Setup Modal Functions
 let selectedConnectionId = null;
+let openConnectionModalAfterSettings = false;
 
 window.showConnectionModal = function (domain) {
   const modal = document.getElementById("connectionModal");
@@ -1341,9 +1426,45 @@ window.filterConnections = function (searchTerm) {
 };
 
 window.showCustomConnectionOption = function () {
-  alert(
-    `Custom Integration Setup\n\nConnect to any REST API endpoint or custom system.\n\nYou'll need:\n• API endpoint URL\n• Authentication method (API key, OAuth, Basic Auth)\n• Required headers and parameters\n\nThis would launch a custom connection wizard.`,
-  );
+  showConnectionSettingsPage(false);
+};
+
+window.showConnectionSettingsPage = function (openModalAfter = false) {
+  const settingsPage = document.getElementById("connectionSettingsPage");
+  const heroSection = document.querySelector(".hero-section");
+  const mainContent = document.getElementById("mainContent");
+  const pageHeader = document.getElementById("pageHeader");
+
+  if (!settingsPage || !heroSection || !mainContent || !pageHeader) return;
+
+  openConnectionModalAfterSettings = openModalAfter;
+  heroSection.style.display = "none";
+  mainContent.style.display = "none";
+  pageHeader.style.display = "none";
+  settingsPage.style.display = "flex";
+
+  closeNavDrawer();
+
+  if (openModalAfterSettings) {
+    setTimeout(() => {
+      showConnectionModal(selectedDomain);
+      openConnectionModalAfterSettings = false;
+    }, 0);
+  }
+};
+
+window.hideConnectionSettingsPage = function () {
+  const settingsPage = document.getElementById("connectionSettingsPage");
+  const heroSection = document.querySelector(".hero-section");
+  const mainContent = document.getElementById("mainContent");
+  const pageHeader = document.getElementById("pageHeader");
+
+  if (!settingsPage || !heroSection || !mainContent || !pageHeader) return;
+
+  settingsPage.style.display = "none";
+  heroSection.style.display = "";
+  mainContent.style.display = "";
+  pageHeader.style.display = "";
 };
 
 window.proceedWithConnection = function () {
@@ -1794,10 +1915,6 @@ function showConnectionSuccess() {
           <div class="tool-preview-header">
             <div class="tool-preview-title">
               <h3>Preview connected tools</h3>
-              <svg width="16" height="16" viewBox="0 0 32 32" fill="currentColor" class="launch-icon">
-                <path d="M26 28H6a2 2 0 01-2-2V6a2 2 0 012-2h9v2H6v20h20v-9h2v9a2 2 0 01-2 2z"/>
-                <path d="M21 2v2h5.59L13.3 17.29l1.41 1.41L28 5.41V11h2V2h-9z"/>
-              </svg>
             </div>
             <span class="tool-count">${toolCount} tools</span>
           </div>
@@ -1811,7 +1928,15 @@ function showConnectionSuccess() {
                 </svg>
               </div>
               <div class="tool-card-content">
-                <h4>Get Customer Data</h4>
+                <div class="tool-card-label-row">
+                  <h4>Get Customer Data</h4>
+                  <span class="tool-card-preview-hint" aria-hidden="true">
+                    <svg width="16" height="16" viewBox="0 0 32 32" fill="currentColor">
+                      <path d="M18 6v2h4.59L16 14.59 17.41 16 24 9.41V14h2V6z"></path>
+                      <path d="M24 24H8V8h8V6H8a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-8h-2z"></path>
+                    </svg>
+                  </span>
+                </div>
                 <p>Retrieve customer information and history</p>
               </div>
             </div>
@@ -1824,7 +1949,15 @@ function showConnectionSuccess() {
                 </svg>
               </div>
               <div class="tool-card-content">
-                <h4>Create Records</h4>
+                <div class="tool-card-label-row">
+                  <h4>Create Records</h4>
+                  <span class="tool-card-preview-hint" aria-hidden="true">
+                    <svg width="16" height="16" viewBox="0 0 32 32" fill="currentColor">
+                      <path d="M18 6v2h4.59L16 14.59 17.41 16 24 9.41V14h2V6z"></path>
+                      <path d="M24 24H8V8h8V6H8a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-8h-2z"></path>
+                    </svg>
+                  </span>
+                </div>
                 <p>Add new records to ${appName}</p>
               </div>
             </div>
@@ -1836,7 +1969,15 @@ function showConnectionSuccess() {
                 </svg>
               </div>
               <div class="tool-card-content">
-                <h4>Update Information</h4>
+                <div class="tool-card-label-row">
+                  <h4>Update Information</h4>
+                  <span class="tool-card-preview-hint" aria-hidden="true">
+                    <svg width="16" height="16" viewBox="0 0 32 32" fill="currentColor">
+                      <path d="M18 6v2h4.59L16 14.59 17.41 16 24 9.41V14h2V6z"></path>
+                      <path d="M24 24H8V8h8V6H8a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-8h-2z"></path>
+                    </svg>
+                  </span>
+                </div>
                 <p>Modify existing records and data</p>
               </div>
             </div>
@@ -1849,7 +1990,15 @@ function showConnectionSuccess() {
                 </svg>
               </div>
               <div class="tool-card-content">
-                <h4>Search & Filter</h4>
+                <div class="tool-card-label-row">
+                  <h4>Search & Filter</h4>
+                  <span class="tool-card-preview-hint" aria-hidden="true">
+                    <svg width="16" height="16" viewBox="0 0 32 32" fill="currentColor">
+                      <path d="M18 6v2h4.59L16 14.59 17.41 16 24 9.41V14h2V6z"></path>
+                      <path d="M24 24H8V8h8V6H8a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-8h-2z"></path>
+                    </svg>
+                  </span>
+                </div>
                 <p>Find specific records using queries</p>
               </div>
             </div>
@@ -2287,42 +2436,196 @@ function togglePageHeader() {
   const pageHeader = document.getElementById("pageHeader");
   pageHeader.classList.toggle("collapsed");
   pageHeader.classList.toggle("expanded");
+}
 
-  // Chat Suggestion Handler
-  function handleChatSuggestion(suggestion) {
-    const chatInput = document.getElementById("chatInput");
-    const chatMessages = document.getElementById("chatMessages");
+function toggleChatPanel() {
+  const chatPanel = document.getElementById("aiChatPanel");
+  if (!chatPanel) return;
 
-    // Add user message
-    const userMessage = document.createElement("div");
-    userMessage.className = "chat-message";
-    userMessage.innerHTML = `
-    <div class="chat-avatar" style="background: #8d8d8d;">You</div>
+  chatPanel.classList.toggle("chat-panel-hidden");
+}
+
+function toggleNavDrawer() {
+  const drawer = document.getElementById("navDrawer");
+  const overlay = document.getElementById("navDrawerOverlay");
+  const hamburger = document.getElementById("hamburgerMenu");
+  if (!drawer || !overlay || !hamburger) return;
+
+  const isOpen = drawer.classList.toggle("open");
+  overlay.classList.toggle("open", isOpen);
+  drawer.setAttribute("aria-hidden", String(!isOpen));
+  hamburger.setAttribute("aria-expanded", String(isOpen));
+}
+
+function openNavDrawer() {
+  const drawer = document.getElementById("navDrawer");
+  const overlay = document.getElementById("navDrawerOverlay");
+  const hamburger = document.getElementById("hamburgerMenu");
+  if (!drawer || !overlay || !hamburger) return;
+
+  drawer.classList.add("open");
+  overlay.classList.add("open");
+  drawer.setAttribute("aria-hidden", "false");
+  hamburger.setAttribute("aria-expanded", "true");
+}
+
+function closeNavDrawer() {
+  const drawer = document.getElementById("navDrawer");
+  const overlay = document.getElementById("navDrawerOverlay");
+  const hamburger = document.getElementById("hamburgerMenu");
+  if (!drawer || !overlay || !hamburger) return;
+
+  drawer.classList.remove("open");
+  overlay.classList.remove("open");
+  drawer.setAttribute("aria-hidden", "true");
+  hamburger.setAttribute("aria-expanded", "false");
+}
+
+function openChatPanelFromDrawer() {
+  const chatPanel = document.getElementById("aiChatPanel");
+  if (chatPanel) {
+    chatPanel.classList.remove("chat-panel-hidden");
+  }
+
+  closeNavDrawer();
+}
+
+function appendUserChatMessage(message) {
+  const chatMessages = document.getElementById("chatMessages");
+  if (!chatMessages) return;
+
+  const userMessage = document.createElement("div");
+  userMessage.className = "chat-message user-message";
+  userMessage.innerHTML = `
+    <div class="chat-avatar">v</div>
     <div class="chat-content">
       <div class="chat-source">You</div>
-      <div class="chat-text">${suggestion}</div>
+      <div class="chat-text">${message}</div>
     </div>
   `;
-    chatMessages.appendChild(userMessage);
+  chatMessages.appendChild(userMessage);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
 
-    // Simulate AI response after a short delay
-    setTimeout(() => {
-      const aiMessage = document.createElement("div");
-      aiMessage.className = "chat-message";
-      aiMessage.innerHTML = `
-      <div class="chat-avatar">🤖</div>
-      <div class="chat-content">
-        <div class="chat-source">Control Plane Agent</div>
-        <div class="chat-text">I understand you're asking about: "${suggestion}". This is a prototype, so I can't provide a real response yet, but in the full version I would help you with this specific question based on your role and context.</div>
+function appendAgentChatMessage(message, options = []) {
+  const chatMessages = document.getElementById("chatMessages");
+  if (!chatMessages) return;
+
+  const optionsMarkup = options.length
+    ? `
+      <div class="chat-inline-options">
+        ${options
+          .map(
+            (option) => `
+              <button class="chat-inline-option" onclick="${option.action}">
+                ${option.label}
+              </button>
+            `,
+          )
+          .join("")}
       </div>
-    `;
-      chatMessages.appendChild(aiMessage);
+    `
+    : "";
 
-      // Scroll to bottom
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }, 500);
+  const aiMessage = document.createElement("div");
+  aiMessage.className = "chat-message";
+  aiMessage.innerHTML = `
+    <div class="chat-avatar" aria-hidden="true">
+      <img src="icons/wxo.svg" alt="" />
+    </div>
+    <div class="chat-content">
+      <div class="chat-source">watsonx</div>
+      <div class="chat-text">${message}</div>
+      ${optionsMarkup}
+    </div>
+  `;
+  chatMessages.appendChild(aiMessage);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
 
-    // Scroll to bottom
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+function startSetupConnectionsFlow() {
+  chatConnectionFlow = { step: "domain" };
+  appendAgentChatMessage(
+    "Absolutely — I can help you get your connections set up. To recommend the right apps and configuration, what domain are you planning to build agents for?",
+    [
+      {
+        label: "Customer care",
+        action: "selectChatConnectionDomain('customercare', 'Customer care')",
+      },
+      {
+        label: "Procurement",
+        action: "selectChatConnectionDomain('procurement', 'Procurement')",
+      },
+      {
+        label: "Custom",
+        action: "selectChatConnectionDomain('custom', 'Custom')",
+      },
+    ],
+  );
+}
+
+function handleChatSuggestion(suggestion) {
+  const chatInput = document.getElementById("chatInput");
+  if (chatInput) {
+    chatInput.value = suggestion;
   }
+
+  appendUserChatMessage(suggestion);
+
+  if (suggestion === "Setup connections") {
+    startSetupConnectionsFlow();
+    return;
+  }
+
+  setTimeout(() => {
+    appendAgentChatMessage(
+      `I understand you're asking about: "${suggestion}". This is a prototype, so I can't provide a real response yet, but in the full version I would help you with this specific question based on your role and context.`,
+    );
+  }, 500);
+}
+
+function selectChatConnectionDomain(domainKey, domainLabel) {
+  selectedDomain = domainKey;
+  chatConnectionFlow = { step: "industry", domain: domainKey };
+
+  appendUserChatMessage(domainLabel);
+  appendAgentChatMessage(
+    "Got it. Which industry best matches the agents you want to create?",
+    [
+      {
+        label: "Retail",
+        action: "selectChatConnectionIndustry('retail', 'Retail')",
+      },
+      {
+        label: "Banking",
+        action: "selectChatConnectionIndustry('banking', 'Banking')",
+      },
+      {
+        label: "Technology",
+        action: "selectChatConnectionIndustry('technology', 'Technology')",
+      },
+    ],
+  );
+}
+
+function selectChatConnectionIndustry(industryKey, industryLabel) {
+  selectedIndustry = industryKey;
+  appendUserChatMessage(industryLabel);
+  appendAgentChatMessage(
+    `Great — that gives me enough context to tailor the setup. I’ll use <strong>${industryLabel}</strong> as your industry context and get your connection flow ready next.`,
+    [
+      {
+        label: "Open connection setup",
+        action: "openConnectionSetupFromChat()",
+      },
+    ],
+  );
+}
+
+function openConnectionSetupFromChat() {
+  appendUserChatMessage("Open connection setup");
+  appendAgentChatMessage(
+    "Opening the connections page and taking you into the setup flow now.",
+  );
+  showConnectionSettingsPage(true);
 }

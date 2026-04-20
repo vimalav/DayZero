@@ -303,30 +303,278 @@
     >
       <header class="app-header">
         <div class="header-content">
+          <button
+            class="hamburger-menu"
+            id="hamburgerMenu"
+            aria-label="Open navigation menu"
+            aria-expanded="false"
+            onclick="toggleNavDrawer()"
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2 4h16v2H2V4zm0 5h16v2H2V9zm0 5h16v2H2v-2z" />
+            </svg>
+          </button>
           <div class="brand">
             <span class="brand-ibm">IBM</span
             ><span class="brand-product">watsonx Orchestrate</span>
           </div>
-          <div class="persona-badge" id="personaBadge"></div>
-          <button class="change-role-btn" id="changeRole">Change Role</button>
+          <button class="persona-badge" id="personaBadge"></button>
         </div>
       </header>
 
+      <div
+        class="nav-drawer-overlay"
+        id="navDrawerOverlay"
+        onclick="closeNavDrawer()"
+      ></div>
+
+      <aside class="nav-drawer" id="navDrawer" aria-hidden="true">
+        <div class="nav-drawer-content">
+          <button class="nav-item active">
+            <span class="nav-item-indicator"></span>
+            <span class="nav-item-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 32 32"
+                aria-hidden="true"
+              >
+                <path
+                  fill="currentColor"
+                  d="M16 6.59 26.41 17 25 18.41l-1-1V26h-6v-6h-4v6H8v-8.59l-1 1L5.59 17 16 6.59z"
+                ></path>
+              </svg>
+            </span>
+            <span class="nav-item-label">Home</span>
+          </button>
+
+          <button class="nav-item">
+            <span class="nav-item-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 32 32"
+                aria-hidden="true"
+              >
+                <path
+                  fill="currentColor"
+                  d="M16 4C8.83 4 3 8.86 3 14.83c0 3.02 1.47 5.86 4.05 7.89L6 28l5.96-3.13c1.28.33 2.63.5 4.04.5 7.17 0 13-4.86 13-10.84S23.17 4 16 4zm0 19.37c-1.27 0-2.49-.16-3.62-.48l-.76-.21-3.08 1.62.54-2.71-.88-.62C6.06 19.5 5 17.22 5 14.83 5 9.96 9.93 6 16 6s11 3.96 11 8.83-4.93 8.84-11 8.84z"
+                ></path>
+              </svg>
+            </span>
+            <span class="nav-item-label">Chat</span>
+          </button>
+
+          <button class="nav-item">
+            <span class="nav-item-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 32 32"
+                aria-hidden="true"
+              >
+                <path
+                  fill="currentColor"
+                  d="M6 6h9v9H6zm11 0h9v9h-9zM6 17h9v9H6zm11 0h9v9h-9z"
+                ></path>
+              </svg>
+            </span>
+            <span class="nav-item-label">Discover</span>
+          </button>
+
+          <button class="nav-item">
+            <span class="nav-item-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 32 32"
+                aria-hidden="true"
+              >
+                <path
+                  fill="currentColor"
+                  d="M27.45 9.39l-4.84-4.84-1.41 1.41 2.43 2.43-5.2 5.2-2.43-2.43-7.45 7.45 1.41 1.41 6.04-6.04 2.43 2.43 6.61-6.61 2.43 2.43 1.41-1.41zM6 24h20v2H6z"
+                ></path>
+              </svg>
+            </span>
+            <span class="nav-item-label">Build</span>
+          </button>
+
+          <button class="nav-item">
+            <span class="nav-item-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 32 32"
+                aria-hidden="true"
+              >
+                <path
+                  fill="currentColor"
+                  d="M6 24h4V14H6zm8 0h4V8h-4zm8 0h4V18h-4z"
+                ></path>
+              </svg>
+            </span>
+            <span class="nav-item-label">Analyze</span>
+          </button>
+
+          <div class="nav-group expanded">
+            <button class="nav-item nav-group-trigger">
+              <span class="nav-item-icon">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 32 32"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M18 30h-4v-3.05a11 11 0 0 1-2.6-.76l-2.16 2.15-2.83-2.82 2.16-2.16A10.94 10.94 0 0 1 7.05 18H4v-4h3.05c.17-.9.43-1.78.76-2.6L5.66 9.24l2.83-2.83 2.15 2.16c.82-.33 1.7-.59 2.6-.76V4h4v3.05c.9.17 1.78.43 2.6.76l2.16-2.16 2.82 2.83-2.15 2.16c.33.82.59 1.7.76 2.6H28v4h-3.05c-.17.9-.43 1.78-.76 2.6l2.15 2.16-2.82 2.82-2.16-2.15c-.82.33-1.7.59-2.6.76zM16 10a6 6 0 1 0 6 6 6 6 0 0 0-6-6z"
+                  ></path>
+                </svg>
+              </span>
+              <span class="nav-item-label">Manage</span>
+              <span class="nav-group-chevron">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 32 32"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M16 21 8 13l1.41-1.41L16 18.17l6.59-6.58L24 13z"
+                  ></path>
+                </svg>
+              </span>
+            </button>
+
+            <div class="nav-submenu">
+              <button
+                class="nav-subitem"
+                onclick="showConnectionSettingsPage()"
+              >
+                Connections
+              </button>
+              <button class="nav-subitem">Voice</button>
+              <button class="nav-subitem">Phone</button>
+              <button class="nav-subitem">Users</button>
+            </div>
+          </div>
+
+          <button
+            class="nav-item nav-item-bottom"
+            onclick="openChatPanelFromDrawer()"
+          >
+            <span class="nav-item-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 32 32"
+                aria-hidden="true"
+              >
+                <path
+                  fill="currentColor"
+                  d="M16 4C8.83 4 3 8.86 3 14.83c0 3.02 1.47 5.86 4.05 7.89L6 28l5.96-3.13c1.28.33 2.63.5 4.04.5 7.17 0 13-4.86 13-10.84S23.17 4 16 4zm0 19.37c-1.27 0-2.49-.16-3.62-.48l-.76-.21-3.08 1.62.54-2.71-.88-.62C6.06 19.5 5 17.22 5 14.83 5 9.96 9.93 6 16 6s11 3.96 11 8.83-4.93 8.84-11 8.84z"
+                ></path>
+              </svg>
+            </span>
+            <span class="nav-item-label">AI chat</span>
+          </button>
+        </div>
+      </aside>
+
       <div class="main-layout">
-        <aside class="ai-chat-panel">
+        <aside class="ai-chat-panel" id="aiChatPanel">
           <div class="chat-header">
-            <h3>AI Chat</h3>
+            <div class="chat-header-actions">
+              <button class="chat-header-icon-btn" aria-label="More options">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 32 32"
+                  fill="currentColor"
+                >
+                  <circle cx="16" cy="7" r="2"></circle>
+                  <circle cx="16" cy="16" r="2"></circle>
+                  <circle cx="16" cy="25" r="2"></circle>
+                </svg>
+              </button>
+              <button class="chat-header-icon-btn" aria-label="Expand panel">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 32 32"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M26 4h-8v2h4.59L16 12.59 17.41 14 24 7.41V12h2V4z"
+                  ></path>
+                  <path
+                    d="M6 20H4v8h8v-2H7.41L14 19.41 12.59 18 6 24.59V20z"
+                  ></path>
+                </svg>
+              </button>
+              <button
+                class="chat-header-icon-btn"
+                aria-label="Close panel"
+                onclick="toggleChatPanel()"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 32 32"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M24 9.4L22.6 8 16 14.6 9.4 8 8 9.4 14.6 16 8 22.6 9.4 24 16 17.4 22.6 24 24 22.6 17.4 16 24 9.4z"
+                  ></path>
+                </svg>
+              </button>
+            </div>
           </div>
           <div class="chat-messages" id="chatMessages">
             <!-- Dynamic content -->
           </div>
           <div class="chat-input-wrapper">
-            <textarea
-              class="chat-input"
-              rows="2"
-              placeholder="Ask me anything..."
-              id="chatInput"
-            ></textarea>
+            <div class="chat-input-shell">
+              <textarea
+                class="chat-input"
+                rows="1"
+                placeholder="Type something..."
+                id="chatInput"
+              ></textarea>
+              <div class="chat-input-actions">
+                <button class="chat-input-icon-btn" aria-label="Use microphone">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 32 32"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M16 21a5 5 0 0 0 5-5V8a5 5 0 0 0-10 0v8a5 5 0 0 0 5 5z"
+                    ></path>
+                    <path
+                      d="M23 15v1a7 7 0 0 1-14 0v-1H7v1a9 9 0 0 0 8 8.94V29h2v-4.06A9 9 0 0 0 25 16v-1z"
+                    ></path>
+                  </svg>
+                </button>
+                <button
+                  class="chat-input-icon-btn chat-send-btn"
+                  aria-label="Send message"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 32 32"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M27.71 4.29a1 1 0 0 0-1.05-.23l-22 8a1 1 0 0 0 0 1.87l8.59 3.43L19.59 11 14 16.41l3.44 8.59a1 1 0 0 0 1.87 0l8-22a1 1 0 0 0-.6-1.71z"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
           </div>
         </aside>
 
@@ -335,12 +583,25 @@
           <div class="page-header collapsed" id="pageHeader">
             <div class="page-header-toggle" onclick="togglePageHeader()">
               <div class="page-header-title">
-                <h2>🚀 Getting Started</h2>
+                <h2>Getting Started</h2>
                 <span class="page-header-subtitle"
                   >Quick setup and guidance</span
                 >
               </div>
-              <div class="page-header-toggle-icon">▼</div>
+              <button
+                class="page-header-toggle-btn"
+                aria-label="Toggle getting started section"
+              >
+                <svg
+                  class="page-header-chevron"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                >
+                  <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z" />
+                </svg>
+              </button>
             </div>
             <div class="page-header-content">
               <p class="page-header-description">
@@ -360,6 +621,155 @@
 
           <div class="main-content" id="mainContent">
             <!-- Dynamic content -->
+          </div>
+
+          <div
+            class="connection-settings-page"
+            id="connectionSettingsPage"
+            style="display: none"
+          >
+            <div class="connection-settings-breadcrumb">
+              <button
+                class="connection-settings-breadcrumb-link"
+                onclick="hideConnectionSettingsPage()"
+              >
+                Home
+              </button>
+              <span class="connection-settings-breadcrumb-separator">/</span>
+              <span>Manage</span>
+              <span class="connection-settings-breadcrumb-separator">/</span>
+              <span class="active">Connections</span>
+            </div>
+
+            <div class="connection-settings-header">
+              <div>
+                <h1>Connection settings</h1>
+                <p>
+                  Configure connections and credentials to use the applications
+                  in the tools.
+                </p>
+              </div>
+            </div>
+
+            <div class="connection-settings-tabs">
+              <button class="connection-settings-tab active">
+                Connections
+              </button>
+              <button class="connection-settings-tab">Credentials</button>
+            </div>
+
+            <div class="connection-settings-card">
+              <div class="connection-settings-card-header">
+                <div>
+                  <h2>Connections</h2>
+                  <p>
+                    Add connections to use the applications in the tools in both
+                    draft and live environments. The draft environment is to
+                    preview and test the tools.
+                  </p>
+                </div>
+                <button
+                  class="connection-settings-add-btn"
+                  onclick="showConnectionModal(selectedDomain)"
+                >
+                  Add connection
+                </button>
+              </div>
+
+              <div class="connection-settings-filters">
+                <span class="connection-settings-pill active">All (188)</span>
+                <span class="connection-settings-pill">Knowledge (55)</span>
+              </div>
+
+              <div class="connection-settings-table">
+                <div class="connection-settings-row connection-settings-head">
+                  <span>Name</span>
+                  <span>Draft</span>
+                  <span>Live</span>
+                  <span>Last updated</span>
+                </div>
+
+                <div class="connection-settings-row">
+                  <span>
+                    <strong>Tavily</strong><br />
+                    <small>tav1123</small>
+                  </span>
+                  <span>
+                    <strong>Direct access token</strong><br />
+                    <small>Member credential</small>
+                  </span>
+                  <span>
+                    <strong>Direct access token</strong><br />
+                    <small>Member credential</small>
+                  </span>
+                  <span>4/2/2025</span>
+                </div>
+
+                <div class="connection-settings-row">
+                  <span>
+                    <strong>Salesforce</strong><br />
+                    <small>Out1234578</small>
+                  </span>
+                  <span>
+                    <strong>OAuth 2 (Authorization code)</strong><br />
+                    <small>Team credential</small>
+                  </span>
+                  <span>
+                    <strong>-</strong><br />
+                    <small>-</small>
+                  </span>
+                  <span>4/2/2025</span>
+                </div>
+
+                <div class="connection-settings-row">
+                  <span>
+                    <strong>Slack</strong><br />
+                    <small>Out1234578</small>
+                  </span>
+                  <span>
+                    <strong>OAuth 2 (Authorization code)</strong><br />
+                    <small>Member credential</small>
+                  </span>
+                  <span>
+                    <strong>OAuth 2 (Authorization code)</strong><br />
+                    <small>Member credential</small>
+                  </span>
+                  <span>4/2/2025</span>
+                </div>
+
+                <div class="connection-settings-row">
+                  <span>
+                    <strong>Trello</strong><br />
+                    <small>Out1234578</small>
+                  </span>
+                  <span>
+                    <strong>API Key</strong><br />
+                    <small>Team credential</small>
+                  </span>
+                  <span>
+                    <strong>Bearer token</strong><br />
+                    <small>Team credential</small>
+                  </span>
+                  <span>4/2/2025</span>
+                </div>
+
+                <div class="connection-settings-row">
+                  <span>
+                    <strong>Workday</strong><br />
+                    <small>Out1234578</small>
+                  </span>
+                  <span>
+                    <strong>Basic auth</strong><br />
+                    <small>Team credential</small>
+                  </span>
+                  <span>
+                    <strong>NA</strong><br />
+                    <small>-</small>
+                  </span>
+                  <span>4/2/2025</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
