@@ -1,6 +1,6 @@
 // watsonx Orchestrate v1.4 - Jobs-First Approach (Customer Care Focus)
 
-let selectedPersona = null;
+let selectedPersona = "admin"; // Default persona - user can change via badge click
 let selectedJob = null;
 let selectedDomain = "customercare"; // Default domain for connection recommendations
 let selectedIndustry = "customer-care";
@@ -8,6 +8,12 @@ let assessmentAnswers = { q1: null, q2: null, q3: null };
 let currentQuestion = 1;
 let currentJobs = []; // Store current jobs globally for modal access
 let chatConnectionFlow = null;
+
+// Initialize app on page load
+document.addEventListener("DOMContentLoaded", () => {
+  // Load dashboard with default persona
+  showJobsDashboard();
+});
 
 const personaContent = {
   builder: {
@@ -672,6 +678,8 @@ function acceptRecommendation() {
 
 function continueToLanding() {
   if (!selectedPersona) return;
+  // Hide persona overlay
+  document.getElementById("personaOverlay").classList.add("hidden");
   showJobsDashboard();
 }
 
@@ -689,7 +697,6 @@ function showRoleGuide() {
 // Persona badge click to change role
 document.getElementById("personaBadge").addEventListener("click", () => {
   document.getElementById("personaOverlay").classList.remove("hidden");
-  document.getElementById("appContent").style.display = "none";
   showScreen("personaScreen");
 });
 
@@ -949,17 +956,6 @@ function showJobsDashboard() {
           )
           .join("")}
       </div>
-      
-      ${
-        content.banner
-          ? `
-      <div class="info-banner">
-        <div class="info-banner-title">${content.banner.title}</div>
-        <div class="info-banner-text">${content.banner.message}</div>
-      </div>
-      `
-          : ""
-      }
     `;
   } else {
     // Render jobs for builder/sme
@@ -1090,17 +1086,6 @@ function showJobsDashboard() {
           )
           .join("")}
       </div>
-      
-      ${
-        content.banner
-          ? `
-      <div class="info-banner">
-        <div class="info-banner-title">${content.banner.title}</div>
-        <div class="info-banner-text">${content.banner.message}</div>
-      </div>
-      `
-          : ""
-      }
     `;
   }
 }
