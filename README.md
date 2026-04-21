@@ -36,14 +36,6 @@ Or open any HTML file locally in your browser - no build process required.
 
 ---
 
-### v1.7 - Account Jobs
-
-**File:** [`v1.7-account-jobs.html`](v1.7-account-jobs.html)
-
-**Focus:** Account-level job management and monitoring capabilities
-
----
-
 ### v1.3 - Simplified
 
 **File:** [`v1.3-simplified.html`](v1.3-simplified.html)
@@ -121,7 +113,6 @@ Provide assistance exactly when and where users need it.
 .
 ├── index.html                              # Version selector landing page
 ├── v1.4-jobs-first.html                    # Latest version ⭐
-├── v1.7-account-jobs.html                  # Account management
 ├── v1.3-simplified.html                    # Simplified flow
 ├── v1.2-persona-domain-onboarding.html     # Persona + domain
 ├── v1.0-persona-chat-onboarding.html       # Original persona flow
@@ -163,16 +154,15 @@ To update the live site:
 
 ## 📊 Version History
 
-| Version | Focus            | Key Innovation                           |
-| ------- | ---------------- | ---------------------------------------- |
-| v1.4    | Jobs First       | Interactive tool preview, smart defaults |
-| v1.7    | Account Jobs     | Account-level management                 |
-| v1.3    | Simplified       | Reduced complexity                       |
-| v1.2    | Persona + Domain | Two-dimensional personalization          |
-| v1.0    | Persona + Chat   | Conversational guidance                  |
+| Version | Focus            | Key Innovation                                          |
+| ------- | ---------------- | ------------------------------------------------------- |
+| v1.4    | Jobs First       | AI chat panel, nav drawer, connection settings workflow |
+| v1.3    | Simplified       | Reduced complexity                                      |
+| v1.2    | Persona + Domain | Two-dimensional personalization                         |
+| v1.0    | Persona + Chat   | Conversational guidance                                 |
 
 ---
 
-**Last Updated:** April 16, 2026  
-**Current Version:** v1.4 (Jobs First)  
-**Status:** Production ready - validated by user research
+**Last Updated:** April 20, 2026
+**Current Version:** v1.4 (Jobs First)
+**Status:** Active prototype with updated navigation and connection settings flow

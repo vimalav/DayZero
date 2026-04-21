@@ -5237,3 +5237,211 @@ body {
 .send-btn svg {
   display: block;
 }
+
+/* v1.5 Onboarding Styles */
+.section-container {
+  margin-bottom: 32px;
+}
+
+.section-header {
+  margin-bottom: 16px;
+}
+
+.section-description {
+  font-size: 14px;
+  color: #525252;
+  line-height: 20px;
+  margin-bottom: 24px;
+}
+
+.getting-started-card-icon {
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.getting-started-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+/* Get Started Banner */
+.get-started-banner {
+  background: linear-gradient(135deg, #0f62fe 0%, #4c1d95 100%);
+  color: white;
+  padding: 1.5rem;
+  margin: 0;
+  border-radius: 0;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.get-started-banner-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.get-started-banner-close:hover {
+  opacity: 1;
+}
+
+.get-started-banner-content {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.get-started-banner-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.get-started-banner-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.get-started-banner-text {
+  flex: 1;
+}
+
+.get-started-banner-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 24px 0;
+  line-height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+.lightbulb-icon {
+  margin-right: 8px;
+  font-size: 24px;
+}
+
+/* Banner styling for onboarding page */
+.get-started-banner {
+  background: linear-gradient(135deg, #0f62fe 0%, #4c1d95 100%);
+  color: white;
+  padding: 1.5rem;
+  margin: 0;
+  border-radius: 0;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.get-started-banner-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.get-started-banner-close:hover {
+  opacity: 1;
+}
+
+.get-started-banner-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 24px 0;
+  line-height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+.get-started-banner-columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 48px;
+}
+
+.get-started-banner-column h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  line-height: 20px;
+}
+
+.get-started-banner-column p {
+  font-size: 14px;
+  line-height: 20px;
+  margin: 0 0 12px 0;
+  opacity: 0.9;
+}
+
+.get-started-banner-link {
+  color: white;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.get-started-banner-link:hover {
+  text-decoration: none;
+}
+
+.get-started-banner-columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 48px;
+}
+
+.get-started-banner-column h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  line-height: 20px;
+}
+
+.get-started-banner-column p {
+  font-size: 14px;
+  line-height: 20px;
+  margin: 0 0 12px 0;
+  opacity: 0.9;
+}
+
+.get-started-banner-link {
+  color: white;
+  text-decoration: underline;
+  font-size: 14px;
+  line-height: 20px;
+  display: inline-block;
+  transition: opacity 0.2s;
+}
+
+.get-started-banner-link:hover {
+  opacity: 0.8;
+}
+
+.get-started-banner.hidden {
+  display: none;
+}
