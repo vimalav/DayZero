@@ -3,213 +3,55 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>watsonx Orchestrate - Day Zero Prototypes</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap"
-      rel="stylesheet"
+    <title>watsonx Orchestrate - Day Zero</title>
+    <meta
+      http-equiv="refresh"
+      content="0; url=v2-dashboard/v2.0-admin-dashboard.html"
     />
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
       body {
         font-family:
           "IBM Plex Sans",
           -apple-system,
           BlinkMacSystemFont,
           "Segoe UI",
-          Roboto,
           sans-serif;
-        background: linear-gradient(135deg, #0f62fe 0%, #8a3ffc 100%);
-        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 20px;
-      }
-
-      .container {
-        max-width: 1200px;
-        width: 100%;
-        background: white;
-        border-radius: 16px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-        padding: 48px;
-      }
-
-      .header {
-        text-align: center;
-        margin-bottom: 48px;
-      }
-
-      .header h1 {
-        color: #161616;
-        font-size: 36px;
-        font-weight: 600;
-        margin-bottom: 12px;
-      }
-
-      .header p {
-        color: #525252;
-        font-size: 18px;
-      }
-
-      .versions-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 24px;
-        margin-bottom: 32px;
-      }
-
-      .version-card {
+        height: 100vh;
+        margin: 0;
         background: #f4f4f4;
-        border: 2px solid #e0e0e0;
-        border-radius: 8px;
-        padding: 24px;
-        transition: all 0.2s ease;
-        cursor: pointer;
-        text-decoration: none;
-        display: block;
       }
-
-      .version-card:hover {
-        border-color: #0f62fe;
-        transform: translateY(-4px);
-        box-shadow: 0 4px 16px rgba(15, 98, 254, 0.2);
-      }
-
-      .version-card.featured {
-        background: linear-gradient(135deg, #0f62fe 0%, #8a3ffc 100%);
-        border-color: #0f62fe;
-        color: white;
-      }
-
-      .version-card.featured .version-title,
-      .version-card.featured .version-description {
-        color: white;
-      }
-
-      .version-badge {
-        display: inline-block;
-        background: #24a148;
-        color: white;
-        padding: 4px 12px;
-        border-radius: 12px;
-        font-size: 12px;
-        font-weight: 600;
-        margin-bottom: 12px;
-      }
-
-      .version-card.featured .version-badge {
-        background: rgba(255, 255, 255, 0.3);
-      }
-
-      .version-title {
-        color: #161616;
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 8px;
-      }
-
-      .version-description {
-        color: #525252;
-        font-size: 14px;
-        line-height: 1.5;
-      }
-
-      .footer {
+      .container {
         text-align: center;
-        padding-top: 32px;
-        border-top: 1px solid #e0e0e0;
-        color: #525252;
-        font-size: 14px;
       }
-
-      .footer a {
+      h1 {
+        color: #161616;
+        margin-bottom: 16px;
+      }
+      p {
+        color: #525252;
+        margin-bottom: 24px;
+      }
+      a {
         color: #0f62fe;
         text-decoration: none;
+        font-weight: 500;
       }
-
-      .footer a:hover {
+      a:hover {
         text-decoration: underline;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <div class="header">
-        <h1>watsonx Orchestrate - Day Zero</h1>
-        <p>Interactive Prototypes & Design Explorations</p>
-      </div>
-
-      <div class="versions-grid">
-        <a href="v1.4-jobs-first.html" class="version-card featured">
-          <span class="version-badge">LATEST</span>
-          <div class="version-title">v1.4 - Jobs First</div>
-          <div class="version-description">
-            Enhanced onboarding with the updated AI chat side panel, hamburger
-            navigation drawer, connection settings page, and guided connection
-            setup flow.
-          </div>
-        </a>
-
-        <a href="v1.3-simplified.html" class="version-card">
-          <div class="version-title">v1.3 - Simplified</div>
-          <div class="version-description">
-            Streamlined onboarding experience with reduced complexity.
-          </div>
-        </a>
-
-        <a href="v1.2-persona-domain-onboarding.html" class="version-card">
-          <div class="version-title">v1.2 - Persona Domain</div>
-          <div class="version-description">
-            Persona-based onboarding with domain-specific guidance.
-          </div>
-        </a>
-
-        <a href="v1.0-persona-chat-onboarding.html" class="version-card">
-          <div class="version-title">v1.0 - Persona Chat</div>
-          <div class="version-description">
-            Initial persona-based onboarding with conversational interface.
-          </div>
-        </a>
-      </div>
-
-      <div class="versions-grid">
-        <a href="research-insights.html" class="version-card">
-          <div class="version-title">📊 Research Insights</div>
-          <div class="version-description">
-            User research findings and design insights from interviews and
-            testing.
-          </div>
-        </a>
-
-        <a href="research-insights-transcripts.html" class="version-card">
-          <div class="version-title">📝 Research Transcripts</div>
-          <div class="version-description">
-            Detailed transcripts from user research sessions and interviews.
-          </div>
-        </a>
-
-        <a href="executive-summary.html" class="version-card">
-          <div class="version-title">📈 Executive Summary</div>
-          <div class="version-description">
-            High-level overview and key findings from the Day Zero project.
-          </div>
-        </a>
-      </div>
-
-      <div class="footer">
-        <p>
-          Built with IBM Carbon Design System |
-          <a href="https://github.com/vimalav/DayZero" target="_blank"
-            >View on GitHub</a
-          >
-        </p>
-      </div>
+      <h1>watsonx Orchestrate - Day Zero</h1>
+      <p>Redirecting to v2.0 Admin Dashboard...</p>
+      <p>
+        If you are not redirected,
+        <a href="v2-dashboard/v2.0-admin-dashboard.html">click here</a>.
+      </p>
     </div>
   </body>
 </html>
