@@ -1,0 +1,1143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>watsonx Orchestrate - Agent Catalog (Solution-First)</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="v2.0-styles.css" />
+    <link rel="stylesheet" href="v2.0-styles-variant-b.css" />
+    <script type="module">
+      const iconCache = new Map();
+
+      async function loadCarbonIcons(container = document) {
+        const icons = container.querySelectorAll("[data-carbon-icon]");
+
+        for (const iconElement of icons) {
+          if (iconElement.querySelector("svg")) {
+            continue;
+          }
+
+          const iconName = iconElement.getAttribute("data-carbon-icon");
+          const size = iconElement.getAttribute("data-icon-size") || "16";
+          const cacheKey = `${iconName}-${size}`;
+
+          try {
+            let svgContent;
+
+            if (iconCache.has(cacheKey)) {
+              svgContent = iconCache.get(cacheKey);
+            } else {
+              const iconPath = `https://cdn.jsdelivr.net/npm/@carbon/icons@11.49.0/svg/${size}/${iconName}.svg`;
+              const response = await fetch(iconPath);
+
+              if (response.ok) {
+                svgContent = await response.text();
+                iconCache.set(cacheKey, svgContent);
+              } else {
+                console.warn(`Icon not found: ${iconName} (${size}px)`);
+              }
+            }
+
+            if (svgContent) {
+              iconElement.innerHTML = svgContent;
+            }
+          } catch (error) {
+            console.error(`Failed to load icon: ${iconName}`, error);
+          }
+        }
+      }
+
+      window.loadCarbonIcons = loadCarbonIcons;
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", loadCarbonIcons);
+      } else {
+        loadCarbonIcons();
+      }
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Handle intent category clicks
+        const intentLinks = document.querySelectorAll(
+          ".catalog-filter-link[data-intent]",
+        );
+        const getStartedSection = document.getElementById("getStartedSection");
+        const otherIntentsSection = document.getElementById(
+          "otherIntentsSection",
+        );
+        const intentSubtitle = document.getElementById("intentSubtitle");
+
+        intentLinks.forEach((link) => {
+          link.addEventListener("click", function () {
+            intentLinks.forEach((l) => l.classList.remove("active"));
+            this.classList.add("active");
+
+            const intent = this.getAttribute("data-intent");
+            const intentText = this.textContent.trim();
+
+            // Show/hide sections based on selection
+            if (intent === "get-started") {
+              showSection(getStartedSection);
+            } else {
+              showSection(otherIntentsSection);
+              if (intentSubtitle) {
+                intentSubtitle.textContent = `Showing solutions in "${intentText}"`;
+              }
+            }
+          });
+        });
+
+        // Handle help icon click
+        const helpIconBtn = document.querySelector(".help-icon-btn");
+        const helpTooltip = document.getElementById("helpTooltip");
+        const helpTooltipClose = document.querySelector(".help-tooltip-close");
+
+        if (helpIconBtn && helpTooltip) {
+          helpIconBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            helpTooltip.style.display =
+              helpTooltip.style.display === "none" ? "block" : "none";
+          });
+
+          if (helpTooltipClose) {
+            helpTooltipClose.addEventListener("click", function () {
+              helpTooltip.style.display = "none";
+            });
+          }
+
+          // Close tooltip when clicking outside
+          document.addEventListener("click", function (e) {
+            if (!helpTooltip.contains(e.target) && e.target !== helpIconBtn) {
+              helpTooltip.style.display = "none";
+            }
+          });
+        }
+
+        const chipFilterConfig = {
+          popular: {
+            title: "Popular solutions",
+            subtitle: "Showing the most used and highly rated solutions",
+          },
+          hr: {
+            title: "HR onboarding results",
+            subtitle: 'Showing solutions for "HR Onboarding"',
+          },
+          sales: {
+            title: "Sales reporting results",
+            subtitle: 'Showing solutions for "Sales Reports"',
+          },
+          support: {
+            title: "Customer support results",
+            subtitle: 'Showing solutions for "Customer Support"',
+          },
+          meetings: {
+            title: "Meeting summary results",
+            subtitle: 'Showing solutions for "Meeting Summaries"',
+          },
+        };
+
+        // Handle search chip clicks
+        const searchChipButtons = document.querySelectorAll(".catalog-chip");
+        const chipResultsSection =
+          document.getElementById("chipResultsSection");
+        const chipResultsTitle = document.getElementById("chipResultsTitle");
+        const chipResultsSubtitle = document.getElementById(
+          "chipResultsSubtitle",
+        );
+
+        function showSection(sectionToShow) {
+          if (getStartedSection) {
+            getStartedSection.style.display = "none";
+          }
+          if (otherIntentsSection) {
+            otherIntentsSection.style.display = "none";
+          }
+          if (chipResultsSection) {
+            chipResultsSection.style.display = "none";
+          }
+          if (sectionToShow) {
+            sectionToShow.style.display = "block";
+          }
+        }
+
+        searchChipButtons.forEach((chip) => {
+          chip.addEventListener("click", function () {
+            searchChipButtons.forEach((item) =>
+              item.classList.remove("is-active"),
+            );
+            this.classList.add("is-active");
+
+            const searchInput = document.querySelector("#catalogSearchInput");
+            const chipKey = this.getAttribute("data-filter-chip");
+            const chipText =
+              this.querySelector(".catalog-chip-label")?.textContent.trim() ||
+              this.textContent.trim();
+            const chipConfig = chipFilterConfig[chipKey];
+
+            if (searchInput) {
+              searchInput.value = chipText;
+            }
+
+            if (chipResultsTitle && chipConfig) {
+              chipResultsTitle.textContent = chipConfig.title;
+            }
+
+            if (chipResultsSubtitle && chipConfig) {
+              chipResultsSubtitle.textContent = chipConfig.subtitle;
+            }
+
+            showSection(chipResultsSection);
+          });
+        });
+
+        // Handle card preview toggles
+        const cardPreviews = document.querySelectorAll(".card-preview");
+        cardPreviews.forEach((preview) => {
+          preview.addEventListener("toggle", function (e) {
+            if (this.open) {
+              this.classList.add("expanded");
+            } else {
+              this.classList.remove("expanded");
+            }
+          });
+        });
+
+        // Handle sticky header scroll behavior
+        const stickyContainer = document.querySelector(
+          ".catalog-hero-sticky-container",
+        );
+        const heroContent = document.querySelector(".catalog-hero-content");
+        const searchChips = document.querySelector(".catalog-search-chips");
+
+        let lastScrollTop = 0;
+        let scrollThreshold = 50; // Default fallback
+        let ticking = false;
+
+        // Calculate dynamic scroll threshold based on hero content height
+        function updateScrollThreshold() {
+          if (heroContent) {
+            // Trigger collapse when hero content is about to go out of view
+            scrollThreshold = heroContent.offsetHeight * 0.3;
+          }
+        }
+
+        // Initial calculation
+        updateScrollThreshold();
+
+        // Recalculate on resize to handle window size changes
+        let resizeTimeout;
+        window.addEventListener("resize", function () {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(updateScrollThreshold, 150);
+        });
+
+        // Optimized scroll handler using requestAnimationFrame
+        function handleScroll() {
+          const scrollTop =
+            window.pageYOffset || document.documentElement.scrollTop;
+
+          if (scrollTop > scrollThreshold) {
+            stickyContainer.classList.add("scrolled");
+          } else {
+            stickyContainer.classList.remove("scrolled");
+          }
+
+          lastScrollTop = scrollTop;
+          ticking = false;
+        }
+
+        window.addEventListener("scroll", function () {
+          if (!ticking) {
+            window.requestAnimationFrame(handleScroll);
+            ticking = true;
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <header class="dashboard-header">
+      <button class="header-hamburger" aria-label="Open menu" title="Open menu">
+        <span data-carbon-icon="menu" data-icon-size="16"></span>
+      </button>
+      <a href="v2.0-admin-dashboard.html" class="header-brand">
+        <span class="header-brand-ibm">IBM</span>
+        <span class="header-brand-product">watsonx Orchestrate</span>
+      </a>
+      <div class="header-spacer"></div>
+      <div class="header-actions">
+        <button class="header-icon-btn" title="Search" aria-label="Search">
+          <span data-carbon-icon="search" data-icon-size="16"></span>
+        </button>
+        <button
+          class="header-icon-btn"
+          title="Notifications"
+          aria-label="Notifications"
+        >
+          <span data-carbon-icon="notification" data-icon-size="16"></span>
+        </button>
+        <button class="header-icon-btn" title="Help" aria-label="Help">
+          <span data-carbon-icon="help" data-icon-size="16"></span>
+        </button>
+        <div class="header-avatar-wrapper">
+          <div
+            class="header-avatar"
+            role="button"
+            tabindex="0"
+            aria-label="User menu"
+            id="userMenuButton"
+          >
+            <span data-carbon-icon="user--avatar" data-icon-size="16"></span>
+          </div>
+          <div class="user-menu" id="userMenu">
+            <div class="user-menu-header">
+              <span class="user-menu-name">Ava Smith</span>
+              <span class="user-menu-email">ava.smith@ibm.com</span>
+            </div>
+            <div class="user-menu-divider"></div>
+            <div class="user-menu-item">
+              <span class="user-menu-item-label">Black & White Mode</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="bwModeToggle" />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="user-menu-divider"></div>
+            <button class="user-menu-item user-menu-button">
+              <span data-carbon-icon="settings" data-icon-size="16"></span>
+              <span>Settings</span>
+            </button>
+            <button class="user-menu-item user-menu-button">
+              <span data-carbon-icon="logout" data-icon-size="16"></span>
+              <span>Sign out</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="catalog-hero-sticky-container">
+      <div class="catalog-hero-content">
+        <h1 class="hero-question">What do you want to accomplish today?</h1>
+        <p class="hero-support">
+          300+ pre-built solutions ready to use. No coding required.
+        </p>
+
+        <div class="catalog-trust-indicators">
+          <span class="trust-badge">✓ IBM Validated</span>
+          <span class="trust-badge">✓ Security Reviewed</span>
+          <span class="trust-badge">✓ Usage Analytics</span>
+          <span class="trust-badge">✓ Regular Updates</span>
+        </div>
+      </div>
+
+      <div class="catalog-search-container">
+        <div class="catalog-search-input-wrap">
+          <span
+            class="catalog-search-icon"
+            data-carbon-icon="search"
+            data-icon-size="16"
+          ></span>
+          <input
+            id="catalogSearchInput"
+            class="catalog-search-input"
+            type="search"
+            placeholder="e.g., 'automate HR onboarding' or 'summarize sales data'"
+            aria-label="Search by goal or outcome"
+          />
+        </div>
+
+        <div class="catalog-search-chips">
+          <button class="catalog-chip is-active" data-filter-chip="popular">
+            <span
+              class="catalog-chip-icon"
+              data-carbon-icon="add"
+              data-icon-size="16"
+            ></span>
+            <span class="catalog-chip-label">Popular</span>
+          </button>
+          <button class="catalog-chip" data-filter-chip="hr">
+            <span
+              class="catalog-chip-icon"
+              data-carbon-icon="add"
+              data-icon-size="16"
+            ></span>
+            <span class="catalog-chip-label">HR Onboarding</span>
+          </button>
+          <button class="catalog-chip" data-filter-chip="sales">
+            <span
+              class="catalog-chip-icon"
+              data-carbon-icon="add"
+              data-icon-size="16"
+            ></span>
+            <span class="catalog-chip-label">Sales Reports</span>
+          </button>
+          <button class="catalog-chip" data-filter-chip="support">
+            <span
+              class="catalog-chip-icon"
+              data-carbon-icon="add"
+              data-icon-size="16"
+            ></span>
+            <span class="catalog-chip-label">Customer Support</span>
+          </button>
+          <button class="catalog-chip" data-filter-chip="meetings">
+            <span
+              class="catalog-chip-icon"
+              data-carbon-icon="add"
+              data-icon-size="16"
+            ></span>
+            <span class="catalog-chip-label">Meeting Summaries</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <main class="catalog-standalone-main">
+      <section class="catalog-page">
+        <div class="catalog-shell">
+          <aside class="catalog-sidebar">
+            <div class="catalog-filter-group">
+              <div class="catalog-filter-header">
+                <h2 class="catalog-filter-title">Browse by Goal</h2>
+              </div>
+              <div class="catalog-filter-links">
+                <button
+                  class="catalog-filter-link active"
+                  data-intent="get-started"
+                >
+                  🎯 Get Started
+                </button>
+                <button class="catalog-filter-link" data-intent="analyze">
+                  📊 Analyze & Summarize
+                </button>
+                <button class="catalog-filter-link" data-intent="connect">
+                  🔗 Connect & Integrate
+                </button>
+                <button class="catalog-filter-link" data-intent="support">
+                  🤝 Support & Service
+                </button>
+                <button class="catalog-filter-link" data-intent="create">
+                  📝 Create & Document
+                </button>
+                <button class="catalog-filter-link" data-intent="search">
+                  🔍 Search & Discover
+                </button>
+                <button class="catalog-filter-link" data-intent="automate">
+                  ⚙️ Automate Workflows
+                </button>
+              </div>
+            </div>
+
+            <details class="catalog-advanced-filters">
+              <summary class="catalog-advanced-filters-summary">
+                <span>Advanced filters</span>
+                <span
+                  class="catalog-advanced-filters-chevron"
+                  data-carbon-icon="chevron--down"
+                  data-icon-size="16"
+                ></span>
+              </summary>
+
+              <div class="catalog-advanced-filters-content">
+                <div class="catalog-filter-group">
+                  <div class="catalog-filter-header">
+                    <h2 class="catalog-filter-title">Type</h2>
+                    <button class="catalog-filter-reset">Reset</button>
+                  </div>
+                  <label class="catalog-checkbox">
+                    <input type="checkbox" checked />
+                    <span>Agents</span>
+                    <span class="catalog-filter-count">245</span>
+                  </label>
+                  <label class="catalog-checkbox">
+                    <input type="checkbox" checked />
+                    <span>Tools</span>
+                    <span class="catalog-filter-count">48</span>
+                  </label>
+                  <label class="catalog-checkbox">
+                    <input type="checkbox" checked />
+                    <span>MCP Servers</span>
+                    <span class="catalog-filter-count">15</span>
+                  </label>
+                </div>
+
+                <div class="catalog-filter-group">
+                  <div class="catalog-filter-header">
+                    <h2 class="catalog-filter-title">Validation</h2>
+                  </div>
+                  <label class="catalog-checkbox">
+                    <input type="checkbox" checked />
+                    <span>IBM Validated</span>
+                    <span class="catalog-filter-count">245</span>
+                  </label>
+                  <label class="catalog-checkbox">
+                    <input type="checkbox" checked />
+                    <span>Partner Certified</span>
+                    <span class="catalog-filter-count">48</span>
+                  </label>
+                  <label class="catalog-checkbox">
+                    <input type="checkbox" />
+                    <span>Community</span>
+                    <span class="catalog-filter-count">15</span>
+                  </label>
+                </div>
+
+                <div class="catalog-filter-group">
+                  <div class="catalog-filter-header">
+                    <h2 class="catalog-filter-title">Categories</h2>
+                  </div>
+                  <div class="catalog-filter-links">
+                    <button class="catalog-filter-link">HR</button>
+                    <button class="catalog-filter-link">IT</button>
+                    <button class="catalog-filter-link">Procurement</button>
+                    <button class="catalog-filter-link">Productivity</button>
+                    <button class="catalog-filter-link">Sales</button>
+                  </div>
+                </div>
+
+                <div class="catalog-filter-group">
+                  <div class="catalog-filter-header">
+                    <h2 class="catalog-filter-title">Apps</h2>
+                  </div>
+                  <div class="catalog-app-search">
+                    <span data-carbon-icon="search" data-icon-size="16"></span>
+                    <input
+                      type="search"
+                      placeholder="Search apps"
+                      aria-label="Search apps"
+                    />
+                  </div>
+                  <div class="catalog-app-list">
+                    <label class="catalog-checkbox">
+                      <input type="checkbox" />
+                      <span>Amazon</span>
+                    </label>
+                    <label class="catalog-checkbox">
+                      <input type="checkbox" />
+                      <span>AWS</span>
+                    </label>
+                    <label class="catalog-checkbox">
+                      <input type="checkbox" />
+                      <span>Asana</span>
+                    </label>
+                    <label class="catalog-checkbox">
+                      <input type="checkbox" checked />
+                      <span>Box</span>
+                    </label>
+                    <label class="catalog-checkbox">
+                      <input type="checkbox" />
+                      <span>GitHub</span>
+                    </label>
+                    <label class="catalog-checkbox">
+                      <input type="checkbox" />
+                      <span>SAP</span>
+                    </label>
+                    <button class="catalog-more-link">+ 56 more</button>
+                  </div>
+                </div>
+              </div>
+            </details>
+          </aside>
+
+          <div class="catalog-results">
+            <!-- Recommended Starters Section (shown when Get Started is selected) -->
+            <section
+              class="recommended-starters-section"
+              id="getStartedSection"
+            >
+              <div class="section-header-with-help">
+                <div>
+                  <h2 class="section-title-with-icon">
+                    🎯 Recommended Starters
+                    <button
+                      class="help-icon-btn"
+                      aria-label="Why choose our governed catalog"
+                      title="Why choose our governed catalog"
+                    >
+                      <span
+                        data-carbon-icon="information"
+                        data-icon-size="16"
+                      ></span>
+                    </button>
+                  </h2>
+                  <p class="section-subtitle">
+                    Curated for your first success. Each takes less than 5
+                    minutes.
+                  </p>
+                </div>
+              </div>
+
+              <div class="starter-cards-horizontal">
+                <div class="starter-card featured">
+                  <span class="starter-badge popular">Most Popular</span>
+                  <div class="starter-icon">👥</div>
+                  <h3>HR Onboarding Assistant</h3>
+                  <p class="starter-outcome">
+                    Automate new employee onboarding workflows
+                  </p>
+                  <div class="starter-details">
+                    <span class="starter-time">⏱️ 3 min setup</span>
+                    <span class="starter-validation">✓ IBM Validated</span>
+                  </div>
+                  <div class="starter-proof">
+                    <span>★ 4.9</span>
+                    <span>Used by 500+ teams</span>
+                  </div>
+                  <button class="btn-start-now">Start Now</button>
+                </div>
+
+                <div class="starter-card">
+                  <span class="starter-badge quick">Quick Win</span>
+                  <div class="starter-icon">📝</div>
+                  <h3>Meeting Summarizer</h3>
+                  <p class="starter-outcome">
+                    Get AI summaries of your meetings instantly
+                  </p>
+                  <div class="starter-details">
+                    <span class="starter-time">⏱️ 2 min setup</span>
+                    <span class="starter-validation">✓ IBM Validated</span>
+                  </div>
+                  <div class="starter-proof">
+                    <span>★ 4.8</span>
+                    <span>Used by 1.2k teams</span>
+                  </div>
+                  <button class="btn-start-now">Start Now</button>
+                </div>
+
+                <div class="starter-card">
+                  <span class="starter-badge impact">High Impact</span>
+                  <div class="starter-icon">💬</div>
+                  <h3>Customer Support Bot</h3>
+                  <p class="starter-outcome">
+                    Answer common questions 24/7 automatically
+                  </p>
+                  <div class="starter-details">
+                    <span class="starter-time">⏱️ 5 min setup</span>
+                    <span class="starter-validation">✓ IBM Validated</span>
+                  </div>
+                  <div class="starter-proof">
+                    <span>★ 4.7</span>
+                    <span>Used by 800+ teams</span>
+                  </div>
+                  <button class="btn-start-now">Start Now</button>
+                </div>
+              </div>
+            </section>
+
+            <!-- Help Tooltip Content (hidden by default) -->
+            <div class="help-tooltip" id="helpTooltip" style="display: none">
+              <div class="help-tooltip-content">
+                <button class="help-tooltip-close" aria-label="Close">
+                  <span data-carbon-icon="close" data-icon-size="16"></span>
+                </button>
+                <h3 class="help-tooltip-title">
+                  Why Choose Our Governed Catalog?
+                </h3>
+                <div class="help-tooltip-grid">
+                  <div class="help-tooltip-item">
+                    <div class="help-tooltip-icon">
+                      <span
+                        data-carbon-icon="checkmark"
+                        data-icon-size="20"
+                      ></span>
+                    </div>
+                    <div>
+                      <h4>Pre-Built & Validated</h4>
+                      <p>
+                        Every agent tested by IBM experts. Ready to use in
+                        minutes, not months.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="help-tooltip-item">
+                    <div class="help-tooltip-icon">
+                      <span
+                        data-carbon-icon="security"
+                        data-icon-size="20"
+                      ></span>
+                    </div>
+                    <div>
+                      <h4>Enterprise Governance</h4>
+                      <p>
+                        Security reviewed and compliant. Usage tracking and
+                        audit trails.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="help-tooltip-item">
+                    <div class="help-tooltip-icon">
+                      <span
+                        data-carbon-icon="partnership"
+                        data-icon-size="20"
+                      ></span>
+                    </div>
+                    <div>
+                      <h4>Ecosystem Partners</h4>
+                      <p>
+                        Integrations with Salesforce, SAP, ServiceNow.
+                        Best-in-class solutions.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="help-tooltip-item">
+                    <div class="help-tooltip-icon">
+                      <span data-carbon-icon="renew" data-icon-size="20"></span>
+                    </div>
+                    <div>
+                      <h4>Continuous Updates</h4>
+                      <p>
+                        Regular improvements and new features. Community
+                        feedback incorporated.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chip-driven Results Content (hidden by default) -->
+            <section
+              class="catalog-section"
+              id="chipResultsSection"
+              style="display: none"
+            >
+              <div class="catalog-results-toolbar">
+                <div>
+                  <h2 class="catalog-results-title" id="chipResultsTitle">
+                    Popular solutions
+                  </h2>
+                  <p class="catalog-results-subtitle" id="chipResultsSubtitle">
+                    Showing the most used and highly rated solutions
+                  </p>
+                </div>
+                <div class="catalog-toolbar-actions">
+                  <button class="catalog-toolbar-btn is-active">
+                    Most Relevant
+                  </button>
+                  <button class="catalog-toolbar-btn">Most Used</button>
+                  <button class="catalog-toolbar-btn">Newest</button>
+                </div>
+              </div>
+
+              <div class="catalog-card-grid">
+                <article class="solution-card">
+                  <div class="card-header">
+                    <div class="solution-icon">⚡</div>
+                    <span class="intent-badge search">Popular</span>
+                  </div>
+
+                  <h3 class="card-title">Workspace Productivity Pack</h3>
+                  <p class="card-outcome">
+                    Launch a curated set of top automations for reporting,
+                    search, and employee support
+                  </p>
+
+                  <details class="card-preview">
+                    <summary>What it does</summary>
+                    <ul class="preview-steps">
+                      <li>✓ Bundles the most adopted starter workflows</li>
+                      <li>✓ Recommends next-best automations by team role</li>
+                      <li>✓ Connects common enterprise tools quickly</li>
+                      <li>✓ Tracks rollout and adoption signals</li>
+                    </ul>
+                  </details>
+
+                  <div class="card-actions">
+                    <button class="btn-primary-action">Try Now</button>
+                    <button class="btn-secondary-action">
+                      Add to Workspace
+                    </button>
+                  </div>
+
+                  <div class="card-meta">
+                    <span class="meta-validation">✓ IBM Validated</span>
+                    <span class="meta-rating">★ 4.9 (2.4k)</span>
+                    <span class="meta-usage">1.8k+ teams</span>
+                  </div>
+
+                  <div class="card-footer">
+                    <span class="card-provider">By IBM</span>
+                    <span class="card-updated">Updated today</span>
+                  </div>
+                </article>
+
+                <article class="solution-card">
+                  <div class="card-header">
+                    <div class="solution-icon">👥</div>
+                    <span class="intent-badge support">HR</span>
+                  </div>
+
+                  <h3 class="card-title">Onboarding Journey Assistant</h3>
+                  <p class="card-outcome">
+                    Guide new hires through tasks, approvals, and first-week
+                    questions
+                  </p>
+
+                  <details class="card-preview">
+                    <summary>What it does</summary>
+                    <ul class="preview-steps">
+                      <li>✓ Sends personalized onboarding checklists</li>
+                      <li>✓ Answers policy and benefits questions</li>
+                      <li>✓ Coordinates with managers and IT</li>
+                      <li>✓ Surfaces progress blockers early</li>
+                    </ul>
+                  </details>
+
+                  <div class="card-actions">
+                    <button class="btn-primary-action">Try Now</button>
+                    <button class="btn-secondary-action">
+                      Add to Workspace
+                    </button>
+                  </div>
+
+                  <div class="card-meta">
+                    <span class="meta-validation">✓ IBM Validated</span>
+                    <span class="meta-rating">★ 4.8 (1.6k)</span>
+                    <span class="meta-usage">950+ teams</span>
+                  </div>
+
+                  <div class="card-footer">
+                    <span class="card-provider">By IBM HR</span>
+                    <span class="card-updated">Updated 2d ago</span>
+                  </div>
+                </article>
+
+                <article class="solution-card">
+                  <div class="card-header">
+                    <div class="solution-icon">📊</div>
+                    <span class="intent-badge analyze">Sales</span>
+                  </div>
+
+                  <h3 class="card-title">Executive Sales Snapshot</h3>
+                  <p class="card-outcome">
+                    Turn CRM data into quick-read sales summaries and trend
+                    alerts
+                  </p>
+
+                  <details class="card-preview">
+                    <summary>What it does</summary>
+                    <ul class="preview-steps">
+                      <li>✓ Pulls pipeline and forecast data automatically</li>
+                      <li>✓ Highlights changes that need attention</li>
+                      <li>✓ Creates leadership-ready summaries</li>
+                      <li>✓ Shares updates with account teams</li>
+                    </ul>
+                  </details>
+
+                  <div class="card-actions">
+                    <button class="btn-primary-action">Try Now</button>
+                    <button class="btn-secondary-action">
+                      Add to Workspace
+                    </button>
+                  </div>
+
+                  <div class="card-meta">
+                    <span class="meta-validation">✓ Partner Certified</span>
+                    <span class="meta-rating">★ 4.8 (1.9k)</span>
+                    <span class="meta-usage">1.1k+ teams</span>
+                  </div>
+
+                  <div class="card-footer">
+                    <span class="card-provider">By Salesforce</span>
+                    <span class="card-updated">Updated 1d ago</span>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <!-- Other Intent Categories Content (hidden by default) -->
+            <section
+              class="catalog-section"
+              id="otherIntentsSection"
+              style="display: none"
+            >
+              <div class="catalog-results-toolbar">
+                <div>
+                  <h2 class="catalog-results-title">Solutions for you</h2>
+                  <p class="catalog-results-subtitle" id="intentSubtitle">
+                    Showing solutions
+                  </p>
+                </div>
+                <div class="catalog-toolbar-actions">
+                  <button class="catalog-toolbar-btn is-active">
+                    Most Relevant
+                  </button>
+                  <button class="catalog-toolbar-btn">Most Used</button>
+                  <button class="catalog-toolbar-btn">Newest</button>
+                </div>
+              </div>
+
+              <div class="catalog-card-grid">
+                <!-- Enhanced Solution Card 1 -->
+                <article class="solution-card">
+                  <div class="card-header">
+                    <div class="solution-icon">👥</div>
+                    <span class="intent-badge support">Support & Service</span>
+                  </div>
+
+                  <h3 class="card-title">Employee Support Concierge</h3>
+                  <p class="card-outcome">
+                    Resolve HR and workplace requests automatically
+                  </p>
+
+                  <details class="card-preview">
+                    <summary>What it does</summary>
+                    <ul class="preview-steps">
+                      <li>✓ Answers HR policy questions instantly</li>
+                      <li>✓ Routes complex cases to right team</li>
+                      <li>✓ Drafts responses with policy context</li>
+                      <li>✓ Tracks resolution status</li>
+                    </ul>
+                  </details>
+
+                  <div class="card-actions">
+                    <button class="btn-primary-action">Try Now</button>
+                    <button class="btn-secondary-action">
+                      Add to Workspace
+                    </button>
+                  </div>
+
+                  <div class="card-meta">
+                    <span class="meta-validation">✓ IBM Validated</span>
+                    <span class="meta-rating">★ 4.8 (1.2k)</span>
+                    <span class="meta-usage">500+ teams</span>
+                  </div>
+
+                  <div class="card-footer">
+                    <span class="card-provider">By IBM</span>
+                    <span class="card-updated">Updated 2d ago</span>
+                  </div>
+                </article>
+
+                <!-- Enhanced Solution Card 2 -->
+                <article class="solution-card">
+                  <div class="card-header">
+                    <div class="solution-icon">🛒</div>
+                    <span class="intent-badge connect"
+                      >Connect & Integrate</span
+                    >
+                  </div>
+
+                  <h3 class="card-title">Procurement Sourcing Assistant</h3>
+                  <p class="card-outcome">
+                    Evaluate vendors and prepare sourcing recommendations
+                  </p>
+
+                  <details class="card-preview">
+                    <summary>What it does</summary>
+                    <ul class="preview-steps">
+                      <li>✓ Connects to SAP Ariba</li>
+                      <li>✓ Evaluates vendor proposals</li>
+                      <li>✓ Summarizes bids with risk analysis</li>
+                      <li>✓ Generates recommendation reports</li>
+                    </ul>
+                  </details>
+
+                  <div class="card-actions">
+                    <button class="btn-primary-action">Try Now</button>
+                    <button class="btn-secondary-action">
+                      Add to Workspace
+                    </button>
+                  </div>
+
+                  <div class="card-meta">
+                    <span class="meta-validation">✓ IBM Validated</span>
+                    <span class="meta-rating">★ 4.7 (890)</span>
+                    <span class="meta-usage">320+ teams</span>
+                  </div>
+
+                  <div class="card-footer">
+                    <span class="card-provider">By IBM</span>
+                    <span class="card-updated">Updated 5d ago</span>
+                  </div>
+                </article>
+
+                <!-- Enhanced Solution Card 3 -->
+                <article class="solution-card">
+                  <div class="card-header">
+                    <div class="solution-icon">📊</div>
+                    <span class="intent-badge analyze"
+                      >Analyze & Summarize</span
+                    >
+                  </div>
+
+                  <h3 class="card-title">Sales Report Generator</h3>
+                  <p class="card-outcome">
+                    Generate weekly sales reports automatically from Salesforce
+                  </p>
+
+                  <details class="card-preview">
+                    <summary>What it does</summary>
+                    <ul class="preview-steps">
+                      <li>✓ Connects to your Salesforce account</li>
+                      <li>✓ Pulls weekly sales data automatically</li>
+                      <li>✓ Generates formatted PDF reports</li>
+                      <li>✓ Emails reports to your team</li>
+                    </ul>
+                  </details>
+
+                  <div class="card-actions">
+                    <button class="btn-primary-action">Try Now</button>
+                    <button class="btn-secondary-action">
+                      Add to Workspace
+                    </button>
+                  </div>
+
+                  <div class="card-meta">
+                    <span class="meta-validation">✓ Partner Certified</span>
+                    <span class="meta-rating">★ 4.9 (2.1k)</span>
+                    <span class="meta-usage">1.2k+ teams</span>
+                  </div>
+
+                  <div class="card-footer">
+                    <span class="card-provider">By Salesforce</span>
+                    <span class="card-updated">Updated 1d ago</span>
+                  </div>
+                </article>
+
+                <!-- Enhanced Solution Card 4 -->
+                <article class="solution-card">
+                  <div class="card-header">
+                    <div class="solution-icon">💼</div>
+                    <span class="intent-badge analyze"
+                      >Analyze & Summarize</span
+                    >
+                  </div>
+
+                  <h3 class="card-title">Pipeline Deal Coach</h3>
+                  <p class="card-outcome">
+                    Prep account briefings and identify deal risks
+                  </p>
+
+                  <details class="card-preview">
+                    <summary>What it does</summary>
+                    <ul class="preview-steps">
+                      <li>✓ Analyzes deal health and risks</li>
+                      <li>✓ Creates account briefing documents</li>
+                      <li>✓ Suggests next-best actions</li>
+                      <li>✓ Tracks competitive intelligence</li>
+                    </ul>
+                  </details>
+
+                  <div class="card-actions">
+                    <button class="btn-primary-action">Try Now</button>
+                    <button class="btn-secondary-action">
+                      Add to Workspace
+                    </button>
+                  </div>
+
+                  <div class="card-meta">
+                    <span class="meta-validation">✓ IBM Validated</span>
+                    <span class="meta-rating">★ 4.6 (650)</span>
+                    <span class="meta-usage">280+ teams</span>
+                  </div>
+
+                  <div class="card-footer">
+                    <span class="card-provider">By Sales Ops</span>
+                    <span class="card-updated">Updated 3d ago</span>
+                  </div>
+                </article>
+
+                <!-- Enhanced Solution Card 5 -->
+                <article class="solution-card">
+                  <div class="card-header">
+                    <div class="solution-icon">📝</div>
+                    <span class="intent-badge create">Create & Document</span>
+                  </div>
+
+                  <h3 class="card-title">Contract Review Assistant</h3>
+                  <p class="card-outcome">
+                    Review contracts and identify key terms and risks
+                  </p>
+
+                  <details class="card-preview">
+                    <summary>What it does</summary>
+                    <ul class="preview-steps">
+                      <li>✓ Extracts key contract terms</li>
+                      <li>✓ Identifies potential risks</li>
+                      <li>✓ Compares to standard templates</li>
+                      <li>✓ Generates review summaries</li>
+                    </ul>
+                  </details>
+
+                  <div class="card-actions">
+                    <button class="btn-primary-action">Try Now</button>
+                    <button class="btn-secondary-action">
+                      Add to Workspace
+                    </button>
+                  </div>
+
+                  <div class="card-meta">
+                    <span class="meta-validation">✓ IBM Validated</span>
+                    <span class="meta-rating">★ 4.8 (1.5k)</span>
+                    <span class="meta-usage">680+ teams</span>
+                  </div>
+
+                  <div class="card-footer">
+                    <span class="card-provider">By IBM Legal</span>
+                    <span class="card-updated">Updated 1w ago</span>
+                  </div>
+                </article>
+
+                <!-- Enhanced Solution Card 6 -->
+                <article class="solution-card">
+                  <div class="card-header">
+                    <div class="solution-icon">🔍</div>
+                    <span class="intent-badge search">Search & Discover</span>
+                  </div>
+
+                  <h3 class="card-title">Knowledge Base Search</h3>
+                  <p class="card-outcome">
+                    Find answers from internal documentation instantly
+                  </p>
+
+                  <details class="card-preview">
+                    <summary>What it does</summary>
+                    <ul class="preview-steps">
+                      <li>✓ Searches across all documentation</li>
+                      <li>✓ Provides contextual answers</li>
+                      <li>✓ Cites source documents</li>
+                      <li>✓ Learns from user feedback</li>
+                    </ul>
+                  </details>
+
+                  <div class="card-actions">
+                    <button class="btn-primary-action">Try Now</button>
+                    <button class="btn-secondary-action">
+                      Add to Workspace
+                    </button>
+                  </div>
+
+                  <div class="card-meta">
+                    <span class="meta-validation">✓ IBM Validated</span>
+                    <span class="meta-rating">★ 4.7 (980)</span>
+                    <span class="meta-usage">450+ teams</span>
+                  </div>
+
+                  <div class="card-footer">
+                    <span class="card-provider">By IBM</span>
+                    <span class="card-updated">Updated 4d ago</span>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <div class="catalog-footer-cta">
+              <p class="catalog-footer-copy">
+                Can't find what you need? Explore Agent builder and create
+                something new.
+              </p>
+              <a href="#" class="catalog-footer-button">Agent builder</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="v2.0-app.js"></script>
+  </body>
+</html>

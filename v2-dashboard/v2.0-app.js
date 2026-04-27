@@ -16,6 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeEventListeners();
   initializeUserMenu();
   initializeBWMode();
+  initializeCollapseButton();
+  initializeCreateAgentModal();
+  initializeCatalogInteractions();
 });
 
 // Toggle sidebar for mobile
@@ -389,6 +392,11 @@ function initializeUserMenu() {
   userMenuButton.addEventListener("click", (e) => {
     e.stopPropagation();
     userMenu.classList.toggle("active");
+
+    // Load icons when menu opens
+    if (userMenu.classList.contains("active")) {
+      loadCarbonIcons(userMenu);
+    }
   });
 
   // Close menu when clicking outside
@@ -410,8 +418,13 @@ function initializeBWMode() {
 
   if (!bwToggle) return;
 
-  // Check if BW mode was previously enabled
-  const bwModeEnabled = localStorage.getItem("bwMode") === "true";
+  // Check if BW mode preference exists in localStorage
+  const bwModePreference = localStorage.getItem("bwMode");
+
+  // Default to enabled (true) if no preference is set
+  const bwModeEnabled =
+    bwModePreference === null ? true : bwModePreference === "true";
+
   if (bwModeEnabled) {
     document.body.classList.add("bw-mode");
     bwToggle.checked = true;
@@ -426,6 +439,123 @@ function initializeBWMode() {
       document.body.classList.remove("bw-mode");
       localStorage.setItem("bwMode", "false");
     }
+  });
+}
+
+// Initialize collapse button functionality
+function initializeCollapseButton() {
+  const collapseBtn = document.getElementById("collapseBtn");
+  const collapsibleContent = document.getElementById("collapsibleContent");
+  const pageHeaderTop = document.querySelector(".page-header-top");
+  const pageHeader = document.querySelector(".page-header");
+
+  if (!collapseBtn || !collapsibleContent) return;
+
+  collapseBtn.addEventListener("click", () => {
+    collapsibleContent.classList.toggle("collapsed");
+    collapseBtn.classList.toggle("collapsed");
+
+    if (pageHeaderTop) {
+      pageHeaderTop.classList.toggle("collapsed");
+    }
+
+    if (pageHeader) {
+      pageHeader.classList.toggle("collapsed");
+    }
+
+    const isCollapsed = collapsibleContent.classList.contains("collapsed");
+    const buttonText = collapseBtn.querySelector("span:first-child");
+
+    if (!buttonText) return;
+
+    if (isCollapsed) {
+      buttonText.textContent = "Expand";
+      collapseBtn.setAttribute("aria-label", "Expand");
+      collapseBtn.setAttribute("title", "Expand");
+    } else {
+      buttonText.textContent = "Collapse";
+      collapseBtn.setAttribute("aria-label", "Collapse");
+      collapseBtn.setAttribute("title", "Collapse");
+    }
+  });
+}
+
+// Initialize create agent modal
+function initializeCreateAgentModal() {
+  const modal = document.getElementById("createAgentModal");
+  const closeBtn = document.getElementById("closeModalBtn");
+  const createAgentCard = document.getElementById("createAgentCard");
+  const promptInput = document.querySelector(".prompt-input");
+  const generateBtn = document.querySelector(".generate-btn");
+
+  if (!modal || !closeBtn) {
+    return;
+  }
+
+  // Open modal when clicking the "Create your agent" card
+  if (createAgentCard) {
+    createAgentCard.addEventListener("click", (e) => {
+      e.preventDefault();
+      modal.classList.add("active");
+      document.body.style.overflow = "hidden";
+
+      // Load icons in the modal after it opens
+      if (window.loadCarbonIcons) {
+        setTimeout(() => {
+          window.loadCarbonIcons(modal);
+        }, 50);
+      }
+    });
+  }
+
+  if (promptInput && generateBtn) {
+    promptInput.addEventListener("input", (e) => {
+      const hasText = e.target.value.trim().length > 0;
+      generateBtn.disabled = !hasText;
+    });
+  }
+
+  closeBtn.addEventListener("click", () => {
+    modal.classList.remove("active");
+    document.body.style.overflow = "";
+  });
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("active")) {
+      modal.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+  });
+}
+
+function initializeCatalogInteractions() {
+  const chips = document.querySelectorAll("[data-filter-chip]");
+  const searchInput = document.getElementById("catalogSearchInput");
+  const toolbarButtons = document.querySelectorAll(".catalog-toolbar-btn");
+
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      chips.forEach((item) => item.classList.remove("is-active"));
+      chip.classList.add("is-active");
+
+      if (searchInput) {
+        searchInput.value = chip.textContent.trim();
+      }
+    });
+  });
+
+  toolbarButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      toolbarButtons.forEach((item) => item.classList.remove("is-active"));
+      button.classList.add("is-active");
+    });
   });
 }
 

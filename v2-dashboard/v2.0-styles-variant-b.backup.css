@@ -1,0 +1,1120 @@
+/* ============================================
+   VARIANT B: SOLUTION-FIRST CATALOG STYLES
+   ============================================ */
+
+/* Ensure dashboard header stays fixed and on top */
+.dashboard-header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 8000 !important;
+}
+
+/* Ensure body allows normal scrolling and prevent layout shift */
+body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  padding-top: 48px;
+  overflow-y: scroll; /* Always show scrollbar to prevent shift */
+}
+
+/* Sticky Hero Container with Scroll Behavior */
+.catalog-hero-sticky-container {
+  position: sticky;
+  top: 48px;
+  z-index: 100;
+  background: linear-gradient(90deg, #d9e8ff 0%, #f1dcff 100%);
+  padding: 16px 32px 24px 32px;
+  border-bottom: 1px solid #e0e0e0;
+  margin: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+/* Compact padding when scrolled */
+.catalog-hero-sticky-container.scrolled {
+  padding: 16px 32px 16px 32px;
+}
+
+/* Hero content wrapper for smooth collapse */
+.catalog-hero-content {
+  text-align: center;
+  padding: 24px 0 16px;
+  max-height: 300px;
+  opacity: 1;
+  overflow: hidden;
+  transition:
+    max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease,
+    padding 0.3s ease,
+    margin 0.3s ease;
+}
+
+/* Hide hero content when scrolled */
+.catalog-hero-sticky-container.scrolled .catalog-hero-content {
+  max-height: 0;
+  opacity: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* Search container */
+.catalog-search-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  transition: gap 0.3s ease;
+}
+
+/* Compact search when scrolled */
+.catalog-hero-sticky-container.scrolled .catalog-search-container {
+  gap: 0;
+}
+
+/* Search chips with smooth collapse */
+.catalog-search-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-height: 100px;
+  opacity: 1;
+  overflow: hidden;
+  transition:
+    max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease,
+    margin 0.3s ease;
+  margin-top: 0;
+}
+
+.catalog-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid #c6c6c6;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  color: #161616;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease,
+    background-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.catalog-chip:hover {
+  transform: translateY(-1px);
+  border-color: #0f62fe;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(15, 98, 254, 0.12);
+  color: #0f62fe;
+}
+
+.catalog-chip:focus-visible {
+  outline: 2px solid #0f62fe;
+  outline-offset: 2px;
+}
+
+.catalog-chip.is-active {
+  border-color: #0f62fe;
+  background: #0f62fe;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(15, 98, 254, 0.18);
+}
+
+.catalog-chip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: currentColor;
+  transition: transform 0.18s ease;
+}
+
+.catalog-chip:hover .catalog-chip-icon,
+.catalog-chip.is-active .catalog-chip-icon {
+  transform: scale(1.08);
+}
+
+.catalog-chip-label {
+  white-space: nowrap;
+}
+
+/* Hide chips when scrolled */
+.catalog-hero-sticky-container.scrolled .catalog-search-chips {
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+}
+
+/* Adjust container padding when scrolled */
+.catalog-hero-sticky-container.scrolled {
+  padding: 12px 32px;
+}
+
+/* Keep search input wrap width consistent - no transitions */
+.catalog-search-input-wrap {
+  width: min(880px, 100%);
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+/* Keep search input width consistent when scrolled - no size change */
+.catalog-hero-sticky-container.scrolled .catalog-search-input-wrap {
+  width: min(880px, 100%);
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.hero-question {
+  font-size: 36px;
+  font-weight: 600;
+  color: #161616;
+  margin: 0 0 12px 0;
+  line-height: 1.2;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.hero-support {
+  font-size: 18px;
+  color: #525252;
+  margin: 0 0 32px 0;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.hero-search-container {
+  max-width: 700px;
+  margin: 0 auto 16px auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 4px;
+  transition: border-color 0.2s ease;
+}
+
+.hero-search-container:focus-within {
+  border-color: #0f62fe;
+}
+
+.hero-search-icon {
+  margin-left: 12px;
+  color: #525252;
+}
+
+.hero-search-input {
+  flex: 1;
+  padding: 12px 8px;
+  border: none;
+  font-size: 16px;
+  font-family: "IBM Plex Sans", sans-serif;
+  color: #161616;
+  background: transparent;
+}
+
+.hero-search-input:focus {
+  outline: none;
+}
+
+.hero-search-input::placeholder {
+  color: #8d8d8d;
+}
+
+.hero-search-btn {
+  padding: 12px 32px;
+  background: #0f62fe;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: "IBM Plex Sans", sans-serif;
+  transition: background 0.2s ease;
+}
+
+.hero-search-btn:hover {
+  background: #0353e9;
+}
+
+.search-suggestions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.suggestion-label {
+  font-size: 13px;
+  color: #8d8d8d;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.suggestion-chip {
+  padding: 6px 12px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "IBM Plex Sans", sans-serif;
+  color: #161616;
+}
+
+.suggestion-chip:hover {
+  border-color: #0f62fe;
+  color: #0f62fe;
+  background: #f4f4f4;
+}
+
+/* Catalog Trust Indicators */
+.catalog-trust-indicators {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.trust-badge {
+  padding: 6px 12px;
+  background: #d0e2ff;
+  color: #0043ce;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+/* Recommended Starters Section */
+.recommended-starters {
+  padding: 48px 32px;
+  background: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.section-header h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #161616;
+  margin: 0 0 8px 0;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.section-subtitle {
+  font-size: 14px;
+  color: #8d8d8d;
+  margin: 4px 0 0 0;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.starter-cards-horizontal {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* Shared base styles for both starter and solution cards */
+.starter-card,
+.solution-card {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  position: relative;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.starter-card:hover,
+.solution-card:hover {
+  border-color: #0f62fe;
+  box-shadow: 0 2px 8px rgba(15, 98, 254, 0.1);
+}
+
+.starter-card.featured {
+  border-color: #0f62fe;
+  background: #ffffff;
+}
+
+.starter-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.starter-badge.popular {
+  background: #d0e2ff;
+  color: #0043ce;
+}
+
+.starter-badge.quick {
+  background: #d2f4ea;
+  color: #0e6027;
+}
+
+.starter-badge.impact {
+  background: #ffd6e8;
+  color: #9f1853;
+}
+
+.starter-icon,
+.solution-icon {
+  font-size: 32px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f4f4f4;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.starter-card h3,
+.solution-card .card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #161616;
+  margin: 0 0 8px 0;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.starter-outcome {
+  font-size: 14px;
+  color: #525252;
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  flex: 1;
+}
+
+.starter-details {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.starter-time {
+  color: #8d8d8d;
+}
+
+.starter-validation {
+  color: #0e6027;
+  font-weight: 600;
+}
+
+.starter-proof {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  color: #8d8d8d;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.btn-start-now {
+  width: 100%;
+  padding: 12px;
+  background: #0f62fe;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.btn-start-now:hover {
+  background: #0353e9;
+}
+
+/* Value Props Section */
+.catalog-value-props {
+  padding: 48px 32px;
+  background: #f4f4f4;
+  margin: 0;
+}
+
+.value-props-title {
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 32px 0;
+  color: #161616;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.value-props-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.value-prop-card {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  transition: all 0.2s ease;
+}
+
+.value-prop-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.value-prop-icon {
+  width: 40px;
+  height: 40px;
+  background: #d0e2ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  color: #0f62fe;
+}
+
+.value-prop-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: #161616;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.value-prop-card p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #525252;
+  margin: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+/* Intent-Based Navigation */
+.sidebar-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #161616;
+  margin: 0 0 16px 0;
+  padding: 0 16px;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.intent-category {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 4px;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.intent-category:hover {
+  background: #f4f4f4;
+}
+
+.intent-category.active {
+  background: #e0e0e0;
+  font-weight: 600;
+}
+
+.intent-icon {
+  font-size: 20px;
+  width: 24px;
+  text-align: center;
+}
+
+.intent-label {
+  flex: 1;
+  font-size: 14px;
+  color: #161616;
+}
+
+.intent-count {
+  font-size: 12px;
+  color: #8d8d8d;
+  background: #f4f4f4;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.intent-category.active .intent-count {
+  background: #ffffff;
+}
+
+/* Sidebar layout overrides for variant B */
+.catalog-shell {
+  align-items: stretch;
+}
+
+.catalog-results {
+  min-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+}
+
+.catalog-sidebar {
+  min-height: 100%;
+}
+
+/* Advanced Filters accordion */
+.catalog-advanced-filters {
+  margin-top: 0;
+  border-top: none;
+  padding-top: 0;
+}
+
+.catalog-advanced-filters-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 16px;
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.42857;
+  letter-spacing: 0.16px;
+  color: #0f62fe;
+  font-family: "IBM Plex Sans", sans-serif;
+  border-radius: 4px;
+  transition: background-color 0.11s;
+  box-sizing: border-box;
+}
+
+.catalog-advanced-filters-summary::-webkit-details-marker {
+  display: none;
+}
+
+.catalog-advanced-filters-summary:hover {
+  background-color: rgba(141, 141, 141, 0.12);
+}
+
+.catalog-advanced-filters-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #0f62fe;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.catalog-advanced-filters[open] .catalog-advanced-filters-chevron {
+  transform: rotate(180deg);
+}
+
+.catalog-advanced-filters-content {
+  padding-top: 8px;
+}
+
+.catalog-advanced-filters-content .catalog-filter-group:first-child {
+  margin-top: 0;
+}
+
+.catalog-footer-cta {
+  margin-top: auto;
+}
+
+/* Carbon Design System styling for filter links and checkboxes */
+.catalog-filter-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.catalog-filter-link {
+  display: flex;
+  align-items: center;
+  min-block-size: 2rem;
+  padding: 0 1rem;
+  position: relative;
+  text-decoration: none;
+  transition:
+    color 0.11s,
+    background-color 0.11s,
+    outline 0.11s;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.16px;
+  line-height: 1.42857;
+  background-color: transparent;
+  color: #161616;
+  border: none;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  text-align: left;
+  width: 100%;
+}
+
+.catalog-filter-link:hover {
+  background-color: rgba(141, 141, 141, 0.12);
+}
+
+.catalog-filter-link.active {
+  background-color: rgba(141, 141, 141, 0.12);
+  font-weight: 600;
+}
+
+.catalog-checkbox {
+  display: flex;
+  align-items: center;
+  min-block-size: 2rem;
+  padding: 0 1rem;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.16px;
+  line-height: 1.42857;
+  color: #161616;
+  cursor: pointer;
+  transition: background-color 0.11s;
+  margin-bottom: 0;
+}
+
+.catalog-checkbox:hover {
+  background-color: rgba(141, 141, 141, 0.12);
+}
+
+.catalog-checkbox input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  cursor: pointer;
+}
+
+.catalog-filter-count {
+  margin-left: auto;
+  color: #6f6f6f;
+  font-size: 0.75rem;
+}
+
+/* Solution Cards - Now using shared base styles with starter cards */
+.solution-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.intent-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.intent-badge.analyze {
+  background: #d0e2ff;
+  color: #0043ce;
+}
+
+.intent-badge.connect {
+  background: #d2f4ea;
+  color: #0e6027;
+}
+
+.intent-badge.support {
+  background: #ffd6e8;
+  color: #9f1853;
+}
+
+.intent-badge.create {
+  background: #ffd6e8;
+  color: #9f1853;
+}
+
+.intent-badge.search {
+  background: #e5f6ff;
+  color: #0043ce;
+}
+
+.card-outcome {
+  font-size: 14px;
+  color: #525252;
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+  font-family: "IBM Plex Sans", sans-serif;
+  flex: 1;
+}
+
+/* Card Preview (Collapsible) */
+.card-preview {
+  margin: 16px 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 12px;
+  background: #f4f4f4;
+  transition: all 0.2s ease;
+}
+
+.card-preview[open] {
+  background: #ffffff;
+}
+
+.card-preview summary {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f62fe;
+  cursor: pointer;
+  list-style: none;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.card-preview summary::-webkit-details-marker {
+  display: none;
+}
+
+.card-preview summary:hover {
+  text-decoration: underline;
+}
+
+.preview-steps {
+  margin: 12px 0 0 0;
+  padding: 0 0 0 20px;
+  font-size: 13px;
+  color: #525252;
+  line-height: 1.8;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.preview-steps li {
+  margin-bottom: 4px;
+}
+
+/* Direct Actions */
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.btn-primary-action {
+  flex: 1;
+  padding: 10px;
+  background: #0f62fe;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: "IBM Plex Sans", sans-serif;
+  transition: background 0.2s ease;
+}
+
+.btn-primary-action:hover {
+  background: #0353e9;
+}
+
+.btn-secondary-action {
+  flex: 1;
+  padding: 10px;
+  background: transparent;
+  color: #0f62fe;
+  border: 1px solid #0f62fe;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: "IBM Plex Sans", sans-serif;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary-action:hover {
+  background: #f4f4f4;
+}
+
+/* Card Meta */
+.card-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e0e0e0;
+  flex-wrap: wrap;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.meta-validation {
+  color: #0e6027;
+  font-weight: 600;
+}
+
+.meta-rating {
+  color: #8d8d8d;
+}
+
+.meta-usage {
+  color: #8d8d8d;
+}
+
+/* Card Footer */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  font-size: 12px;
+  color: #8d8d8d;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.card-provider {
+  font-weight: 500;
+}
+
+.card-updated {
+  font-style: italic;
+}
+
+/* Results Toolbar Updates */
+.catalog-results-subtitle {
+  font-size: 14px;
+  color: #8d8d8d;
+  margin: 4px 0 0 0;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-question {
+    font-size: 28px;
+  }
+
+  .hero-support {
+    font-size: 16px;
+  }
+
+  .hero-search-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-search-btn {
+    width: 100%;
+  }
+
+  .starter-cards-horizontal {
+    grid-template-columns: 1fr;
+  }
+
+  .value-props-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-actions {
+    flex-direction: column;
+  }
+
+  .btn-primary-action,
+  .btn-secondary-action {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .catalog-hero-content {
+    padding: 32px 16px 16px;
+  }
+
+  .recommended-starters {
+    padding: 32px 16px;
+  }
+
+  .catalog-value-props {
+    padding: 32px 16px;
+  }
+
+  .hero-question {
+    font-size: 24px;
+  }
+
+  .search-suggestions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .suggestion-chip {
+    text-align: center;
+  }
+}
+
+/* Made with Bob */
+
+/* Help Tooltip Styles */
+.help-tooltip {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+  max-width: 800px;
+  width: 90%;
+}
+
+.help-tooltip-content {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 32px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+.help-tooltip-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: #161616;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.help-tooltip-close:hover {
+  background: #e0e0e0;
+}
+
+.help-tooltip-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #161616;
+  margin: 0 0 24px 0;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.help-tooltip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.help-tooltip-item {
+  display: flex;
+  gap: 16px;
+}
+
+.help-tooltip-icon {
+  width: 40px;
+  height: 40px;
+  background: #d0e2ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0f62fe;
+  flex-shrink: 0;
+}
+
+.help-tooltip-item h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #161616;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.help-tooltip-item p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #525252;
+  margin: 0;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+/* Section Header with Help Icon - Match catalog-results-toolbar styling */
+.section-header-with-help {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.section-title-with-icon {
+  font-size: 24px;
+  font-weight: 400;
+  color: #161616;
+  margin: 0;
+  line-height: 30px;
+  font-family: "IBM Plex Sans", sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.help-icon-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #0f62fe;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.help-icon-btn:hover {
+  background: #e0e0e0;
+}
+
+/* Recommended Starters Section - Match catalog results styling */
+.recommended-starters-section {
+  padding: 0;
+  background: transparent;
+}

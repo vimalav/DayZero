@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Icon Test</title>
+    <style>
+      body {
+        padding: 40px;
+        background: #f4f4f4;
+      }
+      .icon-test {
+        display: inline-flex;
+        width: 32px;
+        height: 32px;
+        color: #161616;
+        margin: 10px;
+        background: white;
+        padding: 10px;
+      }
+      .icon-test svg {
+        width: 100%;
+        height: 100%;
+        fill: currentColor;
+      }
+      .icon-test svg path,
+      .icon-test svg circle,
+      .icon-test svg rect:not([class*="Transparent"]),
+      .icon-test svg polygon {
+        fill: currentColor !important;
+      }
+      h2 {
+        font-family: Arial, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Icon Test - If you see icons below, the SVG files are working:</h2>
+
+    <div class="icon-test" id="menu-icon"></div>
+    <div class="icon-test" id="search-icon"></div>
+    <div class="icon-test" id="help-icon"></div>
+
+    <script>
+      async function loadIcon(containerId, iconName) {
+        const container = document.getElementById(containerId);
+        try {
+          const response = await fetch(`assets/icons/carbon/${iconName}.svg`);
+          if (response.ok) {
+            container.innerHTML = await response.text();
+            console.log(`Loaded ${iconName} successfully`);
+          } else {
+            console.error(`Failed to load ${iconName}: ${response.status}`);
+            container.innerHTML = `<span style="color: red;">Failed: ${response.status}</span>`;
+          }
+        } catch (error) {
+          console.error(`Error loading ${iconName}:`, error);
+          container.innerHTML = `<span style="color: red;">Error: ${error.message}</span>`;
+        }
+      }
+
+      loadIcon("menu-icon", "menu");
+      loadIcon("search-icon", "search");
+      loadIcon("help-icon", "help");
+    </script>
+  </body>
+</html>

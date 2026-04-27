@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>watsonx Orchestrate - Agent Catalog</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="v2.0-styles.css" />
+    <script type="module">
+      const iconCache = new Map();
+
+      async function loadCarbonIcons(container = document) {
+        const icons = container.querySelectorAll("[data-carbon-icon]");
+
+        for (const iconElement of icons) {
+          if (iconElement.querySelector("svg")) {
+            continue;
+          }
+
+          const iconName = iconElement.getAttribute("data-carbon-icon");
+          const size = iconElement.getAttribute("data-icon-size") || "16";
+          const cacheKey = `${iconName}-${size}`;
+
+          try {
+            let svgContent;
+
+            if (iconCache.has(cacheKey)) {
+              svgContent = iconCache.get(cacheKey);
+            } else {
+              const iconPath = `https://cdn.jsdelivr.net/npm/@carbon/icons@11.49.0/svg/${size}/${iconName}.svg`;
+              const response = await fetch(iconPath);
+
+              if (response.ok) {
+                svgContent = await response.text();
+                iconCache.set(cacheKey, svgContent);
+              } else {
+                console.warn(`Icon not found: ${iconName} (${size}px)`);
+              }
+            }
+
+            if (svgContent) {
+              iconElement.innerHTML = svgContent;
+            }
+          } catch (error) {
+            console.error(`Failed to load icon: ${iconName}`, error);
+          }
+        }
+      }
+
+      window.loadCarbonIcons = loadCarbonIcons;
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", loadCarbonIcons);
+      } else {
+        loadCarbonIcons();
+      }
+    </script>
+  </head>
+  <body>
+    <header class="dashboard-header">
+      <button class="header-hamburger" aria-label="Open menu" title="Open menu">
+        <span data-carbon-icon="menu" data-icon-size="16"></span>
+      </button>
+      <a href="v2.0-admin-dashboard.html" class="header-brand">
+        <span class="header-brand-ibm">IBM</span>
+        <span class="header-brand-product">watsonx Orchestrate</span>
+      </a>
+      <div class="header-spacer"></div>
+      <div class="header-actions">
+        <button class="header-icon-btn" title="Search" aria-label="Search">
+          <span data-carbon-icon="search" data-icon-size="16"></span>
+        </button>
+        <button
+          class="header-icon-btn"
+          title="Notifications"
+          aria-label="Notifications"
+        >
+          <span data-carbon-icon="notification" data-icon-size="16"></span>
+        </button>
+        <button class="header-icon-btn" title="Help" aria-label="Help">
+          <span data-carbon-icon="help" data-icon-size="16"></span>
+        </button>
+        <div class="header-avatar-wrapper">
+          <div
+            class="header-avatar"
+            role="button"
+            tabindex="0"
+            aria-label="User menu"
+            id="userMenuButton"
+          >
+            <span data-carbon-icon="user--avatar" data-icon-size="16"></span>
+          </div>
+          <div class="user-menu" id="userMenu">
+            <div class="user-menu-header">
+              <span class="user-menu-name">Ava Smith</span>
+              <span class="user-menu-email">ava.smith@ibm.com</span>
+            </div>
+            <div class="user-menu-divider"></div>
+            <div class="user-menu-item">
+              <span class="user-menu-item-label">Black & White Mode</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="bwModeToggle" />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="user-menu-divider"></div>
+            <button class="user-menu-item user-menu-button">
+              <span data-carbon-icon="settings" data-icon-size="16"></span>
+              <span>Settings</span>
+            </button>
+            <button class="user-menu-item user-menu-button">
+              <span data-carbon-icon="logout" data-icon-size="16"></span>
+              <span>Sign out</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="catalog-hero-sticky-container">
+      <div class="catalog-hero">
+        <div class="catalog-hero-orb orb-left-lg"></div>
+        <div class="catalog-hero-orb orb-left-sm"></div>
+        <div class="catalog-hero-orb orb-right-sm"></div>
+        <div class="catalog-hero-orb orb-right-lg"></div>
+        <div class="catalog-hero-content">
+          <h1 class="catalog-hero-title">
+            Discover and effortlessly use agents and tools with the Catalog
+          </h1>
+          <p class="catalog-hero-subtitle">
+            Browse curated agents, MCP servers, and tools to solve work
+            faster—then filter by app, team, or use case like a modern workflow
+            marketplace.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="catalog-search-panel">
+      <div class="catalog-search-panel-inner">
+        <div class="catalog-search-input-wrap">
+          <span
+            class="catalog-search-icon"
+            data-carbon-icon="search"
+            data-icon-size="16"
+          ></span>
+          <input
+            id="catalogSearchInput"
+            class="catalog-search-input"
+            type="search"
+            placeholder="Search agents, MCP servers, tools, or apps"
+            aria-label="Search catalog"
+          />
+        </div>
+
+        <div class="catalog-search-chips">
+          <button class="catalog-chip is-active" data-filter-chip="popular">
+            Popular
+          </button>
+          <button class="catalog-chip" data-filter-chip="new">
+            New this week
+          </button>
+          <button class="catalog-chip" data-filter-chip="hr">HR</button>
+          <button class="catalog-chip" data-filter-chip="procurement">
+            Procurement
+          </button>
+          <button class="catalog-chip" data-filter-chip="salesforce">
+            Salesforce
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <main class="catalog-standalone-main">
+      <section class="catalog-page">
+        <div class="catalog-shell">
+          <aside class="catalog-sidebar">
+            <div class="catalog-filter-group">
+              <div class="catalog-filter-header">
+                <h2 class="catalog-filter-title">Type</h2>
+                <button class="catalog-filter-reset">Reset</button>
+              </div>
+              <label class="catalog-checkbox">
+                <input type="checkbox" checked />
+                <span>Agents</span>
+                <span class="catalog-filter-count">12</span>
+              </label>
+              <label class="catalog-checkbox">
+                <input type="checkbox" checked />
+                <span>MCP servers</span>
+                <span class="catalog-filter-count">8</span>
+              </label>
+              <label class="catalog-checkbox">
+                <input type="checkbox" checked />
+                <span>Tools</span>
+                <span class="catalog-filter-count">146</span>
+              </label>
+            </div>
+
+            <div class="catalog-filter-group">
+              <div class="catalog-filter-header">
+                <h2 class="catalog-filter-title">Categories</h2>
+              </div>
+              <div class="catalog-filter-links">
+                <button class="catalog-filter-link">HR</button>
+                <button class="catalog-filter-link">IT</button>
+                <button class="catalog-filter-link">Procurement</button>
+                <button class="catalog-filter-link">Productivity</button>
+                <button class="catalog-filter-link">Sales</button>
+              </div>
+            </div>
+
+            <div class="catalog-filter-group">
+              <div class="catalog-filter-header">
+                <h2 class="catalog-filter-title">Apps</h2>
+              </div>
+              <div class="catalog-app-search">
+                <span data-carbon-icon="search" data-icon-size="16"></span>
+                <input
+                  type="search"
+                  placeholder="Search apps"
+                  aria-label="Search apps"
+                />
+              </div>
+              <div class="catalog-app-list">
+                <label class="catalog-checkbox">
+                  <input type="checkbox" />
+                  <span>Amazon</span>
+                </label>
+                <label class="catalog-checkbox">
+                  <input type="checkbox" />
+                  <span>AWS</span>
+                </label>
+                <label class="catalog-checkbox">
+                  <input type="checkbox" />
+                  <span>Asana</span>
+                </label>
+                <label class="catalog-checkbox">
+                  <input type="checkbox" checked />
+                  <span>Box</span>
+                </label>
+                <label class="catalog-checkbox">
+                  <input type="checkbox" />
+                  <span>GitHub</span>
+                </label>
+                <label class="catalog-checkbox">
+                  <input type="checkbox" />
+                  <span>SAP</span>
+                </label>
+                <button class="catalog-more-link">+ 56 more</button>
+              </div>
+            </div>
+          </aside>
+
+          <div class="catalog-results">
+            <div class="catalog-results-toolbar">
+              <div>
+                <h2 class="catalog-results-title">Explore the catalog</h2>
+              </div>
+              <div class="catalog-toolbar-actions">
+                <button class="catalog-toolbar-btn is-active">Featured</button>
+                <button class="catalog-toolbar-btn">Most used</button>
+                <button class="catalog-toolbar-btn">Newest</button>
+              </div>
+            </div>
+
+            <section class="catalog-section">
+              <div class="catalog-section-header">
+                <div>
+                  <h3 class="catalog-section-title">Agents</h3>
+                  <p class="catalog-section-description">
+                    Specialized agents for business workflows, surfaced in a
+                    denser marketplace layout inspired by n8n’s workflow
+                    browsing experience.
+                  </p>
+                </div>
+                <a href="#" class="catalog-section-link">View all</a>
+              </div>
+
+              <div class="catalog-card-grid">
+                <article class="catalog-card featured">
+                  <div class="catalog-card-top">
+                    <div class="catalog-card-icon agent">
+                      <span
+                        data-carbon-icon="user--avatar"
+                        data-icon-size="16"
+                      ></span>
+                    </div>
+                    <div class="catalog-card-metadata">
+                      <span class="catalog-card-kicker">Top used</span>
+                      <h4 class="catalog-card-title">
+                        Employee support concierge
+                      </h4>
+                    </div>
+                  </div>
+                  <p class="catalog-card-description">
+                    Resolves HR and workplace requests, drafts responses, and
+                    routes cases to the right team with policy-aware context.
+                  </p>
+                  <div class="catalog-card-meta-row">
+                    <span class="catalog-card-stat">10 tools</span>
+                    <span class="catalog-card-author">By IBM</span>
+                  </div>
+                  <div class="catalog-tag-row">
+                    <span class="catalog-tag">HR</span>
+                    <span class="catalog-tag">Policy</span>
+                  </div>
+                </article>
+
+                <article class="catalog-card">
+                  <div class="catalog-card-top">
+                    <div class="catalog-card-icon agent">
+                      <span
+                        data-carbon-icon="user--avatar"
+                        data-icon-size="16"
+                      ></span>
+                    </div>
+                    <div class="catalog-card-metadata">
+                      <span class="catalog-card-kicker">Trending</span>
+                      <h4 class="catalog-card-title">
+                        Procurement sourcing assistant
+                      </h4>
+                    </div>
+                  </div>
+                  <p class="catalog-card-description">
+                    Evaluates vendors, summarizes bids, and prepares sourcing
+                    recommendations for category managers.
+                  </p>
+                  <div class="catalog-card-meta-row">
+                    <span class="catalog-card-stat">8 tools</span>
+                    <span class="catalog-card-author">By My organization</span>
+                  </div>
+                  <div class="catalog-tag-row">
+                    <span class="catalog-tag">Procurement</span>
+                    <span class="catalog-tag">SAP</span>
+                  </div>
+                </article>
+
+                <article class="catalog-card">
+                  <div class="catalog-card-top">
+                    <div class="catalog-card-icon app">
+                      <span data-carbon-icon="grid" data-icon-size="16"></span>
+                    </div>
+                    <div class="catalog-card-metadata">
+                      <span class="catalog-card-kicker">Recommended</span>
+                      <h4 class="catalog-card-title">Pipeline deal coach</h4>
+                    </div>
+                  </div>
+                  <p class="catalog-card-description">
+                    Helps sellers prep account briefings, identify risks, and
+                    create next-best-action plans for live deals.
+                  </p>
+                  <div class="catalog-card-meta-row">
+                    <span class="catalog-card-stat">6 tools</span>
+                    <span class="catalog-card-author">By Sales Ops</span>
+                  </div>
+                  <div class="catalog-tag-row">
+                    <span class="catalog-tag">Sales</span>
+                    <span class="catalog-tag">CRM</span>
+                    <span class="catalog-tag">+1</span>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <section class="catalog-section">
+              <div class="catalog-section-header">
+                <div>
+                  <h3 class="catalog-section-title">MCP servers</h3>
+                  <p class="catalog-section-description">
+                    Extend agents with external systems and action-oriented
+                    integrations.
+                  </p>
+                </div>
+                <a href="#" class="catalog-section-link">View all</a>
+              </div>
+
+              <div class="catalog-card-grid catalog-card-grid--compact">
+                <article class="catalog-card compact">
+                  <div class="catalog-card-top">
+                    <div class="catalog-card-icon mcp">B</div>
+                    <div class="catalog-card-metadata">
+                      <h4 class="catalog-card-title">Box MCP server</h4>
+                    </div>
+                  </div>
+                  <p class="catalog-card-description">
+                    Search files, retrieve documents, and move content into
+                    workflows securely.
+                  </p>
+                  <div class="catalog-tag-row">
+                    <span class="catalog-tag">Box</span>
+                    <span class="catalog-tag">HR</span>
+                  </div>
+                </article>
+
+                <article class="catalog-card compact">
+                  <div class="catalog-card-top">
+                    <div class="catalog-card-icon mcp">A</div>
+                    <div class="catalog-card-metadata">
+                      <h4 class="catalog-card-title">Ariba sourcing server</h4>
+                    </div>
+                  </div>
+                  <p class="catalog-card-description">
+                    Connect sourcing workflows, suppliers, and procurement
+                    actions to agents.
+                  </p>
+                  <div class="catalog-tag-row">
+                    <span class="catalog-tag">Procurement</span>
+                    <span class="catalog-tag">SAP</span>
+                  </div>
+                </article>
+
+                <article class="catalog-card compact">
+                  <div class="catalog-card-top">
+                    <div class="catalog-card-icon mcp">I</div>
+                    <div class="catalog-card-metadata">
+                      <h4 class="catalog-card-title">IBM knowledge server</h4>
+                    </div>
+                  </div>
+                  <p class="catalog-card-description">
+                    Provide enterprise documents, FAQs, and internal process
+                    context to agent responses.
+                  </p>
+                  <div class="catalog-tag-row">
+                    <span class="catalog-tag">IBM</span>
+                    <span class="catalog-tag">HR</span>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <section class="catalog-section">
+              <div class="catalog-section-header">
+                <div>
+                  <h3 class="catalog-section-title">Tools</h3>
+                  <p class="catalog-section-description">
+                    Lightweight actions and retrieval steps that can be mixed
+                    into broader agentic flows.
+                  </p>
+                </div>
+                <a href="#" class="catalog-section-link">View all</a>
+              </div>
+
+              <div class="catalog-tool-list">
+                <article class="catalog-tool-row">
+                  <div>
+                    <h4 class="catalog-tool-title">Create supplier brief</h4>
+                    <p class="catalog-tool-description">
+                      Generate a supplier summary with financial, risk, and
+                      compliance signals before a sourcing review.
+                    </p>
+                  </div>
+                  <div class="catalog-tool-right">
+                    <span class="catalog-tool-badge">Procurement</span>
+                    <span
+                      class="catalog-tool-icon"
+                      data-carbon-icon="tools--alt"
+                      data-icon-size="16"
+                    ></span>
+                  </div>
+                </article>
+
+                <article class="catalog-tool-row">
+                  <div>
+                    <h4 class="catalog-tool-title">
+                      Summarize employee policy
+                    </h4>
+                    <p class="catalog-tool-description">
+                      Answer questions from handbook and HR policy sources with
+                      grounded citations.
+                    </p>
+                  </div>
+                  <div class="catalog-tool-right">
+                    <span class="catalog-tool-badge">HR</span>
+                    <span
+                      class="catalog-tool-icon"
+                      data-carbon-icon="tools--alt"
+                      data-icon-size="16"
+                    ></span>
+                  </div>
+                </article>
+
+                <article class="catalog-tool-row">
+                  <div>
+                    <h4 class="catalog-tool-title">Update opportunity notes</h4>
+                    <p class="catalog-tool-description">
+                      Push account summaries, call notes, and next actions to
+                      CRM after a sales conversation.
+                    </p>
+                  </div>
+                  <div class="catalog-tool-right">
+                    <span class="catalog-tool-badge">Sales</span>
+                    <span
+                      class="catalog-tool-icon"
+                      data-carbon-icon="tools--alt"
+                      data-icon-size="16"
+                    ></span>
+                  </div>
+                </article>
+
+                <article class="catalog-tool-row">
+                  <div>
+                    <h4 class="catalog-tool-title">Search approved vendors</h4>
+                    <p class="catalog-tool-description">
+                      Retrieve pre-approved suppliers by category, location, and
+                      onboarding status.
+                    </p>
+                  </div>
+                  <div class="catalog-tool-right">
+                    <span class="catalog-tool-badge">Vendor data</span>
+                    <span
+                      class="catalog-tool-icon"
+                      data-carbon-icon="tools--alt"
+                      data-icon-size="16"
+                    ></span>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <div class="catalog-footer-cta">
+              <p class="catalog-footer-copy">
+                Can’t find what you need? Explore Agent builder and create
+                something new.
+              </p>
+              <a href="#" class="catalog-footer-button">Agent builder</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="v2.0-app.js"></script>
+  </body>
+</html>
